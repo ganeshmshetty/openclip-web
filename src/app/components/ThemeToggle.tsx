@@ -12,8 +12,9 @@ export default function ThemeToggle() {
     setMounted(true);
   }, []);
 
+  // Placeholder keeps the utility island from jumping while the theme resolves.
   if (!mounted) {
-    return <div className="w-8 h-full" />;
+    return <span className="nav-chip self-stretch my-[3px] w-9 invisible" aria-hidden="true" />;
   }
 
   const isDark = theme === 'dark';
@@ -23,7 +24,7 @@ export default function ThemeToggle() {
       onClick={toggleTheme}
       title={isDark ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
       aria-label="Toggle color theme"
-      className="nav-btn-icon self-stretch px-2.5"
+      className="nav-chip self-stretch my-[3px] w-9"
     >
       {isDark ? (
         <Sun className="w-3.5 h-3.5" />

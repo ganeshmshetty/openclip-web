@@ -2,8 +2,9 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import React, { useState, useEffect } from 'react';
-import { Menu, X, Star, Heart } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { Menu, X, Star } from 'lucide-react';
+import { motion } from 'motion/react';
 import ThemeToggle from './ThemeToggle';
 import { downloadLatestDmg, getLatestDmgUrl } from '@/lib/downloadClient';
 
@@ -51,10 +52,11 @@ const NAV_LINKS = [
   { href: '/docs', label: 'Docs' },
 ];
 
+const KNOB_SPRING = { type: 'spring', stiffness: 420, damping: 34 } as const;
+
 export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [stars, setStars] = useState<number | null>(null);
-  const [scrolled, setScrolled] = useState(false);
   const pathname = usePathname();
 
   useEffect(() => {
@@ -73,211 +75,150 @@ export default function Navbar() {
     };
   }, []);
 
-  useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 20);
-    };
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
-  const isHome = pathname === '/';
-  const isExpanded = isHome && !scrolled;
-
-  const btnPadding = isExpanded ? 'px-4 sm:px-5' : 'px-3';
-  const brandPadding = isExpanded ? 'px-3.5 sm:px-4.5' : 'px-3';
+  const shell = 'nav-shell flex items-stretch px-1 h-[44px]';
+  const isActiveHref = (href: string) =>
+    pathname === href || (href === '/docs' && pathname === '/developers');
 
   return (
     <header className="sticky top-4 z-[100] px-4 sm:px-6">
-      <div className="relative max-w-fit mx-auto transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)]">
-        <nav className={`nav-pill flex items-stretch overflow-hidden transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] ${isExpanded ? 'h-[44px]' : 'h-[34px]'}`}>
-          {/* Brand */}
-          <Link
-            href="/"
-            className={`nav-btn-icon flex items-center gap-2 ${brandPadding} self-stretch transition-all duration-300`}
-            aria-label="OpenClip home"
-          >
-            <img
-              src="/icons/openclip-icon.png"
-              alt="OpenClip"
-              className="w-4 h-4 rounded-[4px]"
-              width={16}
-              height={16}
-            />
-            <span className="font-semibold text-[13px] tracking-tight">
-              OpenClip
-            </span>
-          </Link>
-
-          <span className="nav-divider" />
-
-          {/* Nav Links (Desktop) */}
-          <div className="hidden md:flex items-stretch self-stretch">
-            {NAV_LINKS.map(({ href, label }) => {
-              const isActive = pathname === href || (href === '/docs' && pathname === '/developers');
-              return (
-                <React.Fragment key={href}>
-                  <Link
-                    href={href}
-                    className={`nav-btn-text ${btnPadding} ${isActive ? 'nav-btn-text-active' : ''} transition-all duration-300`}
-                  >
-                    {label}
-                  </Link>
-                  <span className="nav-divider" />
-                </React.Fragment>
-              );
-            })}
-            <a
-              href="https://github.com/ganeshmshetty/openclip"
-              target="_blank"
-              rel="noopener noreferrer"
-              className={`nav-btn-icon flex items-center gap-1.5 ${isExpanded ? '!px-3.5' : '!px-2.5'} self-stretch transition-all duration-300`}
-              title="Star on GitHub"
-            >
-              <GithubIcon className="w-3.5 h-3.5 shrink-0" />
-              <span className="text-[12.5px] font-medium">GitHub</span>
-              {stars !== null && stars >= 100 && (
-                <span className="inline-flex items-center gap-0.5 text-[11px] font-mono opacity-85 ml-0.5">
-                  <Star className="w-2.5 h-2.5 text-amber-400 fill-amber-400 shrink-0" />
-                  <span>{stars}</span>
-                </span>
-              )}
-            </a>
-            <span className="nav-divider" />
-            <a
-              href="https://discord.gg/acYYdzM7jR"
-              target="_blank"
-              rel="noopener noreferrer"
-              className={`nav-btn-icon flex items-center gap-1.5 ${isExpanded ? '!px-3.5' : '!px-2.5'} self-stretch transition-all duration-300`}
-              title="Join Discord"
-            >
-              <DiscordIcon className="w-3.5 h-3.5 shrink-0 text-[#5865F2]" />
-              <span className="text-[12.5px] font-medium">Discord</span>
-            </a>
-            <span className="nav-divider" />
+      <div className="relative max-w-fit mx-auto">
+        <div className="flex items-stretch gap-2">
+          {/* ── Island 1 · Navigation ── */}
+          <div className={`${shell} gap-0.5`}>
             <Link
-              href="/support"
-              className={`nav-btn-icon flex items-center gap-1.5 ${isExpanded ? '!px-3.5' : '!px-2.5'} self-stretch transition-all duration-300`}
-              title="Sponsor OpenClip"
+              href="/"
+              className="nav-chip self-stretch my-[3px] gap-2 pl-2.5 pr-3"
+              aria-label="OpenClip home"
             >
-              <Heart className="w-3.5 h-3.5 shrink-0 text-pink-500 fill-pink-500" />
-              <span className="text-[12.5px] font-medium">Sponsor</span>
+              <img
+                src="/icons/openclip-icon.png"
+                alt=""
+                className="w-[18px] h-[18px] rounded-[5px] shrink-0"
+                width={18}
+                height={18}
+              />
+              <span className="font-semibold text-[13px] tracking-tight text-[var(--text-primary)]">
+                OpenClip
+              </span>
             </Link>
-          </div>
 
-          <span className="nav-divider" />
-
-          {/* Actions */}
-          <div className="flex items-stretch self-stretch">
-            {/* Mobile GitHub, Discord & Sponsor Icons */}
-            <div className="flex md:hidden items-stretch self-stretch">
-              <a
-                href="https://github.com/ganeshmshetty/openclip"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="nav-btn-icon px-2.5 self-stretch"
-                title="Star on GitHub"
-                aria-label="GitHub repository"
-              >
-                <GithubIcon className="w-3.5 h-3.5" />
-              </a>
-              <span className="nav-divider" />
-              <a
-                href="https://discord.gg/acYYdzM7jR"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="nav-btn-icon px-2.5 self-stretch"
-                title="Join Discord"
-                aria-label="Join Discord"
-              >
-                <DiscordIcon className="w-3.5 h-3.5 text-[#5865F2]" />
-              </a>
-              <span className="nav-divider" />
-              <Link
-                href="/support"
-                className="nav-btn-icon px-2.5 self-stretch"
-                title="Sponsor OpenClip"
-                aria-label="Sponsor OpenClip"
-              >
-                <Heart className="w-3.5 h-3.5 text-pink-500 fill-pink-500" />
-              </Link>
-              <span className="nav-divider" />
+            <div className="hidden md:flex items-stretch self-stretch gap-0.5">
+              {NAV_LINKS.map(({ href, label }) => {
+                const isActive = isActiveHref(href);
+                return (
+                  <Link
+                    key={href}
+                    href={href}
+                    aria-current={isActive ? 'page' : undefined}
+                    className={`nav-chip self-stretch my-[3px] px-3.5 ${
+                      isActive ? 'nav-chip-active' : ''
+                    }`}
+                  >
+                    {isActive && (
+                      <motion.span
+                        layoutId="nav-knob"
+                        className="nav-knob"
+                        transition={KNOB_SPRING}
+                        initial={false}
+                      />
+                    )}
+                    <span className="relative z-10">{label}</span>
+                  </Link>
+                );
+              })}
             </div>
 
-            <ThemeToggle />
-
-            {/* Desktop-only Download */}
-            <div className="hidden md:flex items-stretch self-stretch">
-              <span className="nav-divider" />
-              <a
-                href="/download"
-                onClick={(e) => {
-                  e.preventDefault();
-                  downloadLatestDmg();
-                }}
-                className={`nav-btn-text flex items-center gap-1.5 self-stretch ${btnPadding} cursor-pointer transition-all duration-300`}
-              >
-                <AppleIcon className="w-3.5 h-3.5 -mt-0.5" />
-                <span>Download</span>
-              </a>
-            </div>
-
-            {/* Mobile Hamburger (Only visible on small screens) */}
-            <div className="flex md:hidden items-stretch self-stretch">
-              <span className="nav-divider" />
+            <div className="flex md:hidden items-stretch self-stretch gap-0.5">
+              <ThemeToggle />
               <button
-                className="nav-btn-icon px-3 self-stretch"
+                className="nav-chip self-stretch my-[3px] px-2.5"
                 onClick={() => setMobileOpen(!mobileOpen)}
                 aria-label="Toggle menu"
+                aria-expanded={mobileOpen}
               >
                 {mobileOpen ? <X className="w-4 h-4" /> : <Menu className="w-4 h-4" />}
               </button>
             </div>
           </div>
-        </nav>
 
-        {/* Mobile Dropdown & Backdrop */}
+          {/* ── Island 2 · Utility ── */}
+          <div className={`${shell} gap-0.5 hidden md:flex`}>
+            <ThemeToggle />
+            <a
+              href="https://github.com/ganeshmshetty/openclip"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="nav-chip self-stretch my-[3px] gap-2 pl-3 pr-3.5"
+              title="Star OpenClip on GitHub"
+            >
+              <GithubIcon className="w-[15px] h-[15px] shrink-0" />
+              <span>GitHub</span>
+              {stars !== null && stars >= 100 && (
+                <span className="nav-star-badge">
+                  <Star className="w-2.5 h-2.5 fill-current shrink-0" />
+                  <span>{stars}</span>
+                </span>
+              )}
+            </a>
+            <a
+              href="https://discord.gg/acYYdzM7jR"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="nav-chip self-stretch my-[3px] w-9"
+              title="Join the OpenClip Discord"
+              aria-label="Join the OpenClip Discord"
+            >
+              <DiscordIcon className="w-[15px] h-[15px]" />
+            </a>
+          </div>
+
+          {/* ── Island 3 · Primary action ── */}
+          <a
+            href="/download"
+            onClick={(e) => {
+              e.preventDefault();
+              downloadLatestDmg();
+            }}
+            className="nav-cta self-stretch my-[3px] px-4 sm:px-5"
+          >
+            <AppleIcon className="w-3.5 h-3.5 shrink-0" />
+            <span className="hidden sm:inline">Download</span>
+          </a>
+        </div>
+
+        {/* ── Mobile menu ── */}
         {mobileOpen && (
           <>
-            {/* Scrim backdrop */}
             <div
               className="fixed inset-0 z-[100] bg-black/25 dark:bg-black/60 backdrop-blur-xs md:hidden animate-in fade-in duration-150"
               onClick={() => setMobileOpen(false)}
             />
 
-            {/* Floating Dropdown Card */}
-            <div className="md:hidden absolute top-full left-1/2 -translate-x-1/2 mt-2 w-[calc(100vw-2rem)] max-w-xs bg-[var(--bg-surface)]/90 dark:bg-[#18181c]/90 backdrop-blur-2xl border border-[var(--border-subtle)] p-2 flex flex-col gap-1 shadow-2xl animate-in fade-in slide-in-from-top-2 duration-150 rounded-2xl z-[101]">
-              {NAV_LINKS.map(({ href, label }) => {
-                const isActive = pathname === href || (href === '/docs' && pathname === '/developers');
-                return (
-                  <Link
-                    key={href}
-                    href={href}
-                    className={`px-3.5 py-2.5 rounded-xl text-[13.5px] font-medium transition-all ${
-                      isActive
-                        ? 'bg-[var(--accent-soft)] text-[var(--accent)] hover:bg-[var(--accent)] hover:text-white font-semibold'
-                        : 'text-[var(--text-primary)] hover:bg-[var(--accent)] hover:text-white'
-                    }`}
-                    onClick={() => setMobileOpen(false)}
-                  >
-                    {label}
-                  </Link>
-                );
-              })}
+            <div className="md:hidden absolute top-full left-1/2 -translate-x-1/2 mt-2 w-[calc(100vw-2rem)] max-w-xs nav-shell !rounded-3xl p-2 flex flex-col gap-0.5 shadow-2xl animate-in fade-in slide-in-from-top-2 duration-150 z-[101]">
+              {NAV_LINKS.map(({ href, label }) => (
+                <Link
+                  key={href}
+                  href={href}
+                  className={`nav-chip self-stretch !justify-start px-3.5 py-2.5 !rounded-2xl !text-[13.5px] ${
+                    isActiveHref(href) ? 'nav-chip-active bg-[var(--bg-tertiary)]' : ''
+                  }`}
+                  onClick={() => setMobileOpen(false)}
+                >
+                  {label}
+                </Link>
+              ))}
               <a
                 href="https://github.com/ganeshmshetty/openclip"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group flex items-center justify-between px-3.5 py-2.5 rounded-xl text-[13.5px] font-medium text-[var(--text-primary)] hover:bg-[var(--accent)] hover:text-white transition-all"
+                className="nav-chip self-stretch !justify-start px-3.5 py-2.5 !rounded-2xl !text-[13.5px]"
                 onClick={() => setMobileOpen(false)}
               >
-                <div className="flex items-center gap-2.5">
-                  <GithubIcon className="w-4 h-4 text-current opacity-80" />
-                  <span>GitHub</span>
-                </div>
+                <GithubIcon className="w-4 h-4 shrink-0" />
+                <span className="ml-2.5">GitHub</span>
                 {stars !== null && (
-                  <span className="inline-flex items-center gap-1 text-[11px] font-mono bg-[var(--bg-tertiary)] group-hover:bg-white/20 group-hover:text-white px-2 py-0.5 rounded-full transition-colors">
-                    <Star className="w-2.5 h-2.5 text-amber-400 fill-amber-400 shrink-0" />
+                  <span className="nav-star-badge ml-auto">
+                    <Star className="w-2.5 h-2.5 fill-current shrink-0" />
                     <span>{stars}</span>
                   </span>
                 )}
@@ -286,38 +227,24 @@ export default function Navbar() {
                 href="https://discord.gg/acYYdzM7jR"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group flex items-center justify-between px-3.5 py-2.5 rounded-xl text-[13.5px] font-medium text-[var(--text-primary)] hover:bg-[var(--accent)] hover:text-white transition-all"
+                className="nav-chip self-stretch !justify-start px-3.5 py-2.5 !rounded-2xl !text-[13.5px]"
                 onClick={() => setMobileOpen(false)}
               >
-                <div className="flex items-center gap-2.5">
-                  <DiscordIcon className="w-4 h-4 text-[#5865F2] opacity-90" />
-                  <span>Discord</span>
-                </div>
+                <DiscordIcon className="w-4 h-4 shrink-0" />
+                <span className="ml-2.5">Discord</span>
               </a>
-              <Link
-                href="/support"
-                className="group flex items-center justify-between px-3.5 py-2.5 rounded-xl text-[13.5px] font-medium text-[var(--text-primary)] hover:bg-[var(--accent)] hover:text-white transition-all"
-                onClick={() => setMobileOpen(false)}
+              <a
+                href="/download"
+                onClick={(e) => {
+                  e.preventDefault();
+                  setMobileOpen(false);
+                  downloadLatestDmg();
+                }}
+                className="nav-cta mt-2 h-10 !text-[13px]"
               >
-                <div className="flex items-center gap-2.5">
-                  <Heart className="w-4 h-4 text-pink-500 fill-pink-500 opacity-90" />
-                  <span>Sponsor</span>
-                </div>
-              </Link>
-              <div className="pt-2 mt-1 border-t border-[var(--border-subtle)]">
-                <a
-                  href="/download"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    setMobileOpen(false);
-                    downloadLatestDmg();
-                  }}
-                  className="w-full h-[40px] text-center flex items-center justify-center gap-2 rounded-xl bg-[var(--text-primary)] text-[var(--bg-app)] hover:opacity-90 active:scale-[0.98] text-[13px] font-semibold shadow-sm transition-all cursor-pointer select-none"
-                >
-                  <AppleIcon className="w-4 h-4 -mt-0.5" />
-                  <span>Download for Mac</span>
-                </a>
-              </div>
+                <AppleIcon className="w-4 h-4 -mt-0.5" />
+                <span>Download for Mac</span>
+              </a>
             </div>
           </>
         )}
@@ -325,4 +252,3 @@ export default function Navbar() {
     </header>
   );
 }
-
