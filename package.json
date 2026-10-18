@@ -1,0 +1,49 @@
+{
+  "name": "web",
+  "version": "0.1.0",
+  "private": true,
+  "license": "AGPL-3.0-only",
+  "scripts": {
+    "predev": "bun run scripts/convert-gifs.ts && bun run scripts/sync-docs.ts && bun run scripts/sync-extensions.ts && bun run scripts/sync-changelog.ts",
+    "dev": "next dev",
+    "prebuild": "bun run scripts/convert-gifs.ts && bun run scripts/sync-docs.ts && bun run scripts/sync-extensions.ts && bun run scripts/sync-changelog.ts",
+    "sync-docs": "bun run scripts/sync-docs.ts",
+    "sync-extensions": "bun run scripts/sync-extensions.ts",
+    "sync-changelog": "bun run scripts/sync-changelog.ts",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint"
+  },
+  "dependencies": {
+    "@types/marked": "^6.0.0",
+    "@types/prismjs": "^1.26.6",
+    "@vercel/analytics": "^2.0.1",
+    "lucide-react": "^1.28.0",
+    "marked": "^18.0.11",
+    "mermaid": "^12.0.0",
+    "motion": "^13.1.0",
+    "next": "16.2.12",
+    "prismjs": "^1.30.0",
+    "react": "19.2.4",
+    "react-dom": "19.2.4",
+    "vercel": "^62.7.0"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "eslint": "^9",
+    "eslint-config-next": "16.2.12",
+    "tailwindcss": "^4",
+    "typescript": "^5"
+  },
+  "ignoreScripts": [
+    "sharp",
+    "unrs-resolver"
+  ],
+  "trustedDependencies": [
+    "sharp",
+    "unrs-resolver"
+  ]
+}

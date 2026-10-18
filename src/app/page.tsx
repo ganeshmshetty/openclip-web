@@ -1,0 +1,14 @@
+import type { Metadata } from 'next';
+import HomeContent from './components/HomeContent';
+
+export const metadata: Metadata = {
+  alternates: { canonical: '/' },
+  openGraph: {
+    url: '/',
+    type: 'website',
+  },
+};
+
+export default function Home() {
+  return <HomeContent />;
+}

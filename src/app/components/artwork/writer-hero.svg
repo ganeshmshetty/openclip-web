@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 620" fill="none" aria-hidden="true">
+  <defs>
+    <pattern id="writer-dots" width="11" height="13" patternUnits="userSpaceOnUse"><circle cx="2" cy="3" r="1.1" fill="currentColor" opacity=".48"/><circle cx="7" cy="10" r=".6" fill="currentColor" opacity=".3"/></pattern>
+    <pattern id="writer-hatch" width="10" height="10" patternUnits="userSpaceOnUse" patternTransform="rotate(24)"><path d="M2 0V10" stroke="currentColor" stroke-width="1" opacity=".35"/></pattern>
+  </defs>
+  <!-- Loose ink shapes frame a clear writing space. -->
+  <path d="M-56 70C18 12 118 33 146 110C171 180 112 224 62 197C9 168 29 112 77 126C117 140 148 215 122 272C92 335 9 337-36 303" fill="var(--hero-art-blue)" opacity=".48"/>
+  <path d="M-49 80C21 24 111 40 137 112C163 185 109 218 62 192C10 163 39 117 77 131C125 149 146 215 118 272C94 327 23 328-24 308" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+  <path d="M-49 80C21 24 111 40 137 112C157 167 130 202 99 204L53 160L-49 80Z" fill="url(#writer-dots)"/>
+  <path d="M57 302C99 278 161 296 173 339C187 389 140 421 113 399C86 377 106 354 128 368" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+  <path d="M-20 492C43 427 130 440 170 500C200 546 150 603 84 614H-20Z" fill="var(--hero-art-muted)"/>
+  <path d="M-20 492C43 427 130 440 170 500C200 546 150 603 84 614H-20Z" fill="url(#writer-hatch)"/>
+  <path d="M-13 488C54 433 126 448 164 501C192 542 145 594 81 609" stroke="currentColor" stroke-width="2.5"/>
+  <path d="M206 99L216 76L227 100M211 92L224 91" stroke="var(--hero-art-accent)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M164 228L193 216M163 237L192 224" stroke="var(--hero-art-accent)" stroke-width="2" stroke-linecap="round"/>
+  <path d="M218 492C231 482 248 484 256 495M218 500C231 490 245 493 255 502" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+  <circle cx="196" cy="387" r="15" fill="var(--hero-art-accent)" opacity=".32"/><circle cx="203" cy="382" r="15" stroke="currentColor" stroke-width="2"/>
+  <!-- Offset arch, meandering underline, and block-print fragments. -->
+  <path d="M1340-30C1251 4 1234 77 1264 153C1294 230 1382 212 1396 164C1410 116 1382 76 1349 88C1317 102 1330 145 1356 146" fill="var(--hero-art-blue)" opacity=".48"/>
+  <path d="M1333-30C1244 4 1228 79 1257 150C1289 229 1380 206 1388 163C1399 112 1378 78 1345 91C1317 103 1326 142 1353 143" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+  <path d="M1257 150C1289 229 1380 206 1388 163C1399 112 1378 78 1345 91L1257 150Z" fill="url(#writer-dots)"/>
+  <path d="M1374 279C1339 255 1287 278 1302 313C1317 348 1362 323 1367 355C1372 393 1295 387 1290 424C1287 452 1325 465 1348 447" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+  <path d="M1388 374L1447 358L1460 455L1402 471Z" fill="var(--hero-art-muted)"/><path d="M1388 374L1447 358L1460 455L1402 471Z" fill="url(#writer-hatch)"/>
+  <path d="M1248 607C1242 547 1284 496 1335 498C1388 501 1408 551 1401 618" stroke="currentColor" stroke-width="3"/>
+  <path d="M1265 620C1255 562 1287 518 1330 518C1374 518 1390 557 1383 620" fill="var(--hero-art-blue)" opacity=".5"/>
+  <path d="M1265 620C1255 562 1287 518 1330 518C1374 518 1390 557 1383 620" fill="url(#writer-dots)"/>
+  <path d="M1215 94L1228 114L1242 93" stroke="var(--hero-art-accent)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M1195 339C1198 325 1212 322 1216 333C1220 344 1205 352 1201 363M1201 375L1202 375" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+  <path d="M1169 504L1180 494L1191 504L1202 494" stroke="var(--hero-art-accent)" stroke-width="2.5" stroke-linecap="round"/>
+  <circle cx="1231" cy="233" r="10" fill="var(--hero-art-accent)" opacity=".3"/>
+</svg>
