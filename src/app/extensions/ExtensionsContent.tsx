@@ -3,6 +3,7 @@
 import { useMemo, useState } from 'react';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
+import AnimatedStoreIcon from '../components/AnimatedStoreIcon';
 import {
   Search,
   Download,
@@ -12,7 +13,6 @@ import {
   Flame,
   Clock,
   X,
-  Plus,
   BadgeCheck,
   GitPullRequest,
   ArrowUpRight,
@@ -107,7 +107,7 @@ function ExtensionRow({
       initial={{ opacity: 0, y: 6 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.18, delay: Math.min(index * 0.015, 0.12), ease: [0.16, 1, 0.3, 1] }}
-      className="group relative bg-[var(--bg-surface)] hover:bg-[var(--bg-surface-hover)] border border-[var(--border-subtle)] hover:border-[var(--border-strong)] rounded-xl px-3.5 py-2.5 sm:px-4 sm:py-2.5 flex flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-2xs transition-colors duration-150"
+      className="group relative bg-[var(--bg-surface)] rounded-2xl px-4 py-3 flex flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-sm"
     >
       {/* Left: Icon + Info */}
       <div className="flex items-center gap-3 min-w-0 flex-1">
@@ -115,8 +115,8 @@ function ExtensionRow({
           id={ext.id}
           name={ext.name}
           iconURL={ext.iconURL}
-          size={32}
-          className="rounded-lg group-hover:scale-105 transition-transform shrink-0"
+          size={36}
+          className="shrink-0"
         />
 
         <div className="min-w-0 flex-1">
@@ -158,7 +158,7 @@ function ExtensionRow({
       </div>
 
       {/* Right: Meta & Actions */}
-      <div className="flex items-center justify-between sm:justify-end gap-3 shrink-0 pt-2 sm:pt-0 border-t sm:border-t-0 border-[var(--border-subtle)]">
+      <div className="flex items-center justify-between sm:justify-end gap-3 shrink-0 pt-1 sm:pt-0">
         <span className="font-mono text-[11px] text-[var(--text-tertiary)] tabular-nums flex items-center gap-1">
           <Download className="w-3 h-3 opacity-60" />
           {ext.downloadCount.toLocaleString()}
@@ -167,23 +167,12 @@ function ExtensionRow({
         <div className="flex items-center gap-1.5">
           <button
             onClick={() => onInstall(ext)}
-            className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[11.5px] font-medium transition-all active:scale-[0.98] cursor-pointer ${
-              triggered
-                ? 'bg-emerald-500/10 text-emerald-500 border border-emerald-500/30'
-                : 'bg-[var(--accent)] hover:bg-[var(--accent-hover)] text-white shadow-2xs'
+            className={`store-install inline-flex items-center gap-1.5 rounded-full px-4 h-[30px] text-[12.5px] font-bold tracking-tight cursor-pointer active:opacity-70 transition-opacity ${
+              triggered ? 'is-done' : ''
             }`}
           >
-            {triggered ? (
-              <>
-                <Check className="w-3.5 h-3.5" />
-                <span>Opening…</span>
-              </>
-            ) : (
-              <>
-                <Plus className="w-3.5 h-3.5" />
-                <span>Install</span>
-              </>
-            )}
+            {triggered && <Check className="w-3.5 h-3.5" />}
+            <span>{triggered ? 'Opening…' : 'Install'}</span>
           </button>
 
           <a
@@ -191,14 +180,79 @@ function ExtensionRow({
             target="_blank"
             rel="noopener noreferrer"
             title="Download raw extension file (.openclipext)"
+            aria-label={`Download ${ext.name} package`}
             download
-            className="p-1.5 rounded-lg bg-[var(--bg-surface)] border border-[var(--border-subtle)] text-[var(--text-tertiary)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-surface-hover)] transition-colors"
+            className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-[var(--bg-tertiary)] text-[var(--text-tertiary)] hover:text-[var(--text-primary)] transition-colors"
           >
             <Download className="w-3.5 h-3.5" />
           </a>
         </div>
       </div>
     </motion.div>
+  );
+}
+
+const KNOB_SPRING = { type: 'spring', stiffness: 420, damping: 34 } as const;
+
+const FILTERS: { id: StoreFilter; label: string; icon?: typeof Flame }[] = [
+  { id: 'all', label: 'All' },
+  { id: 'popular', label: 'Popular', icon: Flame },
+  { id: 'new', label: 'New', icon: Clock },
+];
+
+interface FeaturedCardProps {
+  ext: ExtensionItem;
+  triggered?: boolean;
+  onInstall: (ext: ExtensionItem) => void;
+  index: number;
+  hero?: boolean;
+}
+
+function FeaturedCard({ ext, triggered, onInstall, index, hero = false }: FeaturedCardProps) {
+  return (
+    <motion.article
+      initial={{ opacity: 0, y: 10 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.3, delay: Math.min(index * 0.05, 0.25), ease: [0.16, 1, 0.3, 1] }}
+      className={`spotlight-card rounded-2xl p-4 flex flex-col gap-2.5 ${hero ? 'sm:col-span-2' : ''}`}
+    >
+      <div className="flex items-start gap-3.5">
+        <ExtensionIcon
+          id={ext.id}
+          name={ext.name}
+          iconURL={ext.iconURL}
+          size={hero ? 44 : 40}
+          className="shrink-0"
+        />
+        <div className="min-w-0 flex-1">
+          <Link
+            href={`/extensions/${ext.id}`}
+            className="block text-[15px] font-semibold tracking-tight text-[var(--text-primary)] hover:text-[var(--accent)] transition-colors truncate"
+          >
+            {ext.name}
+          </Link>
+          <p className="mt-0.5 flex items-center gap-2 text-[11.5px] text-[var(--text-tertiary)]">
+            <span className="truncate">by {ext.author}</span>
+            <span className="inline-flex shrink-0 items-center gap-1 font-mono tabular-nums">
+              <Download className="w-3 h-3 opacity-60" />
+              {ext.downloadCount.toLocaleString()}
+            </span>
+          </p>
+        </div>
+        <button
+          onClick={() => onInstall(ext)}
+          className={`store-install inline-flex shrink-0 items-center gap-1.5 rounded-full px-4 h-[30px] text-[12.5px] font-bold tracking-tight cursor-pointer active:opacity-70 transition-opacity ${
+            triggered ? 'is-done' : ''
+          }`}
+        >
+          {triggered && <Check className="w-3.5 h-3.5" />}
+          <span>{triggered ? 'Opening…' : 'Install'}</span>
+        </button>
+      </div>
+      <p className="text-[12.5px] text-[var(--text-secondary)] leading-relaxed line-clamp-2">
+        {ext.description}
+      </p>
+    </motion.article>
   );
 }
 
@@ -296,21 +350,16 @@ export default function ExtensionsContent({ extensions, featuredIDs }: Props) {
     <div className="min-h-screen flex flex-col">
       <Navbar />
 
-      <main className="flex-1 max-w-4xl mx-auto px-5 sm:px-8 py-16 sm:py-24 w-full">
+      <main className="relative flex-1 max-w-4xl mx-auto px-5 sm:px-8 pt-8 pb-12 sm:pt-14 sm:pb-24 w-full">
+        <div className="store-glow" aria-hidden="true" />
         {/* Page Header */}
         <motion.div
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-          className="mb-10 sm:mb-12 text-center flex flex-col items-center"
+          className="relative z-10 mb-8 sm:mb-12 text-center flex flex-col items-center"
         >
-          <img
-            src="/icons/store-icon.png"
-            alt="The Clip Store"
-            width={96}
-            height={96}
-            className="w-20 h-20 sm:w-24 sm:h-24 drop-shadow-[0_8px_20px_rgba(0,0,0,0.12)] select-none pointer-events-none"
-          />
+          <AnimatedStoreIcon className="w-24 sm:w-32 aspect-[200/170] select-none" />
           <h1 className="mt-5 text-3xl sm:text-4xl font-bold tracking-tight text-[var(--text-primary)]">
             The Clip Store
           </h1>
@@ -324,63 +373,54 @@ export default function ExtensionsContent({ extensions, featuredIDs }: Props) {
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.08, ease: [0.16, 1, 0.3, 1] }}
-          className="mb-8 flex flex-col sm:flex-row sm:items-center justify-between gap-4"
+          className="relative z-10 mb-8 flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4"
         >
           {/* Search Input */}
-          <div className="relative flex-1 max-w-md">
-            <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[var(--text-tertiary)] pointer-events-none" />
+          <div className="relative flex-1 sm:max-w-md">
+            <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-[var(--text-tertiary)] pointer-events-none z-10" />
             <input
-              type="text"
+              type="search"
+              inputMode="search"
+              enterKeyHint="search"
               placeholder="Search clips by name, author, or action..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="w-full pl-10 pr-9 py-2 rounded-xl bg-[var(--bg-surface)] border border-[var(--border-subtle)] text-[var(--text-primary)] text-[13.5px] placeholder:text-[var(--text-tertiary)] shadow-2xs focus:outline-none focus:border-[var(--accent)] focus:ring-1 focus:ring-[var(--accent)] transition-all"
+              className="store-control w-full h-11 sm:h-10 pl-11 pr-10 rounded-full text-[var(--text-primary)] text-[14px] sm:text-[13.5px] placeholder:text-[var(--text-tertiary)] focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)] [&::-webkit-search-cancel-button]:hidden"
             />
             {isSearching && (
               <button
                 onClick={() => setSearch('')}
-                className="absolute right-3 top-1/2 -translate-y-1/2 p-0.5 rounded-md hover:bg-[var(--bg-surface-hover)] text-[var(--text-tertiary)] hover:text-[var(--text-primary)] transition-colors"
+                aria-label="Clear search"
+                className="absolute right-3 top-1/2 -translate-y-1/2 z-10 p-1 rounded-full hover:bg-[var(--bg-surface-hover)] text-[var(--text-tertiary)] hover:text-[var(--text-primary)] transition-colors"
               >
                 <X className="w-3.5 h-3.5" />
               </button>
             )}
           </div>
 
-          <div className="flex flex-wrap items-center justify-between gap-3">
-            {/* Native macOS style Store Filter Pills (All / Popular / New) */}
-            <div className="flex items-center gap-1.5 p-1 bg-[var(--bg-surface)] border border-[var(--border-subtle)] rounded-xl w-fit shadow-2xs">
-              <button
-                onClick={() => handleSelectFilter('all')}
-                className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[12px] font-medium transition-all cursor-pointer ${
-                  filter === 'all' && !isSearching
-                    ? 'bg-[var(--accent)] text-white shadow-2xs'
-                    : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-surface-hover)]'
-                }`}
-              >
-                <span>All</span>
-              </button>
-              <button
-                onClick={() => handleSelectFilter('popular')}
-                className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[12px] font-medium transition-all cursor-pointer ${
-                  filter === 'popular' && !isSearching
-                    ? 'bg-[var(--accent)] text-white shadow-2xs'
-                    : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-surface-hover)]'
-                }`}
-              >
-                <Flame className="w-3.5 h-3.5" />
-                <span>Popular</span>
-              </button>
-              <button
-                onClick={() => handleSelectFilter('new')}
-                className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[12px] font-medium transition-all cursor-pointer ${
-                  filter === 'new' && !isSearching
-                    ? 'bg-[var(--accent)] text-white shadow-2xs'
-                    : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-surface-hover)]'
-                }`}
-              >
-                <Clock className="w-3.5 h-3.5" />
-                <span>New</span>
-              </button>
+          <div className="flex items-center justify-between gap-3">
+            {/* Segmented filter: same glass shell and sliding knob as the navbar */}
+            <div role="tablist" aria-label="Filter clips" className="nav-shell store-control inline-flex items-stretch h-[40px] px-1">
+              {FILTERS.map(({ id, label, icon: Icon }) => {
+                const active = filter === id && !isSearching;
+                return (
+                  <button
+                    key={id}
+                    role="tab"
+                    aria-selected={active}
+                    onClick={() => handleSelectFilter(id)}
+                    className={`nav-chip gap-1.5 self-stretch my-[3px] px-3.5 ${active ? 'nav-chip-active' : ''}`}
+                  >
+                    {active && (
+                      <motion.span layoutId="store-knob" className="nav-knob" transition={KNOB_SPRING} initial={false} />
+                    )}
+                    <span className="relative z-10 flex items-center gap-1.5">
+                      {Icon && <Icon className="w-3.5 h-3.5" />}
+                      <span>{label}</span>
+                    </span>
+                  </button>
+                );
+              })}
             </div>
 
             {/* Submit-your-extension link, merged into the toolbar so it needs no band of its own */}
@@ -389,12 +429,12 @@ export default function ExtensionsContent({ extensions, featuredIDs }: Props) {
               target="_blank"
               rel="noopener noreferrer"
               title="Submit your extension to the open repository"
-              className="group ml-auto inline-flex items-center gap-1.5 rounded-xl border border-[var(--border-subtle)] bg-[var(--bg-surface)] px-3 py-2 text-[12.5px] font-medium text-[var(--text-primary)] shadow-2xs hover:bg-[var(--bg-surface-hover)] hover:border-[var(--border-strong)] active:scale-[0.98] transition-all whitespace-nowrap"
+              aria-label="Submit an extension"
+              className="store-control group inline-flex items-center justify-center gap-1.5 rounded-full w-10 sm:w-auto sm:px-4 h-10 text-[12.5px] font-medium text-[var(--text-primary)] active:scale-[0.98] transition-transform whitespace-nowrap"
             >
               <GitPullRequest className="w-3.5 h-3.5 shrink-0 text-[var(--accent)]" />
               <span className="hidden sm:inline">Submit an extension</span>
-              <span className="sm:hidden">Submit</span>
-              <ArrowUpRight className="w-3.5 h-3.5 shrink-0 text-[var(--text-tertiary)] group-hover:text-[var(--text-primary)] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all" />
+              <ArrowUpRight className="hidden sm:block w-3.5 h-3.5 shrink-0 text-[var(--text-tertiary)]" />
             </a>
           </div>
         </motion.div>
@@ -518,16 +558,15 @@ export default function ExtensionsContent({ extensions, featuredIDs }: Props) {
                   </span>
                 </div>
 
-                <div className="flex flex-col gap-2">
+                <div className="grid sm:grid-cols-2 gap-3">
                   {featuredSectionItems.map((ext, idx) => (
-                    <ExtensionRow
+                    <FeaturedCard
                       key={`featured-${ext.id}`}
                       ext={ext}
                       triggered={installedMap[ext.id]}
                       onInstall={handleInstall}
                       index={idx}
-                      isFeatured={true}
-                      isRecent={recentIDSet.has(ext.id.toLowerCase())}
+                      hero={idx === 0 && featuredSectionItems.length % 2 === 1}
                     />
                   ))}
                 </div>

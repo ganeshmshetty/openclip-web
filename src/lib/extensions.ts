@@ -100,7 +100,7 @@ export async function loadFeatured(): Promise<string[]> {
   try {
     const res = await fetch(FEATURED_URL, {
       headers: githubHeaders(),
-      cache: 'no-store',
+      next: { revalidate: 300 },
     });
     if (!res.ok) {
       console.warn('Featured fetch failed:', res.status);
@@ -151,7 +151,7 @@ async function loadStats(): Promise<Record<string, number> | null> {
   try {
     const res = await fetch(STATS_URL, {
       headers: githubHeaders(),
-      cache: 'no-store',
+      next: { revalidate: 300 },
     });
     if (!res.ok) return cachedStats;
     const data = (await res.json()) as { downloads?: Record<string, number> };
@@ -172,7 +172,7 @@ export async function getCatalog(): Promise<ExtensionItem[]> {
   try {
     const res = await fetch(CATALOG_URL, {
       headers: githubHeaders(),
-      cache: 'no-store',
+      next: { revalidate: 300 },
     });
     if (!res.ok) {
       console.warn('Catalog fetch failed:', res.status);
@@ -206,6 +206,7 @@ export async function getCatalog(): Promise<ExtensionItem[]> {
         requirements: synced.requirements || item.requirements,
         keywords: synced.keywords || item.keywords,
         subActions: synced.subActions || item.subActions,
+        iconURL: localIconURL(item.id),
       };
     });
 
@@ -560,5 +561,47 @@ export async function getExtensionById(id: string): Promise<ExtensionItem | unde
     });
   }
 
+  item.iconURL = localIconURL(item.id);
+
   return item;
+}
+
+/**
+ * Ids that have a static icon in `public/icons/extensions`. `null` means the payload
+ * predates the list, in which case we assume static icons exist (the previous
+ * behaviour) rather than routing every icon through the proxy.
+ */
+const syncedIconIds: Set<string> | null = (() => {
+  const list = (extensionsPayload as { icons?: string[] } | null)?.icons;
+  return Array.isArray(list) ? new Set(list.map((id) => id.toLowerCase())) : null;
+})();
+
+/**
+ * Icons ship with the site (see `copyPublishedIcons` in scripts/sync-extensions.ts)
+ * so the store's images come from its own origin, cache and lazy-load like normal
+ * images, and never depend on a third-party CDN being reachable from the browser.
+ *
+ * The live catalog can list extensions newer than the local extensions clone, which
+ * have no static file yet — those fall back to the same-origin proxy route.
+ */
+function localIconURL(id: string): string {
+  const key = id.toLowerCase();
+  if (syncedIconIds === null || syncedIconIds.has(key)) {
+    return `/icons/extensions/${key}.svg`;
+  }
+  return `/api/v1/icon/${encodeURIComponent(key)}`;
+}
+
+/**
+ * Ids present in the build-time snapshot, for prerendering the store's detail pages.
+ * Reads the committed payload rather than the live catalog so `generateStaticParams`
+ * needs no network access at build time.
+ */
+export function getSyncedExtensionIds(): string[] {
+  const syncedMap = (extensionsPayload?.extensions || {}) as unknown as Record<string, SyncedExtensionData>;
+  const ids = new Set<string>();
+  for (const entry of Object.values(syncedMap)) {
+    if (entry?.id) ids.add(entry.id);
+  }
+  return [...ids];
 }

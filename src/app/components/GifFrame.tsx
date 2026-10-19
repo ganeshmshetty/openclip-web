@@ -11,6 +11,9 @@ interface GifFrameProps {
   onEnded?: () => void;
   onProgress?: (progress: number) => void;
   loop?: boolean;
+  /** Holds the clip where it is. Unlike `isActive: false` this does not rewind,
+   *  so hovering a carousel to read it doesn't restart the demo. */
+  paused?: boolean;
 }
 
 export default function GifFrame({
@@ -21,6 +24,7 @@ export default function GifFrame({
   onEnded,
   onProgress,
   loop,
+  paused = false,
 }: GifFrameProps) {
   const [error, setError] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -78,6 +82,19 @@ export default function GifFrame({
       onProgress?.(0);
     }
   }, [isActive, onProgress]);
+
+  // Hold without rewinding. Declared after the isActive effect so React runs
+  // it second — otherwise a pause would be undone by the play() above.
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video || !isActive) return;
+
+    if (paused) {
+      video.pause();
+    } else if (isVisibleRef.current) {
+      video.play().catch(() => {});
+    }
+  }, [paused, isActive]);
 
   // Handle smooth progress reporting while active
   useEffect(() => {

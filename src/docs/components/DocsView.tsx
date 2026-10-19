@@ -4,7 +4,14 @@ import React, { useState, useMemo, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import Navbar from '../../app/components/Navbar';
 import Footer from '../../app/components/Footer';
-import { docCategories, allDocs, getDocById, getAdjacentDocs, searchDocs } from '../registry';
+import {
+  docCategories,
+  allDocs,
+  getDocById,
+  getAdjacentDocs,
+  searchDocs,
+  loadSearchCorpus,
+} from '../registryMeta';
 import { DocItem } from '../types';
 import { MarkdownRenderer } from './MarkdownRenderer';
 import {
@@ -37,10 +44,11 @@ const CATEGORY_ICONS: Record<string, React.ReactNode> = {
   architecture: <Layers className="w-4 h-4 text-amber-500" />,
 };
 
-export default function DocsView({ docId }: { docId: string }) {
+export default function DocsView({ docId, content }: { docId: string; content?: string }) {
   const router = useRouter();
   const [searchModalOpen, setSearchModalOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
+  const [searchCorpus, setSearchCorpus] = useState<Record<string, string>>({});
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [openCategories, setOpenCategories] = useState<Record<string, boolean>>({
     'user-guide': true,
@@ -128,8 +136,20 @@ export default function DocsView({ docId }: { docId: string }) {
   // Filtered docs for search modal
   const searchResults = useMemo(() => {
     if (!searchQuery.trim()) return allDocs.slice(0, 8);
-    return searchDocs(searchQuery).slice(0, 10);
-  }, [searchQuery]);
+    return searchDocs(searchQuery, searchCorpus).slice(0, 10);
+  }, [searchQuery, searchCorpus]);
+
+  // Full-text search text is a separate asset, fetched the first time the user searches.
+  useEffect(() => {
+    if (!searchQuery.trim() || Object.keys(searchCorpus).length > 0) return;
+    let cancelled = false;
+    loadSearchCorpus().then((corpus) => {
+      if (!cancelled) setSearchCorpus(corpus);
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, [searchQuery, searchCorpus]);
 
   // Handle keyboard navigation in search modal
   const handleSearchKeyDown = (e: React.KeyboardEvent) => {
@@ -146,9 +166,9 @@ export default function DocsView({ docId }: { docId: string }) {
   };
 
   const copyRawMarkdown = async () => {
-    if (!activeDoc.rawMarkdown) return;
+    if (!content) return;
     try {
-      await navigator.clipboard.writeText(activeDoc.rawMarkdown);
+      await navigator.clipboard.writeText(content);
       setCopiedRawMarkdown(true);
       setTimeout(() => setCopiedRawMarkdown(false), 2000);
     } catch {}
@@ -187,8 +207,7 @@ export default function DocsView({ docId }: { docId: string }) {
 
       // 3. Fallback: if manifest-spec doc is in active or loaded docs, format from that
       if (!promptText) {
-        const manifestDoc = allDocs.find((d) => d.id === 'manifest-spec');
-        const fallbackContent = manifestDoc?.rawMarkdown || activeDoc.rawMarkdown;
+        const fallbackContent = content;
         if (fallbackContent) {
           promptText = `# Instructions for AI Agent: Authoring OpenClip Extensions\n\nYou are an expert developer assistant specialized in creating extensions for OpenClip.\nOpenClip is a native macOS floating-popup utility (Swift 6, macOS 14+, AppKit + SwiftUI) that turns selected text into instant actions.\n\n## Context & Objectives\nWhen asked to author or modify an OpenClip extension, you will generate or update a complete extension package:\n1. openclip.json (the extension manifest file specifying actions, options, triggers, and effects).\n2. Accompanying executable scripts (run.js, script.sh, script.py, run.applescript, etc.) if needed.\n3. Proper permissions, icons, and localized labels.\n\n## Authoritative Specification\nAdhere strictly to the OpenClip Extension Manifest Specification below. Do NOT hallucinate keys, enum values, or effect types.\n\n---\n\n` + fallbackContent;
         }
@@ -351,7 +370,7 @@ export default function DocsView({ docId }: { docId: string }) {
 
               {/* Secondary Actions on right */}
               <div className="flex items-center gap-2">
-                {activeDoc.rawMarkdown && (
+                {content && (
                   <button
                     onClick={copyRawMarkdown}
                     className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-[var(--bg-surface)] hover:bg-[var(--bg-surface-hover)] border border-[var(--border-subtle)] text-[12px] text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-all shadow-xs cursor-pointer"
@@ -457,11 +476,7 @@ export default function DocsView({ docId }: { docId: string }) {
 
             {/* Markdown Content Area */}
             <div className="py-6">
-              {activeDoc.rawMarkdown ? (
-                <MarkdownRenderer content={activeDoc.rawMarkdown} />
-              ) : (
-                activeDoc.content
-              )}
+              {content ? <MarkdownRenderer content={content} /> : null}
             </div>
 
             {/* Bottom Next / Prev Navigation Cards */}

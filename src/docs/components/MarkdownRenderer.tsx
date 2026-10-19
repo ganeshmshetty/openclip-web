@@ -3,7 +3,8 @@
 import React from 'react';
 import { marked, Tokens, Token } from 'marked';
 import { CodeBlock, Callout, DocTable, InlineCode } from './DocComponents';
-import { MermaidDiagram } from './MermaidDiagram';
+import { DiagramImage } from './DiagramImage';
+import { DIAGRAM_LANGUAGE } from '../diagram-hash';
 import Link from 'next/link';
 
 interface MarkdownRendererProps {
@@ -445,9 +446,10 @@ export function MarkdownRenderer({ content, className = '' }: MarkdownRendererPr
 
         case 'code': {
           const code = token as Tokens.Code;
-          return code.lang === 'mermaid'
-            ? <MermaidDiagram key={key} chart={code.text} />
-            : <CodeBlock key={key} language={code.lang || 'text'} code={code.text} />;
+          if (code.lang === DIAGRAM_LANGUAGE) {
+            return <DiagramImage key={key} chart={code.text} />;
+          }
+          return <CodeBlock key={key} language={code.lang || 'text'} code={code.text} />;
         }
 
         case 'blockquote':

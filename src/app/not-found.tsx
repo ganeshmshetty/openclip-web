@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
-import { ArrowLeft, Home, Compass, BookOpen } from 'lucide-react';
+import { Home, Compass, BookOpen } from 'lucide-react';
 
 export const metadata: Metadata = {
   title: 'Page Not Found',
@@ -19,10 +19,8 @@ export default function NotFound() {
       <Navbar />
 
       <main className="flex-1 flex items-center justify-center px-4 py-24 sm:py-32">
-        <div className="max-w-md w-full text-center">
-          <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-[var(--bg-surface)] border border-[var(--border-subtle)] shadow-sm mb-6">
-            <span className="text-2xl font-bold font-mono text-[var(--accent)]">404</span>
-          </div>
+        <div className="max-w-lg w-full text-center">
+          <p className="text-[12px] font-medium text-[var(--text-tertiary)] mb-4">404</p>
 
           <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-[var(--text-primary)] mb-3">
             Page not found
@@ -35,23 +33,23 @@ export default function NotFound() {
           <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
             <Link
               href="/"
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-[var(--accent)] text-white text-[14px] font-medium shadow-sm hover:opacity-90 transition-opacity"
+              className="w-full sm:w-auto whitespace-nowrap inline-flex items-center justify-center gap-2 px-5 h-[42px] rounded-full bg-[var(--accent)] text-white text-[14px] font-medium hover:bg-[var(--accent-hover)] transition-colors"
             >
               <Home className="w-4 h-4" />
-              <span>Back to Home</span>
+              <span>Home</span>
             </Link>
 
             <Link
               href="/docs/getting-started"
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-[var(--bg-surface)] border border-[var(--border-subtle)] text-[var(--text-primary)] text-[14px] font-medium hover:bg-[var(--bg-surface-hover)] transition-colors"
+              className="w-full sm:w-auto whitespace-nowrap inline-flex items-center justify-center gap-2 px-5 h-[42px] rounded-full bg-[var(--bg-surface)] border border-[var(--border-subtle)] text-[var(--text-primary)] text-[14px] font-medium hover:bg-[var(--bg-surface-hover)] transition-colors"
             >
               <BookOpen className="w-4 h-4" />
-              <span>Read Docs</span>
+              <span>Docs</span>
             </Link>
 
             <Link
               href="/extensions"
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-[var(--bg-surface)] border border-[var(--border-subtle)] text-[var(--text-primary)] text-[14px] font-medium hover:bg-[var(--bg-surface-hover)] transition-colors"
+              className="w-full sm:w-auto whitespace-nowrap inline-flex items-center justify-center gap-2 px-5 h-[42px] rounded-full bg-[var(--bg-surface)] border border-[var(--border-subtle)] text-[var(--text-primary)] text-[14px] font-medium hover:bg-[var(--bg-surface-hover)] transition-colors"
             >
               <Compass className="w-4 h-4" />
               <span>Extensions</span>

@@ -124,7 +124,7 @@ export default async function DocPage({ params }: Props) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdBreadcrumb) }}
       />
-      <DocsView docId={doc.slug} />
+      <DocsView docId={doc.slug} content={doc.rawMarkdown} />
     </>
   );
 }

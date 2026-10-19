@@ -1,0 +1,2989 @@
+{
+  "generatedAt": "2026-10-19T15:12:47.070Z",
+  "categories": [
+    {
+      "id": "user-guide",
+      "name": "User Guide",
+      "description": "How to use OpenClip on macOS: Floating HUD, search palette, AI tools, and app rules.",
+      "icon": "Compass",
+      "order": 1,
+      "items": [
+        {
+          "id": "getting-started",
+          "slug": "getting-started",
+          "title": "Installation & Onboarding",
+          "category": "User Guide",
+          "categorySlug": "user-guide",
+          "description": "System requirements, installation steps, Accessibility permissions, and first-launch flow.",
+          "order": 1,
+          "sourcePath": "docs/user-guide/installation.md",
+          "headings": [
+            {
+              "id": "system-requirements",
+              "title": "System Requirements",
+              "level": 2
+            },
+            {
+              "id": "installation-steps",
+              "title": "Installation Steps",
+              "level": 2
+            },
+            {
+              "id": "granting-accessibility-permissions",
+              "title": "Granting Accessibility Permissions",
+              "level": 2
+            },
+            {
+              "id": "first-launch-onboarding-workflow",
+              "title": "First-Launch Onboarding Workflow",
+              "level": 2
+            }
+          ]
+        },
+        {
+          "id": "preferences",
+          "slug": "preferences",
+          "title": "Preferences & Customization",
+          "category": "User Guide",
+          "categorySlug": "user-guide",
+          "description": "Action ordering, custom titles and icons, popup theme styling, and AI provider setup.",
+          "order": 2,
+          "sourcePath": "docs/user-guide/preferences.md",
+          "headings": [
+            {
+              "id": "opening-preferences",
+              "title": "Opening Preferences",
+              "level": 2
+            },
+            {
+              "id": "general",
+              "title": "General",
+              "level": 2
+            },
+            {
+              "id": "finding-your-way-around",
+              "title": "Finding your way around",
+              "level": 2
+            },
+            {
+              "id": "customize-the-popup-bars-layout",
+              "title": "Customize: the popup bar's layout",
+              "level": 2
+            },
+            {
+              "id": "how-action-ordering-works",
+              "title": "How Action Ordering Works",
+              "level": 3
+            },
+            {
+              "id": "shortcuts",
+              "title": "Shortcuts",
+              "level": 2
+            },
+            {
+              "id": "built-in-actions",
+              "title": "Built-in actions",
+              "level": 2
+            },
+            {
+              "id": "custom-actions",
+              "title": "Custom Actions",
+              "level": 2
+            },
+            {
+              "id": "store",
+              "title": "Store",
+              "level": 2
+            },
+            {
+              "id": "extensions",
+              "title": "Extensions",
+              "level": 2
+            },
+            {
+              "id": "customizing-action-titles-icons",
+              "title": "Customizing Action Titles & Icons",
+              "level": 2
+            },
+            {
+              "id": "display-overrides-via-actioncustomizationmanager",
+              "title": "Display Overrides via ActionCustomizationManager",
+              "level": 3
+            },
+            {
+              "id": "action-result-delivery-click-behavior",
+              "title": "Action Result Delivery & Click Behavior",
+              "level": 3
+            },
+            {
+              "id": "popup-appearance-theme",
+              "title": "Popup Appearance & Theme",
+              "level": 2
+            },
+            {
+              "id": "popup-theme",
+              "title": "Popup Theme",
+              "level": 3
+            },
+            {
+              "id": "ai-provider-setup",
+              "title": "AI Provider Setup",
+              "level": 2
+            },
+            {
+              "id": "system-prompt",
+              "title": "System prompt",
+              "level": 3
+            },
+            {
+              "id": "ask-ai-from-the-search-palette",
+              "title": "Ask AI from the search palette",
+              "level": 3
+            },
+            {
+              "id": "refine-an-answer-in-the-result-card",
+              "title": "Refine an answer in the result card",
+              "level": 3
+            },
+            {
+              "id": "ai-settings-channel",
+              "title": "AI Settings Channel",
+              "level": 3
+            },
+            {
+              "id": "actions-per-page",
+              "title": "Actions per page",
+              "level": 2
+            }
+          ]
+        },
+        {
+          "id": "app-rules",
+          "slug": "app-rules",
+          "title": "Application-Specific Policy Rules",
+          "category": "User Guide",
+          "categorySlug": "user-guide",
+          "description": "Configure per-app retrieval modes, hotkey-only triggers, deny-paste downgrades, and pre-retrieval gates.",
+          "order": 3,
+          "sourcePath": "docs/user-guide/app-rules.md",
+          "headings": [
+            {
+              "id": "json-configuration-format-rulesjson",
+              "title": "JSON Configuration Format (rules.json)",
+              "level": 2
+            },
+            {
+              "id": "policy-properties-reference",
+              "title": "Policy Properties Reference",
+              "level": 2
+            },
+            {
+              "id": "retrieval-mode-values",
+              "title": "retrieval-mode values",
+              "level": 3
+            },
+            {
+              "id": "identifier-matching-shortcuts",
+              "title": "Identifier Matching & Shortcuts",
+              "level": 2
+            },
+            {
+              "id": "bundle-ids",
+              "title": "Bundle IDs",
+              "level": 3
+            },
+            {
+              "id": "wildcard-pattern-matching",
+              "title": "Wildcard Pattern Matching",
+              "level": 3
+            },
+            {
+              "id": "builtin-group-expansion-aliases",
+              "title": "Builtin Group Expansion Aliases",
+              "level": 3
+            },
+            {
+              "id": "rule-evaluation-mechanics",
+              "title": "Rule Evaluation Mechanics",
+              "level": 2
+            }
+          ]
+        },
+        {
+          "id": "managing-extensions",
+          "slug": "managing-extensions",
+          "title": "Managing Extensions & Store",
+          "category": "User Guide",
+          "categorySlug": "user-guide",
+          "description": "Extension store browser, remote one-click installation, and GUI custom action creation.",
+          "order": 4,
+          "sourcePath": "docs/user-guide/managing-extensions.md",
+          "headings": [
+            {
+              "id": "extension-store-remote-installation",
+              "title": "Extension Store & Remote Installation",
+              "level": 2
+            },
+            {
+              "id": "how-remote-installation-works",
+              "title": "How Remote Installation Works",
+              "level": 3
+            },
+            {
+              "id": "manual-installation-of-extensions-scripts",
+              "title": "Manual Installation of Extensions & Scripts",
+              "level": 2
+            },
+            {
+              "id": "installation-file-types",
+              "title": "Installation File Types",
+              "level": 3
+            },
+            {
+              "id": "creating-custom-actions-in-gui",
+              "title": "Creating Custom Actions in GUI",
+              "level": 2
+            },
+            {
+              "id": "storage-persistence",
+              "title": "Storage & Persistence",
+              "level": 3
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "extension-authoring",
+      "name": "Extension Authoring",
+      "description": "Create and package extensions using openclip.json, snippets, options, and rules.",
+      "icon": "Code2",
+      "order": 2,
+      "items": [
+        {
+          "id": "extension-overview",
+          "slug": "extension-overview",
+          "title": "Extending OpenClip Overview",
+          "category": "Extension Authoring",
+          "categorySlug": "extension-authoring",
+          "description": "High-level orientation for building custom actions, standalone snippets, and .openclipext packages.",
+          "order": 1,
+          "sourcePath": "docs/developer-guide/overview.md",
+          "headings": [
+            {
+              "id": "extension-capabilities",
+              "title": "Extension Capabilities",
+              "level": 2
+            },
+            {
+              "id": "action-types-at-a-glance",
+              "title": "Action Types at a Glance",
+              "level": 2
+            },
+            {
+              "id": "extension-directory-locations",
+              "title": "Extension Directory Locations",
+              "level": 2
+            },
+            {
+              "id": "architectural-integration-seam",
+              "title": "Architectural Integration Seam",
+              "level": 2
+            }
+          ]
+        },
+        {
+          "id": "manifest-spec",
+          "slug": "manifest-spec",
+          "title": "Extension Manifest Specification",
+          "category": "Extension Authoring",
+          "categorySlug": "extension-authoring",
+          "description": "Authoritative schema and reference for openclip.json: all action kinds, options, requirements, and effects.",
+          "order": 2,
+          "sourcePath": "docs/developer-guide/AGENTS.md",
+          "headings": [
+            {
+              "id": "1-what-an-extension-is",
+              "title": "1. What an extension is",
+              "level": 2
+            },
+            {
+              "id": "1b-extension-documentation-readmemd-for-web-store",
+              "title": "1b. Extension documentation (README.md for Web Store)",
+              "level": 3
+            },
+            {
+              "id": "2-manifest-structure",
+              "title": "2. Manifest structure",
+              "level": 2
+            },
+            {
+              "id": "3-action-kinds-type",
+              "title": "3. Action kinds (type)",
+              "level": 2
+            },
+            {
+              "id": "3a-url",
+              "title": "3a. url",
+              "level": 3
+            },
+            {
+              "id": "3b-javascript-inline-or-file",
+              "title": "3b. javascript (inline or file)",
+              "level": 3
+            },
+            {
+              "id": "3c-applescript-inline-or-file",
+              "title": "3c. applescript (inline or file)",
+              "level": 3
+            },
+            {
+              "id": "3d-shell-inline-or-file",
+              "title": "3d. shell (inline or file)",
+              "level": 3
+            },
+            {
+              "id": "3e-textsnippet",
+              "title": "3e. textsnippet",
+              "level": 3
+            },
+            {
+              "id": "3f-keypress",
+              "title": "3f. keypress",
+              "level": 3
+            },
+            {
+              "id": "3g-shortcut",
+              "title": "3g. shortcut",
+              "level": 3
+            },
+            {
+              "id": "3h-service",
+              "title": "3h. service",
+              "level": 3
+            },
+            {
+              "id": "3i-group",
+              "title": "3i. group",
+              "level": 3
+            },
+            {
+              "id": "3j-sub-menu-relevance-menurelevance",
+              "title": "3j. Sub-menu relevance (menuRelevance)",
+              "level": 3
+            },
+            {
+              "id": "4-options-requirements",
+              "title": "4. Options & requirements",
+              "level": 2
+            },
+            {
+              "id": "4a-option-metadata-extensionoptionmetadata",
+              "title": "4a. Option metadata (ExtensionOptionMetadata)",
+              "level": 3
+            },
+            {
+              "id": "4b-secret-vs-non-secret-storage",
+              "title": "4b. Secret vs non-secret storage",
+              "level": 3
+            },
+            {
+              "id": "4c-requirements-actionrequirements",
+              "title": "4c. requirements (ActionRequirements)",
+              "level": 3
+            },
+            {
+              "id": "5-visibility-rules-when-an-action-is-shown",
+              "title": "5. Visibility rules (when an action is shown)",
+              "level": 2
+            },
+            {
+              "id": "5b-primarysecondary-result-delivery-output-result-secondary-toast-secondarytoast",
+              "title": "5b. Primary/secondary result delivery (output, result, secondary, toast, secondaryToast)",
+              "level": 3
+            },
+            {
+              "id": "5c-js-imperative-secondary-via-openclipinputissecondaryclick",
+              "title": "5c. JS: imperative secondary via openclip.input.isSecondaryClick",
+              "level": 3
+            },
+            {
+              "id": "5d-loading-slow-actions",
+              "title": "5d. loading (slow actions)",
+              "level": 3
+            },
+            {
+              "id": "6-data-made-available-to-actions",
+              "title": "6. Data made available to actions",
+              "level": 2
+            },
+            {
+              "id": "6a-input-context",
+              "title": "6a. Input context",
+              "level": 3
+            },
+            {
+              "id": "6b-placeholders-textplaceholderengine",
+              "title": "6b. Placeholders (TextPlaceholderEngine)",
+              "level": 3
+            },
+            {
+              "id": "6c-env-vars-shellscript-file-actions",
+              "title": "6c. Env vars (shell/script-file actions)",
+              "level": 3
+            },
+            {
+              "id": "7-the-javascript-openclip-bridge-openclipjshost",
+              "title": "7. The JavaScript openclip.* bridge (OpenClipJSHost)",
+              "level": 2
+            },
+            {
+              "id": "7b-multi-language-localization-i18n",
+              "title": "7b. Multi-language & Localization (i18n)",
+              "level": 2
+            },
+            {
+              "id": "localized-manifest-fields",
+              "title": "Localized Manifest Fields",
+              "level": 3
+            },
+            {
+              "id": "manifest-localization-styles",
+              "title": "Manifest Localization Styles",
+              "level": 3
+            },
+            {
+              "id": "resolution-order-fallback",
+              "title": "Resolution Order & Fallback",
+              "level": 3
+            },
+            {
+              "id": "runtime-localization-older-app-compatibility",
+              "title": "Runtime Localization & Older App Compatibility",
+              "level": 3
+            },
+            {
+              "id": "pasteboard-api-minimum-version-130",
+              "title": "Pasteboard API & Minimum Version (\"1.3.0\")",
+              "level": 3
+            },
+            {
+              "id": "native-file-output-minimum-version-170",
+              "title": "Native File Output & Minimum Version (\"1.7.0\")",
+              "level": 3
+            },
+            {
+              "id": "8-the-actionresult-surface-json-effect-shapes",
+              "title": "8. The ActionResult surface & JSON effect shapes",
+              "level": 2
+            },
+            {
+              "id": "8a-shellscript-json-protocol-shellresultmapper",
+              "title": "8a. Shell/script JSON protocol (ShellResultMapper)",
+              "level": 3
+            },
+            {
+              "id": "9-complete-worked-examples",
+              "title": "9. Complete worked examples",
+              "level": 2
+            },
+            {
+              "id": "9a-minimal-url-extension",
+              "title": "9a. Minimal url extension",
+              "level": 3
+            },
+            {
+              "id": "9b-group-options-js-example",
+              "title": "9b. Group + options + JS example",
+              "level": 3
+            },
+            {
+              "id": "9c-secret-option-shell-json-effect",
+              "title": "9c. Secret option + shell JSON effect",
+              "level": 3
+            },
+            {
+              "id": "10-develop-iterate-test-workflow",
+              "title": "10. Develop / iterate / test workflow",
+              "level": 2
+            },
+            {
+              "id": "common-failure-modes",
+              "title": "Common failure modes",
+              "level": 3
+            },
+            {
+              "id": "11-trust-consent-lifecycle",
+              "title": "11. Trust & consent lifecycle",
+              "level": 2
+            },
+            {
+              "id": "12-do-not",
+              "title": "12. Do NOT",
+              "level": 2
+            },
+            {
+              "id": "13-source-of-truth-recap-for-confident-auditing",
+              "title": "13. Source of truth recap (for confident auditing)",
+              "level": 2
+            }
+          ]
+        },
+        {
+          "id": "package-format",
+          "slug": "package-format",
+          "title": "Package Format & Directory Schema",
+          "category": "Extension Authoring",
+          "categorySlug": "extension-authoring",
+          "description": "Structure of .openclipext packages, asset naming, options schema, and SecretStore integration.",
+          "order": 3,
+          "sourcePath": "docs/developer-guide/package-format.md",
+          "headings": [
+            {
+              "id": "package-directory-structure",
+              "title": "Package Directory Structure",
+              "level": 2
+            },
+            {
+              "id": "installation",
+              "title": "Installation",
+              "level": 2
+            },
+            {
+              "id": "manifest-json-schema-extensionmetadata",
+              "title": "Manifest JSON Schema (ExtensionMetadata)",
+              "level": 2
+            },
+            {
+              "id": "complete-example-manifestjson",
+              "title": "Complete Example manifest.json",
+              "level": 3
+            },
+            {
+              "id": "manifest-fields-reference",
+              "title": "Manifest Fields Reference",
+              "level": 2
+            },
+            {
+              "id": "top-level-metadata-extensionmetadata",
+              "title": "Top-Level Metadata (ExtensionMetadata)",
+              "level": 3
+            },
+            {
+              "id": "action-object-extensionactionmetadata",
+              "title": "Action Object (ExtensionActionMetadata)",
+              "level": 3
+            },
+            {
+              "id": "extension-output-contract-delivery-resolution",
+              "title": "Extension Output Contract & Delivery Resolution",
+              "level": 3
+            },
+            {
+              "id": "native-file-output-results",
+              "title": "Native File Output Results",
+              "level": 3
+            },
+            {
+              "id": "type-canvas-removed",
+              "title": "type: \"canvas\" (removed)",
+              "level": 3
+            },
+            {
+              "id": "options-schema-extensionoptionmetadata",
+              "title": "Options Schema (ExtensionOptionMetadata)",
+              "level": 2
+            },
+            {
+              "id": "option-storage-retrieval",
+              "title": "Option Storage & Retrieval",
+              "level": 3
+            }
+          ]
+        },
+        {
+          "id": "snippets",
+          "slug": "snippets",
+          "title": "Standalone Script Snippets",
+          "category": "Extension Authoring",
+          "categorySlug": "extension-authoring",
+          "description": "Single-file script actions with header comment metadata for Python, Shell, JavaScript, and AppleScript.",
+          "order": 4,
+          "sourcePath": "docs/developer-guide/snippets.md",
+          "headings": [
+            {
+              "id": "parser-architecture-design-constraints",
+              "title": "Parser Architecture & Design Constraints",
+              "level": 2
+            },
+            {
+              "id": "header-syntax-format",
+              "title": "Header Syntax & Format",
+              "level": 2
+            },
+            {
+              "id": "example-1-standalone-javascript-snippet-upperjs",
+              "title": "Example 1: Standalone JavaScript Snippet (upper.js)",
+              "level": 3
+            },
+            {
+              "id": "example-2-standalone-shell-script-format-sqlsh",
+              "title": "Example 2: Standalone Shell Script (format-sql.sh)",
+              "level": 3
+            },
+            {
+              "id": "example-3-standalone-applescript-snippet-create-noteapplescript",
+              "title": "Example 3: Standalone AppleScript Snippet (create-note.applescript)",
+              "level": 3
+            },
+            {
+              "id": "example-4-standalone-url-search-snippet-search-mdnsh",
+              "title": "Example 4: Standalone URL Search Snippet (search-mdn.sh)",
+              "level": 3
+            },
+            {
+              "id": "header-keys-matrix",
+              "title": "Header Keys Matrix",
+              "level": 2
+            },
+            {
+              "id": "parsing-algorithm-details",
+              "title": "Parsing Algorithm Details",
+              "level": 2
+            }
+          ]
+        },
+        {
+          "id": "extensions-modules",
+          "slug": "extensions-modules",
+          "title": "JavaScript Modules (CommonJS & npm)",
+          "category": "Extension Authoring",
+          "categorySlug": "extension-authoring",
+          "description": "File-based JS actions with require() support, module caching, and bundling with esbuild.",
+          "order": 5,
+          "sourcePath": "docs/developer-guide/extensions-modules.md",
+          "headings": [
+            {
+              "id": "1-module-mode-local-multi-file-no-build-step",
+              "title": "1. Module mode (local multi-file, no build step)",
+              "level": 2
+            },
+            {
+              "id": "1a-entry-dispatch",
+              "title": "1a. Entry dispatch",
+              "level": 3
+            },
+            {
+              "id": "1b-resolution-caching",
+              "title": "1b. Resolution & caching",
+              "level": 3
+            },
+            {
+              "id": "1c-containment",
+              "title": "1c. Containment",
+              "level": 3
+            },
+            {
+              "id": "1d-rejected-specifiers",
+              "title": "1d. Rejected specifiers",
+              "level": 3
+            },
+            {
+              "id": "2-the-npm-typescript-path",
+              "title": "2. The npm + TypeScript path",
+              "level": 2
+            },
+            {
+              "id": "2a-build-contract",
+              "title": "2a. Build contract",
+              "level": 3
+            },
+            {
+              "id": "2b-typescript-the-bundle-path-only",
+              "title": "2b. TypeScript: the bundle path only",
+              "level": 3
+            },
+            {
+              "id": "2c-bundling-third-party-libraries",
+              "title": "2c. Bundling third-party libraries",
+              "level": 3
+            },
+            {
+              "id": "3-limitations",
+              "title": "3. Limitations",
+              "level": 2
+            },
+            {
+              "id": "4-esbuild-shims-for-browser-platform-builds",
+              "title": "4. esbuild shims for browser-platform builds",
+              "level": 2
+            },
+            {
+              "id": "5-reference",
+              "title": "5. Reference",
+              "level": 2
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "runtimes",
+      "name": "Runtimes & APIs",
+      "description": "JavaScriptCore bridge (openclip.*), AppleScript, zsh shell, keypress, and shortcuts.",
+      "icon": "Cpu",
+      "order": 3,
+      "items": [
+        {
+          "id": "javascript",
+          "slug": "javascript",
+          "title": "JavaScript Runtime & Bridge",
+          "category": "Runtimes & APIs",
+          "categorySlug": "runtimes",
+          "description": "Fast string manipulation, async fetch() polyfill, and the global openclip.* platform effect API.",
+          "order": 1,
+          "sourcePath": "docs/runtimes/javascript.md",
+          "headings": [
+            {
+              "id": "console-logging",
+              "title": "Console logging",
+              "level": 2
+            },
+            {
+              "id": "the-openclip-js-object",
+              "title": "The openclip JS Object",
+              "level": 2
+            },
+            {
+              "id": "options-preference-integration",
+              "title": "Options & Preference Integration",
+              "level": 2
+            },
+            {
+              "id": "secondary-click-behavior-issecondaryclick",
+              "title": "Secondary click behavior (isSecondaryClick)",
+              "level": 2
+            },
+            {
+              "id": "pasteboard-api-openclippasteboard",
+              "title": "Pasteboard API (openclip.pasteboard)",
+              "level": 2
+            },
+            {
+              "id": "async-mode-async-true",
+              "title": "Async Mode (\"async\": true)",
+              "level": 2
+            },
+            {
+              "id": "fetchurl-options",
+              "title": "fetch(url, options)",
+              "level": 3
+            },
+            {
+              "id": "execution-model-watchdog",
+              "title": "Execution model & watchdog",
+              "level": 3
+            },
+            {
+              "id": "result-resolution",
+              "title": "Result Resolution",
+              "level": 2
+            },
+            {
+              "id": "practical-examples",
+              "title": "Practical Examples",
+              "level": 2
+            },
+            {
+              "id": "prettify-json-returns-a-string-pasted",
+              "title": "Prettify JSON (returns a string → pasted)",
+              "level": 3
+            },
+            {
+              "id": "search-web-opens-a-url",
+              "title": "Search Web (opens a URL)",
+              "level": 3
+            },
+            {
+              "id": "replace-the-selection-with-uppercased-text",
+              "title": "Replace the selection with uppercased text",
+              "level": 3
+            },
+            {
+              "id": "display-file-preview-card-image-document",
+              "title": "Display File Preview Card (Image / Document)",
+              "level": 3
+            },
+            {
+              "id": "native-detected-content-190",
+              "title": "Native detected content (1.9.0)",
+              "level": 2
+            }
+          ]
+        },
+        {
+          "id": "applescript",
+          "slug": "applescript",
+          "title": "AppleScript Runtime",
+          "category": "Runtimes & APIs",
+          "categorySlug": "runtimes",
+          "description": "macOS app automation for Notes, Mail, Safari, and Finder via NSAppleScript and osascript.",
+          "order": 2,
+          "sourcePath": "docs/runtimes/applescript.md",
+          "headings": [
+            {
+              "id": "execution-architecture",
+              "title": "Execution Architecture",
+              "level": 2
+            },
+            {
+              "id": "why-a-subprocess-bounded-off-main-strategy",
+              "title": "Why a subprocess (bounded off-main strategy)",
+              "level": 3
+            },
+            {
+              "id": "example-applescript-snippets",
+              "title": "Example AppleScript Snippets",
+              "level": 2
+            },
+            {
+              "id": "example-1-create-new-note-in-macos-notes-app",
+              "title": "Example 1: Create New Note in macOS Notes App",
+              "level": 3
+            },
+            {
+              "id": "example-2-transform-selected-text-to-uppercase",
+              "title": "Example 2: Transform Selected Text to Uppercase",
+              "level": 3
+            },
+            {
+              "id": "return-values-side-effects",
+              "title": "Return Values & Side Effects",
+              "level": 2
+            }
+          ]
+        },
+        {
+          "id": "url-templates",
+          "slug": "url-templates",
+          "title": "URL Templates Engine",
+          "category": "Runtimes & APIs",
+          "categorySlug": "runtimes",
+          "description": "Web searches, documentation lookups, and deep links with percent-encoded placeholder tokens.",
+          "order": 3,
+          "sourcePath": "docs/runtimes/url-templates.md",
+          "headings": [
+            {
+              "id": "execution-mechanism",
+              "title": "Execution Mechanism",
+              "level": 2
+            },
+            {
+              "id": "supported-placeholders",
+              "title": "Supported Placeholders",
+              "level": 2
+            },
+            {
+              "id": "regex-pattern-gating-visibility-rules",
+              "title": "Regex Pattern Gating & Visibility Rules",
+              "level": 2
+            },
+            {
+              "id": "common-regex-examples",
+              "title": "Common Regex Examples",
+              "level": 3
+            },
+            {
+              "id": "practical-examples",
+              "title": "Practical Examples",
+              "level": 2
+            }
+          ]
+        },
+        {
+          "id": "zsh-python",
+          "slug": "zsh-python",
+          "title": "Shell & Python Scripts",
+          "category": "Runtimes & APIs",
+          "categorySlug": "runtimes",
+          "description": "Subprocess execution with 30-second watchdog, environment variable inputs, and structured JSON outputs.",
+          "order": 4,
+          "sourcePath": "docs/runtimes/zsh-python.md",
+          "headings": [
+            {
+              "id": "process-execution-lifecycle",
+              "title": "Process Execution Lifecycle",
+              "level": 2
+            },
+            {
+              "id": "environment-variables-matrix",
+              "title": "Environment Variables Matrix",
+              "level": 2
+            },
+            {
+              "id": "output-processing-json-vs-plain-text",
+              "title": "Output Processing: JSON vs Plain Text",
+              "level": 2
+            },
+            {
+              "id": "mode-1-structured-json-output-scriptjsonoutput",
+              "title": "Mode 1: Structured JSON Output (ScriptJSONOutput)",
+              "level": 3
+            },
+            {
+              "id": "mode-2-plain-text-output-fallback",
+              "title": "Mode 2: Plain Text Output Fallback",
+              "level": 3
+            },
+            {
+              "id": "practical-examples",
+              "title": "Practical Examples",
+              "level": 2
+            },
+            {
+              "id": "python-script-generating-a-file-generate_chartpy",
+              "title": "Python Script Generating a File (generate_chart.py)",
+              "level": 3
+            },
+            {
+              "id": "python-script-example-clean_markdownpy",
+              "title": "Python Script Example (clean_markdown.py)",
+              "level": 3
+            },
+            {
+              "id": "zsh-shell-script-example-uppercasesh",
+              "title": "Zsh Shell Script Example (uppercase.sh)",
+              "level": 3
+            }
+          ]
+        },
+        {
+          "id": "integration-api",
+          "slug": "integration-api",
+          "title": "Integration & Automation API",
+          "category": "Runtimes & APIs",
+          "categorySlug": "runtimes",
+          "description": "The inbound openclip:// contract: routes, curated settings, callbacks, and what is not yet exposed.",
+          "order": 5,
+          "sourcePath": "docs/developer-guide/integration-api.md",
+          "headings": [
+            {
+              "id": "availability",
+              "title": "Availability",
+              "level": 2
+            },
+            {
+              "id": "routes",
+              "title": "Routes",
+              "level": 2
+            },
+            {
+              "id": "openclipinstall",
+              "title": "openclip://install",
+              "level": 3
+            },
+            {
+              "id": "openclipcommandname-commands",
+              "title": "openclip://command/<name> (commands)",
+              "level": 3
+            },
+            {
+              "id": "why-there-is-no-settings-route",
+              "title": "Why there is no settings route",
+              "level": 2
+            },
+            {
+              "id": "not-available-yet",
+              "title": "Not available yet",
+              "level": 2
+            },
+            {
+              "id": "implementation-map",
+              "title": "Implementation map",
+              "level": 2
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "architecture",
+      "name": "Architecture & Internals",
+      "description": "How OpenClip is engineered: Selection cascade, ActionCoordinator, and dual-sink logging.",
+      "icon": "Layers",
+      "order": 4,
+      "items": [
+        {
+          "id": "architecture-overview",
+          "slug": "architecture-overview",
+          "title": "Architecture Overview & Boundaries",
+          "category": "Architecture & Internals",
+          "categorySlug": "architecture",
+          "description": "Target split between pure Core domain framework and OpenClip macOS platform integration.",
+          "order": 1,
+          "sourcePath": "docs/architecture/overview.md",
+          "headings": [
+            {
+              "id": "target-split",
+              "title": "Target Split",
+              "level": 2
+            },
+            {
+              "id": "core-target-constraints",
+              "title": "Core Target Constraints",
+              "level": 3
+            },
+            {
+              "id": "core-architectural-subsystems",
+              "title": "Core Architectural Subsystems",
+              "level": 2
+            },
+            {
+              "id": "1-settings-subsystem-settingsstore",
+              "title": "1. Settings Subsystem — SettingsStore",
+              "level": 3
+            },
+            {
+              "id": "2-action-presentation-actioncustomizationmanager",
+              "title": "2. Action Presentation — ActionCustomizationManager",
+              "level": 3
+            },
+            {
+              "id": "3-action-chrome-policy-actionchrome",
+              "title": "3. Action Chrome Policy — ActionChrome",
+              "level": 3
+            },
+            {
+              "id": "4-action-factory-defaultactionfactory",
+              "title": "4. Action Factory — DefaultActionFactory",
+              "level": 3
+            },
+            {
+              "id": "5-action-result-handler-actionresulthandler",
+              "title": "5. Action Result Handler — ActionResultHandler",
+              "level": 3
+            },
+            {
+              "id": "6-action-coordinator-composition-actioncoordinator",
+              "title": "6. Action Coordinator & Composition — ActionCoordinator",
+              "level": 3
+            },
+            {
+              "id": "key-design-guidelines",
+              "title": "Key Design Guidelines",
+              "level": 2
+            }
+          ]
+        },
+        {
+          "id": "action-coordinator",
+          "slug": "action-coordinator",
+          "title": "Action Coordinator & Composition",
+          "category": "Architecture & Internals",
+          "categorySlug": "architecture",
+          "description": "The composition root orchestrating extension loaders, builtins, and the central action registry.",
+          "order": 2,
+          "sourcePath": "docs/architecture/action-coordinator.md",
+          "headings": [
+            {
+              "id": "architectural-responsibilities",
+              "title": "Architectural Responsibilities",
+              "level": 2
+            },
+            {
+              "id": "action-registration-mechanics",
+              "title": "Action Registration Mechanics",
+              "level": 2
+            },
+            {
+              "id": "initial-loading-lifecycle",
+              "title": "Initial Loading Lifecycle",
+              "level": 3
+            },
+            {
+              "id": "registration-unregistration",
+              "title": "Registration & Unregistration",
+              "level": 3
+            },
+            {
+              "id": "action-registry-ordering-policy",
+              "title": "Action Registry & Ordering Policy",
+              "level": 2
+            },
+            {
+              "id": "dynamic-ordering-math-custom-groups",
+              "title": "Dynamic Ordering Math & Custom Groups",
+              "level": 3
+            },
+            {
+              "id": "custom-action-groups-lifecycle",
+              "title": "Custom Action Groups & Lifecycle",
+              "level": 2
+            },
+            {
+              "id": "core-domain-models",
+              "title": "Core Domain Models",
+              "level": 3
+            },
+            {
+              "id": "group-membership-rules",
+              "title": "Group Membership Rules",
+              "level": 3
+            },
+            {
+              "id": "action-availability-context-resolution",
+              "title": "Action Availability & Context Resolution",
+              "level": 2
+            },
+            {
+              "id": "filtering-pipeline",
+              "title": "Filtering Pipeline",
+              "level": 3
+            }
+          ]
+        },
+        {
+          "id": "popup-window",
+          "slug": "popup-window",
+          "title": "Popup Window & Presentation",
+          "category": "Architecture & Internals",
+          "categorySlug": "architecture",
+          "description": "Floating panel lifecycle, screen clamping math, mode transitions, and status toasts.",
+          "order": 3,
+          "sourcePath": "docs/architecture/popup-window.md",
+          "headings": [
+            {
+              "id": "window-components",
+              "title": "Window Components",
+              "level": 2
+            },
+            {
+              "id": "1-popuppanel",
+              "title": "1. PopupPanel",
+              "level": 3
+            },
+            {
+              "id": "2-popupwindowcontroller",
+              "title": "2. PopupWindowController",
+              "level": 3
+            },
+            {
+              "id": "hover-tracking-preview-isolation",
+              "title": "Hover Tracking & Preview Isolation",
+              "level": 2
+            },
+            {
+              "id": "positioning-math-popuppositioner",
+              "title": "Positioning Math: PopupPositioner",
+              "level": 2
+            },
+            {
+              "id": "calculation-rules",
+              "title": "Calculation Rules",
+              "level": 3
+            },
+            {
+              "id": "content-mode-native-result-cards-ai-file-outputs",
+              "title": "Content Mode: Native Result Cards (AI & File Outputs)",
+              "level": 2
+            },
+            {
+              "id": "content-mode-ai-text-results",
+              "title": "Content Mode (AI & Text Results)",
+              "level": 3
+            },
+            {
+              "id": "file-output-results",
+              "title": "File Output Results",
+              "level": 3
+            },
+            {
+              "id": "text-and-diff-results",
+              "title": "Text and Diff Results",
+              "level": 3
+            },
+            {
+              "id": "action-search-palette-panel-growth",
+              "title": "Action-Search Palette & Panel Growth",
+              "level": 2
+            },
+            {
+              "id": "search-mode",
+              "title": "Search Mode",
+              "level": 3
+            },
+            {
+              "id": "scoped-sub-action-palette",
+              "title": "Scoped Sub-Action Palette",
+              "level": 3
+            },
+            {
+              "id": "key-mode-exceptions",
+              "title": "Key-Mode Exceptions",
+              "level": 3
+            },
+            {
+              "id": "panel-growth-anchoring-content-driven-resize",
+              "title": "Panel-Growth Anchoring (content-driven resize)",
+              "level": 3
+            }
+          ]
+        },
+        {
+          "id": "text-selection",
+          "slug": "text-selection",
+          "title": "Text Selection & Strategy Chain",
+          "category": "Architecture & Internals",
+          "categorySlug": "architecture",
+          "description": "Multi-strategy selection extraction using Accessibility APIs, WebKit markers, and AppleScript.",
+          "order": 4,
+          "sourcePath": "docs/architecture/text-selection.md",
+          "headings": [
+            {
+              "id": "selection-detection-architecture",
+              "title": "Selection Detection Architecture",
+              "level": 2
+            },
+            {
+              "id": "retrieval-resolver-gate-and-strategies",
+              "title": "Retrieval: Resolver, Gate, and Strategies",
+              "level": 2
+            },
+            {
+              "id": "retrieval-modes",
+              "title": "Retrieval modes",
+              "level": 3
+            },
+            {
+              "id": "the-copy-engine-and-transient-markers",
+              "title": "The copy engine and transient markers",
+              "level": 3
+            },
+            {
+              "id": "per-app-routing-default-catalog",
+              "title": "Per-app routing (default catalog)",
+              "level": 3
+            },
+            {
+              "id": "shortcut-clipboard-fallback-synchronous-resolution",
+              "title": "Shortcut Clipboard Fallback & Synchronous Resolution",
+              "level": 2
+            },
+            {
+              "id": "privacy-non-destructive-guarantees",
+              "title": "Privacy & Non-Destructive Guarantees",
+              "level": 2
+            },
+            {
+              "id": "inline-action-match-context",
+              "title": "Inline Action Match Context",
+              "level": 2
+            }
+          ]
+        },
+        {
+          "id": "extensions-architecture",
+          "slug": "extensions-architecture",
+          "title": "Extension Trust Model & Tiers",
+          "category": "Architecture & Internals",
+          "categorySlug": "architecture",
+          "description": "Security boundaries, manifest validation passes, capability gates, and runtime privilege tiers.",
+          "order": 5,
+          "sourcePath": "docs/architecture/extensions.md",
+          "headings": [
+            {
+              "id": "1-what-an-extension-is",
+              "title": "1. What an extension is",
+              "level": 2
+            },
+            {
+              "id": "2-trust-model",
+              "title": "2. Trust model",
+              "level": 2
+            },
+            {
+              "id": "3-manifest-validation-pass",
+              "title": "3. Manifest validation pass",
+              "level": 2
+            },
+            {
+              "id": "4-capability-gating-mechanism",
+              "title": "4. Capability gating (mechanism)",
+              "level": 2
+            },
+            {
+              "id": "5-runtime-privilege-tiers",
+              "title": "5. Runtime privilege tiers",
+              "level": 2
+            },
+            {
+              "id": "6-failure-surfacing",
+              "title": "6. Failure surfacing",
+              "level": 2
+            },
+            {
+              "id": "7-hot-reload",
+              "title": "7. Hot reload",
+              "level": 2
+            }
+          ]
+        },
+        {
+          "id": "logging",
+          "slug": "logging",
+          "title": "Dual-Sink Logging Architecture",
+          "category": "Architecture & Internals",
+          "categorySlug": "architecture",
+          "description": "High-performance in-memory ring buffer, Apple os.Logger, rotating log file appender, and CLI dump.",
+          "order": 6,
+          "sourcePath": "docs/logging.md",
+          "headings": [
+            {
+              "id": "architecture-overview",
+              "title": "Architecture Overview",
+              "level": 2
+            },
+            {
+              "id": "core-protocol-types",
+              "title": "Core Protocol & Types",
+              "level": 2
+            },
+            {
+              "id": "the-log-enum-categories",
+              "title": "The Log Enum & Categories",
+              "level": 2
+            },
+            {
+              "id": "conventions",
+              "title": "Conventions",
+              "level": 2
+            },
+            {
+              "id": "viewing-filtering-workflows",
+              "title": "Viewing & Filtering Workflows",
+              "level": 2
+            },
+            {
+              "id": "1-file-logs-librarylogsopenclipopencliplog",
+              "title": "1. File Logs (~/Library/Logs/OpenClip/openclip.log)",
+              "level": 3
+            },
+            {
+              "id": "2-apple-unified-logging-log-stream-log-show-consoleapp",
+              "title": "2. Apple Unified Logging (log stream / log show / Console.app)",
+              "level": 3
+            },
+            {
+              "id": "3-dump-logs-cli-tool",
+              "title": "3. --dump-logs CLI Tool",
+              "level": 3
+            },
+            {
+              "id": "selection-log-noise-and-correlation",
+              "title": "Selection log noise and correlation",
+              "level": 3
+            },
+            {
+              "id": "fullscreen-selection-popup-diagnostics",
+              "title": "Fullscreen selection / popup diagnostics",
+              "level": 3
+            }
+          ]
+        },
+        {
+          "id": "directory-structure",
+          "slug": "directory-structure",
+          "title": "Source Directory Structure",
+          "category": "Architecture & Internals",
+          "categorySlug": "architecture",
+          "description": "Detailed map of all Core and OpenClip source files, components, and responsibilities.",
+          "order": 7,
+          "sourcePath": "docs/architecture/directory-structure.md",
+          "headings": []
+        },
+        {
+          "id": "known-debt",
+          "slug": "known-debt",
+          "title": "Architecture Status & Debt",
+          "category": "Architecture & Internals",
+          "categorySlug": "architecture",
+          "description": "Verified current state, completed refactors, and tracked architectural improvements.",
+          "order": 8,
+          "sourcePath": "docs/architecture/known-debt.md",
+          "headings": [
+            {
+              "id": "extension-automatic-updates",
+              "title": "Extension Automatic Updates",
+              "level": 2
+            },
+            {
+              "id": "ai-action-prompting",
+              "title": "AI Action Prompting",
+              "level": 2
+            },
+            {
+              "id": "manual-update-window-activation",
+              "title": "Manual Update Window Activation",
+              "level": 2
+            },
+            {
+              "id": "preferences-search",
+              "title": "Preferences Search",
+              "level": 2
+            },
+            {
+              "id": "settings-migration-userdefaults-settingsstore",
+              "title": "Settings Migration (UserDefaults → SettingsStore)",
+              "level": 2
+            },
+            {
+              "id": "action-seams-already-implemented",
+              "title": "Action Seams Already Implemented",
+              "level": 2
+            },
+            {
+              "id": "extension-js-module-runtime",
+              "title": "Extension JS Module Runtime",
+              "level": 2
+            },
+            {
+              "id": "presentation-rule-holes",
+              "title": "Presentation / Rule Holes",
+              "level": 2
+            },
+            {
+              "id": "action-search-palette-popup-growth",
+              "title": "Action-Search Palette & Popup Growth",
+              "level": 2
+            },
+            {
+              "id": "ai-providers",
+              "title": "AI Providers",
+              "level": 2
+            },
+            {
+              "id": "screen-text-capture",
+              "title": "Screen text capture",
+              "level": 2
+            },
+            {
+              "id": "unused-latent",
+              "title": "Unused / Latent",
+              "level": 2
+            },
+            {
+              "id": "concurrency",
+              "title": "Concurrency",
+              "level": 2
+            },
+            {
+              "id": "selection-retrieval",
+              "title": "Selection Retrieval",
+              "level": 2
+            },
+            {
+              "id": "test-isolation",
+              "title": "Test Isolation",
+              "level": 2
+            },
+            {
+              "id": "logging",
+              "title": "Logging",
+              "level": 2
+            },
+            {
+              "id": "actions-per-page-148",
+              "title": "Actions per page (#148)",
+              "level": 2
+            },
+            {
+              "id": "native-content-requirements-190-source",
+              "title": "Native content requirements (1.9.0 source)",
+              "level": 2
+            },
+            {
+              "id": "url-opening",
+              "title": "URL opening",
+              "level": 2
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "allDocs": [
+    {
+      "id": "getting-started",
+      "slug": "getting-started",
+      "title": "Installation & Onboarding",
+      "category": "User Guide",
+      "categorySlug": "user-guide",
+      "description": "System requirements, installation steps, Accessibility permissions, and first-launch flow.",
+      "order": 1,
+      "sourcePath": "docs/user-guide/installation.md",
+      "headings": [
+        {
+          "id": "system-requirements",
+          "title": "System Requirements",
+          "level": 2
+        },
+        {
+          "id": "installation-steps",
+          "title": "Installation Steps",
+          "level": 2
+        },
+        {
+          "id": "granting-accessibility-permissions",
+          "title": "Granting Accessibility Permissions",
+          "level": 2
+        },
+        {
+          "id": "first-launch-onboarding-workflow",
+          "title": "First-Launch Onboarding Workflow",
+          "level": 2
+        }
+      ]
+    },
+    {
+      "id": "preferences",
+      "slug": "preferences",
+      "title": "Preferences & Customization",
+      "category": "User Guide",
+      "categorySlug": "user-guide",
+      "description": "Action ordering, custom titles and icons, popup theme styling, and AI provider setup.",
+      "order": 2,
+      "sourcePath": "docs/user-guide/preferences.md",
+      "headings": [
+        {
+          "id": "opening-preferences",
+          "title": "Opening Preferences",
+          "level": 2
+        },
+        {
+          "id": "general",
+          "title": "General",
+          "level": 2
+        },
+        {
+          "id": "finding-your-way-around",
+          "title": "Finding your way around",
+          "level": 2
+        },
+        {
+          "id": "customize-the-popup-bars-layout",
+          "title": "Customize: the popup bar's layout",
+          "level": 2
+        },
+        {
+          "id": "how-action-ordering-works",
+          "title": "How Action Ordering Works",
+          "level": 3
+        },
+        {
+          "id": "shortcuts",
+          "title": "Shortcuts",
+          "level": 2
+        },
+        {
+          "id": "built-in-actions",
+          "title": "Built-in actions",
+          "level": 2
+        },
+        {
+          "id": "custom-actions",
+          "title": "Custom Actions",
+          "level": 2
+        },
+        {
+          "id": "store",
+          "title": "Store",
+          "level": 2
+        },
+        {
+          "id": "extensions",
+          "title": "Extensions",
+          "level": 2
+        },
+        {
+          "id": "customizing-action-titles-icons",
+          "title": "Customizing Action Titles & Icons",
+          "level": 2
+        },
+        {
+          "id": "display-overrides-via-actioncustomizationmanager",
+          "title": "Display Overrides via ActionCustomizationManager",
+          "level": 3
+        },
+        {
+          "id": "action-result-delivery-click-behavior",
+          "title": "Action Result Delivery & Click Behavior",
+          "level": 3
+        },
+        {
+          "id": "popup-appearance-theme",
+          "title": "Popup Appearance & Theme",
+          "level": 2
+        },
+        {
+          "id": "popup-theme",
+          "title": "Popup Theme",
+          "level": 3
+        },
+        {
+          "id": "ai-provider-setup",
+          "title": "AI Provider Setup",
+          "level": 2
+        },
+        {
+          "id": "system-prompt",
+          "title": "System prompt",
+          "level": 3
+        },
+        {
+          "id": "ask-ai-from-the-search-palette",
+          "title": "Ask AI from the search palette",
+          "level": 3
+        },
+        {
+          "id": "refine-an-answer-in-the-result-card",
+          "title": "Refine an answer in the result card",
+          "level": 3
+        },
+        {
+          "id": "ai-settings-channel",
+          "title": "AI Settings Channel",
+          "level": 3
+        },
+        {
+          "id": "actions-per-page",
+          "title": "Actions per page",
+          "level": 2
+        }
+      ]
+    },
+    {
+      "id": "app-rules",
+      "slug": "app-rules",
+      "title": "Application-Specific Policy Rules",
+      "category": "User Guide",
+      "categorySlug": "user-guide",
+      "description": "Configure per-app retrieval modes, hotkey-only triggers, deny-paste downgrades, and pre-retrieval gates.",
+      "order": 3,
+      "sourcePath": "docs/user-guide/app-rules.md",
+      "headings": [
+        {
+          "id": "json-configuration-format-rulesjson",
+          "title": "JSON Configuration Format (rules.json)",
+          "level": 2
+        },
+        {
+          "id": "policy-properties-reference",
+          "title": "Policy Properties Reference",
+          "level": 2
+        },
+        {
+          "id": "retrieval-mode-values",
+          "title": "retrieval-mode values",
+          "level": 3
+        },
+        {
+          "id": "identifier-matching-shortcuts",
+          "title": "Identifier Matching & Shortcuts",
+          "level": 2
+        },
+        {
+          "id": "bundle-ids",
+          "title": "Bundle IDs",
+          "level": 3
+        },
+        {
+          "id": "wildcard-pattern-matching",
+          "title": "Wildcard Pattern Matching",
+          "level": 3
+        },
+        {
+          "id": "builtin-group-expansion-aliases",
+          "title": "Builtin Group Expansion Aliases",
+          "level": 3
+        },
+        {
+          "id": "rule-evaluation-mechanics",
+          "title": "Rule Evaluation Mechanics",
+          "level": 2
+        }
+      ]
+    },
+    {
+      "id": "managing-extensions",
+      "slug": "managing-extensions",
+      "title": "Managing Extensions & Store",
+      "category": "User Guide",
+      "categorySlug": "user-guide",
+      "description": "Extension store browser, remote one-click installation, and GUI custom action creation.",
+      "order": 4,
+      "sourcePath": "docs/user-guide/managing-extensions.md",
+      "headings": [
+        {
+          "id": "extension-store-remote-installation",
+          "title": "Extension Store & Remote Installation",
+          "level": 2
+        },
+        {
+          "id": "how-remote-installation-works",
+          "title": "How Remote Installation Works",
+          "level": 3
+        },
+        {
+          "id": "manual-installation-of-extensions-scripts",
+          "title": "Manual Installation of Extensions & Scripts",
+          "level": 2
+        },
+        {
+          "id": "installation-file-types",
+          "title": "Installation File Types",
+          "level": 3
+        },
+        {
+          "id": "creating-custom-actions-in-gui",
+          "title": "Creating Custom Actions in GUI",
+          "level": 2
+        },
+        {
+          "id": "storage-persistence",
+          "title": "Storage & Persistence",
+          "level": 3
+        }
+      ]
+    },
+    {
+      "id": "extension-overview",
+      "slug": "extension-overview",
+      "title": "Extending OpenClip Overview",
+      "category": "Extension Authoring",
+      "categorySlug": "extension-authoring",
+      "description": "High-level orientation for building custom actions, standalone snippets, and .openclipext packages.",
+      "order": 1,
+      "sourcePath": "docs/developer-guide/overview.md",
+      "headings": [
+        {
+          "id": "extension-capabilities",
+          "title": "Extension Capabilities",
+          "level": 2
+        },
+        {
+          "id": "action-types-at-a-glance",
+          "title": "Action Types at a Glance",
+          "level": 2
+        },
+        {
+          "id": "extension-directory-locations",
+          "title": "Extension Directory Locations",
+          "level": 2
+        },
+        {
+          "id": "architectural-integration-seam",
+          "title": "Architectural Integration Seam",
+          "level": 2
+        }
+      ]
+    },
+    {
+      "id": "manifest-spec",
+      "slug": "manifest-spec",
+      "title": "Extension Manifest Specification",
+      "category": "Extension Authoring",
+      "categorySlug": "extension-authoring",
+      "description": "Authoritative schema and reference for openclip.json: all action kinds, options, requirements, and effects.",
+      "order": 2,
+      "sourcePath": "docs/developer-guide/AGENTS.md",
+      "headings": [
+        {
+          "id": "1-what-an-extension-is",
+          "title": "1. What an extension is",
+          "level": 2
+        },
+        {
+          "id": "1b-extension-documentation-readmemd-for-web-store",
+          "title": "1b. Extension documentation (README.md for Web Store)",
+          "level": 3
+        },
+        {
+          "id": "2-manifest-structure",
+          "title": "2. Manifest structure",
+          "level": 2
+        },
+        {
+          "id": "3-action-kinds-type",
+          "title": "3. Action kinds (type)",
+          "level": 2
+        },
+        {
+          "id": "3a-url",
+          "title": "3a. url",
+          "level": 3
+        },
+        {
+          "id": "3b-javascript-inline-or-file",
+          "title": "3b. javascript (inline or file)",
+          "level": 3
+        },
+        {
+          "id": "3c-applescript-inline-or-file",
+          "title": "3c. applescript (inline or file)",
+          "level": 3
+        },
+        {
+          "id": "3d-shell-inline-or-file",
+          "title": "3d. shell (inline or file)",
+          "level": 3
+        },
+        {
+          "id": "3e-textsnippet",
+          "title": "3e. textsnippet",
+          "level": 3
+        },
+        {
+          "id": "3f-keypress",
+          "title": "3f. keypress",
+          "level": 3
+        },
+        {
+          "id": "3g-shortcut",
+          "title": "3g. shortcut",
+          "level": 3
+        },
+        {
+          "id": "3h-service",
+          "title": "3h. service",
+          "level": 3
+        },
+        {
+          "id": "3i-group",
+          "title": "3i. group",
+          "level": 3
+        },
+        {
+          "id": "3j-sub-menu-relevance-menurelevance",
+          "title": "3j. Sub-menu relevance (menuRelevance)",
+          "level": 3
+        },
+        {
+          "id": "4-options-requirements",
+          "title": "4. Options & requirements",
+          "level": 2
+        },
+        {
+          "id": "4a-option-metadata-extensionoptionmetadata",
+          "title": "4a. Option metadata (ExtensionOptionMetadata)",
+          "level": 3
+        },
+        {
+          "id": "4b-secret-vs-non-secret-storage",
+          "title": "4b. Secret vs non-secret storage",
+          "level": 3
+        },
+        {
+          "id": "4c-requirements-actionrequirements",
+          "title": "4c. requirements (ActionRequirements)",
+          "level": 3
+        },
+        {
+          "id": "5-visibility-rules-when-an-action-is-shown",
+          "title": "5. Visibility rules (when an action is shown)",
+          "level": 2
+        },
+        {
+          "id": "5b-primarysecondary-result-delivery-output-result-secondary-toast-secondarytoast",
+          "title": "5b. Primary/secondary result delivery (output, result, secondary, toast, secondaryToast)",
+          "level": 3
+        },
+        {
+          "id": "5c-js-imperative-secondary-via-openclipinputissecondaryclick",
+          "title": "5c. JS: imperative secondary via openclip.input.isSecondaryClick",
+          "level": 3
+        },
+        {
+          "id": "5d-loading-slow-actions",
+          "title": "5d. loading (slow actions)",
+          "level": 3
+        },
+        {
+          "id": "6-data-made-available-to-actions",
+          "title": "6. Data made available to actions",
+          "level": 2
+        },
+        {
+          "id": "6a-input-context",
+          "title": "6a. Input context",
+          "level": 3
+        },
+        {
+          "id": "6b-placeholders-textplaceholderengine",
+          "title": "6b. Placeholders (TextPlaceholderEngine)",
+          "level": 3
+        },
+        {
+          "id": "6c-env-vars-shellscript-file-actions",
+          "title": "6c. Env vars (shell/script-file actions)",
+          "level": 3
+        },
+        {
+          "id": "7-the-javascript-openclip-bridge-openclipjshost",
+          "title": "7. The JavaScript openclip.* bridge (OpenClipJSHost)",
+          "level": 2
+        },
+        {
+          "id": "7b-multi-language-localization-i18n",
+          "title": "7b. Multi-language & Localization (i18n)",
+          "level": 2
+        },
+        {
+          "id": "localized-manifest-fields",
+          "title": "Localized Manifest Fields",
+          "level": 3
+        },
+        {
+          "id": "manifest-localization-styles",
+          "title": "Manifest Localization Styles",
+          "level": 3
+        },
+        {
+          "id": "resolution-order-fallback",
+          "title": "Resolution Order & Fallback",
+          "level": 3
+        },
+        {
+          "id": "runtime-localization-older-app-compatibility",
+          "title": "Runtime Localization & Older App Compatibility",
+          "level": 3
+        },
+        {
+          "id": "pasteboard-api-minimum-version-130",
+          "title": "Pasteboard API & Minimum Version (\"1.3.0\")",
+          "level": 3
+        },
+        {
+          "id": "native-file-output-minimum-version-170",
+          "title": "Native File Output & Minimum Version (\"1.7.0\")",
+          "level": 3
+        },
+        {
+          "id": "8-the-actionresult-surface-json-effect-shapes",
+          "title": "8. The ActionResult surface & JSON effect shapes",
+          "level": 2
+        },
+        {
+          "id": "8a-shellscript-json-protocol-shellresultmapper",
+          "title": "8a. Shell/script JSON protocol (ShellResultMapper)",
+          "level": 3
+        },
+        {
+          "id": "9-complete-worked-examples",
+          "title": "9. Complete worked examples",
+          "level": 2
+        },
+        {
+          "id": "9a-minimal-url-extension",
+          "title": "9a. Minimal url extension",
+          "level": 3
+        },
+        {
+          "id": "9b-group-options-js-example",
+          "title": "9b. Group + options + JS example",
+          "level": 3
+        },
+        {
+          "id": "9c-secret-option-shell-json-effect",
+          "title": "9c. Secret option + shell JSON effect",
+          "level": 3
+        },
+        {
+          "id": "10-develop-iterate-test-workflow",
+          "title": "10. Develop / iterate / test workflow",
+          "level": 2
+        },
+        {
+          "id": "common-failure-modes",
+          "title": "Common failure modes",
+          "level": 3
+        },
+        {
+          "id": "11-trust-consent-lifecycle",
+          "title": "11. Trust & consent lifecycle",
+          "level": 2
+        },
+        {
+          "id": "12-do-not",
+          "title": "12. Do NOT",
+          "level": 2
+        },
+        {
+          "id": "13-source-of-truth-recap-for-confident-auditing",
+          "title": "13. Source of truth recap (for confident auditing)",
+          "level": 2
+        }
+      ]
+    },
+    {
+      "id": "package-format",
+      "slug": "package-format",
+      "title": "Package Format & Directory Schema",
+      "category": "Extension Authoring",
+      "categorySlug": "extension-authoring",
+      "description": "Structure of .openclipext packages, asset naming, options schema, and SecretStore integration.",
+      "order": 3,
+      "sourcePath": "docs/developer-guide/package-format.md",
+      "headings": [
+        {
+          "id": "package-directory-structure",
+          "title": "Package Directory Structure",
+          "level": 2
+        },
+        {
+          "id": "installation",
+          "title": "Installation",
+          "level": 2
+        },
+        {
+          "id": "manifest-json-schema-extensionmetadata",
+          "title": "Manifest JSON Schema (ExtensionMetadata)",
+          "level": 2
+        },
+        {
+          "id": "complete-example-manifestjson",
+          "title": "Complete Example manifest.json",
+          "level": 3
+        },
+        {
+          "id": "manifest-fields-reference",
+          "title": "Manifest Fields Reference",
+          "level": 2
+        },
+        {
+          "id": "top-level-metadata-extensionmetadata",
+          "title": "Top-Level Metadata (ExtensionMetadata)",
+          "level": 3
+        },
+        {
+          "id": "action-object-extensionactionmetadata",
+          "title": "Action Object (ExtensionActionMetadata)",
+          "level": 3
+        },
+        {
+          "id": "extension-output-contract-delivery-resolution",
+          "title": "Extension Output Contract & Delivery Resolution",
+          "level": 3
+        },
+        {
+          "id": "native-file-output-results",
+          "title": "Native File Output Results",
+          "level": 3
+        },
+        {
+          "id": "type-canvas-removed",
+          "title": "type: \"canvas\" (removed)",
+          "level": 3
+        },
+        {
+          "id": "options-schema-extensionoptionmetadata",
+          "title": "Options Schema (ExtensionOptionMetadata)",
+          "level": 2
+        },
+        {
+          "id": "option-storage-retrieval",
+          "title": "Option Storage & Retrieval",
+          "level": 3
+        }
+      ]
+    },
+    {
+      "id": "snippets",
+      "slug": "snippets",
+      "title": "Standalone Script Snippets",
+      "category": "Extension Authoring",
+      "categorySlug": "extension-authoring",
+      "description": "Single-file script actions with header comment metadata for Python, Shell, JavaScript, and AppleScript.",
+      "order": 4,
+      "sourcePath": "docs/developer-guide/snippets.md",
+      "headings": [
+        {
+          "id": "parser-architecture-design-constraints",
+          "title": "Parser Architecture & Design Constraints",
+          "level": 2
+        },
+        {
+          "id": "header-syntax-format",
+          "title": "Header Syntax & Format",
+          "level": 2
+        },
+        {
+          "id": "example-1-standalone-javascript-snippet-upperjs",
+          "title": "Example 1: Standalone JavaScript Snippet (upper.js)",
+          "level": 3
+        },
+        {
+          "id": "example-2-standalone-shell-script-format-sqlsh",
+          "title": "Example 2: Standalone Shell Script (format-sql.sh)",
+          "level": 3
+        },
+        {
+          "id": "example-3-standalone-applescript-snippet-create-noteapplescript",
+          "title": "Example 3: Standalone AppleScript Snippet (create-note.applescript)",
+          "level": 3
+        },
+        {
+          "id": "example-4-standalone-url-search-snippet-search-mdnsh",
+          "title": "Example 4: Standalone URL Search Snippet (search-mdn.sh)",
+          "level": 3
+        },
+        {
+          "id": "header-keys-matrix",
+          "title": "Header Keys Matrix",
+          "level": 2
+        },
+        {
+          "id": "parsing-algorithm-details",
+          "title": "Parsing Algorithm Details",
+          "level": 2
+        }
+      ]
+    },
+    {
+      "id": "extensions-modules",
+      "slug": "extensions-modules",
+      "title": "JavaScript Modules (CommonJS & npm)",
+      "category": "Extension Authoring",
+      "categorySlug": "extension-authoring",
+      "description": "File-based JS actions with require() support, module caching, and bundling with esbuild.",
+      "order": 5,
+      "sourcePath": "docs/developer-guide/extensions-modules.md",
+      "headings": [
+        {
+          "id": "1-module-mode-local-multi-file-no-build-step",
+          "title": "1. Module mode (local multi-file, no build step)",
+          "level": 2
+        },
+        {
+          "id": "1a-entry-dispatch",
+          "title": "1a. Entry dispatch",
+          "level": 3
+        },
+        {
+          "id": "1b-resolution-caching",
+          "title": "1b. Resolution & caching",
+          "level": 3
+        },
+        {
+          "id": "1c-containment",
+          "title": "1c. Containment",
+          "level": 3
+        },
+        {
+          "id": "1d-rejected-specifiers",
+          "title": "1d. Rejected specifiers",
+          "level": 3
+        },
+        {
+          "id": "2-the-npm-typescript-path",
+          "title": "2. The npm + TypeScript path",
+          "level": 2
+        },
+        {
+          "id": "2a-build-contract",
+          "title": "2a. Build contract",
+          "level": 3
+        },
+        {
+          "id": "2b-typescript-the-bundle-path-only",
+          "title": "2b. TypeScript: the bundle path only",
+          "level": 3
+        },
+        {
+          "id": "2c-bundling-third-party-libraries",
+          "title": "2c. Bundling third-party libraries",
+          "level": 3
+        },
+        {
+          "id": "3-limitations",
+          "title": "3. Limitations",
+          "level": 2
+        },
+        {
+          "id": "4-esbuild-shims-for-browser-platform-builds",
+          "title": "4. esbuild shims for browser-platform builds",
+          "level": 2
+        },
+        {
+          "id": "5-reference",
+          "title": "5. Reference",
+          "level": 2
+        }
+      ]
+    },
+    {
+      "id": "javascript",
+      "slug": "javascript",
+      "title": "JavaScript Runtime & Bridge",
+      "category": "Runtimes & APIs",
+      "categorySlug": "runtimes",
+      "description": "Fast string manipulation, async fetch() polyfill, and the global openclip.* platform effect API.",
+      "order": 1,
+      "sourcePath": "docs/runtimes/javascript.md",
+      "headings": [
+        {
+          "id": "console-logging",
+          "title": "Console logging",
+          "level": 2
+        },
+        {
+          "id": "the-openclip-js-object",
+          "title": "The openclip JS Object",
+          "level": 2
+        },
+        {
+          "id": "options-preference-integration",
+          "title": "Options & Preference Integration",
+          "level": 2
+        },
+        {
+          "id": "secondary-click-behavior-issecondaryclick",
+          "title": "Secondary click behavior (isSecondaryClick)",
+          "level": 2
+        },
+        {
+          "id": "pasteboard-api-openclippasteboard",
+          "title": "Pasteboard API (openclip.pasteboard)",
+          "level": 2
+        },
+        {
+          "id": "async-mode-async-true",
+          "title": "Async Mode (\"async\": true)",
+          "level": 2
+        },
+        {
+          "id": "fetchurl-options",
+          "title": "fetch(url, options)",
+          "level": 3
+        },
+        {
+          "id": "execution-model-watchdog",
+          "title": "Execution model & watchdog",
+          "level": 3
+        },
+        {
+          "id": "result-resolution",
+          "title": "Result Resolution",
+          "level": 2
+        },
+        {
+          "id": "practical-examples",
+          "title": "Practical Examples",
+          "level": 2
+        },
+        {
+          "id": "prettify-json-returns-a-string-pasted",
+          "title": "Prettify JSON (returns a string → pasted)",
+          "level": 3
+        },
+        {
+          "id": "search-web-opens-a-url",
+          "title": "Search Web (opens a URL)",
+          "level": 3
+        },
+        {
+          "id": "replace-the-selection-with-uppercased-text",
+          "title": "Replace the selection with uppercased text",
+          "level": 3
+        },
+        {
+          "id": "display-file-preview-card-image-document",
+          "title": "Display File Preview Card (Image / Document)",
+          "level": 3
+        },
+        {
+          "id": "native-detected-content-190",
+          "title": "Native detected content (1.9.0)",
+          "level": 2
+        }
+      ]
+    },
+    {
+      "id": "applescript",
+      "slug": "applescript",
+      "title": "AppleScript Runtime",
+      "category": "Runtimes & APIs",
+      "categorySlug": "runtimes",
+      "description": "macOS app automation for Notes, Mail, Safari, and Finder via NSAppleScript and osascript.",
+      "order": 2,
+      "sourcePath": "docs/runtimes/applescript.md",
+      "headings": [
+        {
+          "id": "execution-architecture",
+          "title": "Execution Architecture",
+          "level": 2
+        },
+        {
+          "id": "why-a-subprocess-bounded-off-main-strategy",
+          "title": "Why a subprocess (bounded off-main strategy)",
+          "level": 3
+        },
+        {
+          "id": "example-applescript-snippets",
+          "title": "Example AppleScript Snippets",
+          "level": 2
+        },
+        {
+          "id": "example-1-create-new-note-in-macos-notes-app",
+          "title": "Example 1: Create New Note in macOS Notes App",
+          "level": 3
+        },
+        {
+          "id": "example-2-transform-selected-text-to-uppercase",
+          "title": "Example 2: Transform Selected Text to Uppercase",
+          "level": 3
+        },
+        {
+          "id": "return-values-side-effects",
+          "title": "Return Values & Side Effects",
+          "level": 2
+        }
+      ]
+    },
+    {
+      "id": "url-templates",
+      "slug": "url-templates",
+      "title": "URL Templates Engine",
+      "category": "Runtimes & APIs",
+      "categorySlug": "runtimes",
+      "description": "Web searches, documentation lookups, and deep links with percent-encoded placeholder tokens.",
+      "order": 3,
+      "sourcePath": "docs/runtimes/url-templates.md",
+      "headings": [
+        {
+          "id": "execution-mechanism",
+          "title": "Execution Mechanism",
+          "level": 2
+        },
+        {
+          "id": "supported-placeholders",
+          "title": "Supported Placeholders",
+          "level": 2
+        },
+        {
+          "id": "regex-pattern-gating-visibility-rules",
+          "title": "Regex Pattern Gating & Visibility Rules",
+          "level": 2
+        },
+        {
+          "id": "common-regex-examples",
+          "title": "Common Regex Examples",
+          "level": 3
+        },
+        {
+          "id": "practical-examples",
+          "title": "Practical Examples",
+          "level": 2
+        }
+      ]
+    },
+    {
+      "id": "zsh-python",
+      "slug": "zsh-python",
+      "title": "Shell & Python Scripts",
+      "category": "Runtimes & APIs",
+      "categorySlug": "runtimes",
+      "description": "Subprocess execution with 30-second watchdog, environment variable inputs, and structured JSON outputs.",
+      "order": 4,
+      "sourcePath": "docs/runtimes/zsh-python.md",
+      "headings": [
+        {
+          "id": "process-execution-lifecycle",
+          "title": "Process Execution Lifecycle",
+          "level": 2
+        },
+        {
+          "id": "environment-variables-matrix",
+          "title": "Environment Variables Matrix",
+          "level": 2
+        },
+        {
+          "id": "output-processing-json-vs-plain-text",
+          "title": "Output Processing: JSON vs Plain Text",
+          "level": 2
+        },
+        {
+          "id": "mode-1-structured-json-output-scriptjsonoutput",
+          "title": "Mode 1: Structured JSON Output (ScriptJSONOutput)",
+          "level": 3
+        },
+        {
+          "id": "mode-2-plain-text-output-fallback",
+          "title": "Mode 2: Plain Text Output Fallback",
+          "level": 3
+        },
+        {
+          "id": "practical-examples",
+          "title": "Practical Examples",
+          "level": 2
+        },
+        {
+          "id": "python-script-generating-a-file-generate_chartpy",
+          "title": "Python Script Generating a File (generate_chart.py)",
+          "level": 3
+        },
+        {
+          "id": "python-script-example-clean_markdownpy",
+          "title": "Python Script Example (clean_markdown.py)",
+          "level": 3
+        },
+        {
+          "id": "zsh-shell-script-example-uppercasesh",
+          "title": "Zsh Shell Script Example (uppercase.sh)",
+          "level": 3
+        }
+      ]
+    },
+    {
+      "id": "integration-api",
+      "slug": "integration-api",
+      "title": "Integration & Automation API",
+      "category": "Runtimes & APIs",
+      "categorySlug": "runtimes",
+      "description": "The inbound openclip:// contract: routes, curated settings, callbacks, and what is not yet exposed.",
+      "order": 5,
+      "sourcePath": "docs/developer-guide/integration-api.md",
+      "headings": [
+        {
+          "id": "availability",
+          "title": "Availability",
+          "level": 2
+        },
+        {
+          "id": "routes",
+          "title": "Routes",
+          "level": 2
+        },
+        {
+          "id": "openclipinstall",
+          "title": "openclip://install",
+          "level": 3
+        },
+        {
+          "id": "openclipcommandname-commands",
+          "title": "openclip://command/<name> (commands)",
+          "level": 3
+        },
+        {
+          "id": "why-there-is-no-settings-route",
+          "title": "Why there is no settings route",
+          "level": 2
+        },
+        {
+          "id": "not-available-yet",
+          "title": "Not available yet",
+          "level": 2
+        },
+        {
+          "id": "implementation-map",
+          "title": "Implementation map",
+          "level": 2
+        }
+      ]
+    },
+    {
+      "id": "architecture-overview",
+      "slug": "architecture-overview",
+      "title": "Architecture Overview & Boundaries",
+      "category": "Architecture & Internals",
+      "categorySlug": "architecture",
+      "description": "Target split between pure Core domain framework and OpenClip macOS platform integration.",
+      "order": 1,
+      "sourcePath": "docs/architecture/overview.md",
+      "headings": [
+        {
+          "id": "target-split",
+          "title": "Target Split",
+          "level": 2
+        },
+        {
+          "id": "core-target-constraints",
+          "title": "Core Target Constraints",
+          "level": 3
+        },
+        {
+          "id": "core-architectural-subsystems",
+          "title": "Core Architectural Subsystems",
+          "level": 2
+        },
+        {
+          "id": "1-settings-subsystem-settingsstore",
+          "title": "1. Settings Subsystem — SettingsStore",
+          "level": 3
+        },
+        {
+          "id": "2-action-presentation-actioncustomizationmanager",
+          "title": "2. Action Presentation — ActionCustomizationManager",
+          "level": 3
+        },
+        {
+          "id": "3-action-chrome-policy-actionchrome",
+          "title": "3. Action Chrome Policy — ActionChrome",
+          "level": 3
+        },
+        {
+          "id": "4-action-factory-defaultactionfactory",
+          "title": "4. Action Factory — DefaultActionFactory",
+          "level": 3
+        },
+        {
+          "id": "5-action-result-handler-actionresulthandler",
+          "title": "5. Action Result Handler — ActionResultHandler",
+          "level": 3
+        },
+        {
+          "id": "6-action-coordinator-composition-actioncoordinator",
+          "title": "6. Action Coordinator & Composition — ActionCoordinator",
+          "level": 3
+        },
+        {
+          "id": "key-design-guidelines",
+          "title": "Key Design Guidelines",
+          "level": 2
+        }
+      ]
+    },
+    {
+      "id": "action-coordinator",
+      "slug": "action-coordinator",
+      "title": "Action Coordinator & Composition",
+      "category": "Architecture & Internals",
+      "categorySlug": "architecture",
+      "description": "The composition root orchestrating extension loaders, builtins, and the central action registry.",
+      "order": 2,
+      "sourcePath": "docs/architecture/action-coordinator.md",
+      "headings": [
+        {
+          "id": "architectural-responsibilities",
+          "title": "Architectural Responsibilities",
+          "level": 2
+        },
+        {
+          "id": "action-registration-mechanics",
+          "title": "Action Registration Mechanics",
+          "level": 2
+        },
+        {
+          "id": "initial-loading-lifecycle",
+          "title": "Initial Loading Lifecycle",
+          "level": 3
+        },
+        {
+          "id": "registration-unregistration",
+          "title": "Registration & Unregistration",
+          "level": 3
+        },
+        {
+          "id": "action-registry-ordering-policy",
+          "title": "Action Registry & Ordering Policy",
+          "level": 2
+        },
+        {
+          "id": "dynamic-ordering-math-custom-groups",
+          "title": "Dynamic Ordering Math & Custom Groups",
+          "level": 3
+        },
+        {
+          "id": "custom-action-groups-lifecycle",
+          "title": "Custom Action Groups & Lifecycle",
+          "level": 2
+        },
+        {
+          "id": "core-domain-models",
+          "title": "Core Domain Models",
+          "level": 3
+        },
+        {
+          "id": "group-membership-rules",
+          "title": "Group Membership Rules",
+          "level": 3
+        },
+        {
+          "id": "action-availability-context-resolution",
+          "title": "Action Availability & Context Resolution",
+          "level": 2
+        },
+        {
+          "id": "filtering-pipeline",
+          "title": "Filtering Pipeline",
+          "level": 3
+        }
+      ]
+    },
+    {
+      "id": "popup-window",
+      "slug": "popup-window",
+      "title": "Popup Window & Presentation",
+      "category": "Architecture & Internals",
+      "categorySlug": "architecture",
+      "description": "Floating panel lifecycle, screen clamping math, mode transitions, and status toasts.",
+      "order": 3,
+      "sourcePath": "docs/architecture/popup-window.md",
+      "headings": [
+        {
+          "id": "window-components",
+          "title": "Window Components",
+          "level": 2
+        },
+        {
+          "id": "1-popuppanel",
+          "title": "1. PopupPanel",
+          "level": 3
+        },
+        {
+          "id": "2-popupwindowcontroller",
+          "title": "2. PopupWindowController",
+          "level": 3
+        },
+        {
+          "id": "hover-tracking-preview-isolation",
+          "title": "Hover Tracking & Preview Isolation",
+          "level": 2
+        },
+        {
+          "id": "positioning-math-popuppositioner",
+          "title": "Positioning Math: PopupPositioner",
+          "level": 2
+        },
+        {
+          "id": "calculation-rules",
+          "title": "Calculation Rules",
+          "level": 3
+        },
+        {
+          "id": "content-mode-native-result-cards-ai-file-outputs",
+          "title": "Content Mode: Native Result Cards (AI & File Outputs)",
+          "level": 2
+        },
+        {
+          "id": "content-mode-ai-text-results",
+          "title": "Content Mode (AI & Text Results)",
+          "level": 3
+        },
+        {
+          "id": "file-output-results",
+          "title": "File Output Results",
+          "level": 3
+        },
+        {
+          "id": "text-and-diff-results",
+          "title": "Text and Diff Results",
+          "level": 3
+        },
+        {
+          "id": "action-search-palette-panel-growth",
+          "title": "Action-Search Palette & Panel Growth",
+          "level": 2
+        },
+        {
+          "id": "search-mode",
+          "title": "Search Mode",
+          "level": 3
+        },
+        {
+          "id": "scoped-sub-action-palette",
+          "title": "Scoped Sub-Action Palette",
+          "level": 3
+        },
+        {
+          "id": "key-mode-exceptions",
+          "title": "Key-Mode Exceptions",
+          "level": 3
+        },
+        {
+          "id": "panel-growth-anchoring-content-driven-resize",
+          "title": "Panel-Growth Anchoring (content-driven resize)",
+          "level": 3
+        }
+      ]
+    },
+    {
+      "id": "text-selection",
+      "slug": "text-selection",
+      "title": "Text Selection & Strategy Chain",
+      "category": "Architecture & Internals",
+      "categorySlug": "architecture",
+      "description": "Multi-strategy selection extraction using Accessibility APIs, WebKit markers, and AppleScript.",
+      "order": 4,
+      "sourcePath": "docs/architecture/text-selection.md",
+      "headings": [
+        {
+          "id": "selection-detection-architecture",
+          "title": "Selection Detection Architecture",
+          "level": 2
+        },
+        {
+          "id": "retrieval-resolver-gate-and-strategies",
+          "title": "Retrieval: Resolver, Gate, and Strategies",
+          "level": 2
+        },
+        {
+          "id": "retrieval-modes",
+          "title": "Retrieval modes",
+          "level": 3
+        },
+        {
+          "id": "the-copy-engine-and-transient-markers",
+          "title": "The copy engine and transient markers",
+          "level": 3
+        },
+        {
+          "id": "per-app-routing-default-catalog",
+          "title": "Per-app routing (default catalog)",
+          "level": 3
+        },
+        {
+          "id": "shortcut-clipboard-fallback-synchronous-resolution",
+          "title": "Shortcut Clipboard Fallback & Synchronous Resolution",
+          "level": 2
+        },
+        {
+          "id": "privacy-non-destructive-guarantees",
+          "title": "Privacy & Non-Destructive Guarantees",
+          "level": 2
+        },
+        {
+          "id": "inline-action-match-context",
+          "title": "Inline Action Match Context",
+          "level": 2
+        }
+      ]
+    },
+    {
+      "id": "extensions-architecture",
+      "slug": "extensions-architecture",
+      "title": "Extension Trust Model & Tiers",
+      "category": "Architecture & Internals",
+      "categorySlug": "architecture",
+      "description": "Security boundaries, manifest validation passes, capability gates, and runtime privilege tiers.",
+      "order": 5,
+      "sourcePath": "docs/architecture/extensions.md",
+      "headings": [
+        {
+          "id": "1-what-an-extension-is",
+          "title": "1. What an extension is",
+          "level": 2
+        },
+        {
+          "id": "2-trust-model",
+          "title": "2. Trust model",
+          "level": 2
+        },
+        {
+          "id": "3-manifest-validation-pass",
+          "title": "3. Manifest validation pass",
+          "level": 2
+        },
+        {
+          "id": "4-capability-gating-mechanism",
+          "title": "4. Capability gating (mechanism)",
+          "level": 2
+        },
+        {
+          "id": "5-runtime-privilege-tiers",
+          "title": "5. Runtime privilege tiers",
+          "level": 2
+        },
+        {
+          "id": "6-failure-surfacing",
+          "title": "6. Failure surfacing",
+          "level": 2
+        },
+        {
+          "id": "7-hot-reload",
+          "title": "7. Hot reload",
+          "level": 2
+        }
+      ]
+    },
+    {
+      "id": "logging",
+      "slug": "logging",
+      "title": "Dual-Sink Logging Architecture",
+      "category": "Architecture & Internals",
+      "categorySlug": "architecture",
+      "description": "High-performance in-memory ring buffer, Apple os.Logger, rotating log file appender, and CLI dump.",
+      "order": 6,
+      "sourcePath": "docs/logging.md",
+      "headings": [
+        {
+          "id": "architecture-overview",
+          "title": "Architecture Overview",
+          "level": 2
+        },
+        {
+          "id": "core-protocol-types",
+          "title": "Core Protocol & Types",
+          "level": 2
+        },
+        {
+          "id": "the-log-enum-categories",
+          "title": "The Log Enum & Categories",
+          "level": 2
+        },
+        {
+          "id": "conventions",
+          "title": "Conventions",
+          "level": 2
+        },
+        {
+          "id": "viewing-filtering-workflows",
+          "title": "Viewing & Filtering Workflows",
+          "level": 2
+        },
+        {
+          "id": "1-file-logs-librarylogsopenclipopencliplog",
+          "title": "1. File Logs (~/Library/Logs/OpenClip/openclip.log)",
+          "level": 3
+        },
+        {
+          "id": "2-apple-unified-logging-log-stream-log-show-consoleapp",
+          "title": "2. Apple Unified Logging (log stream / log show / Console.app)",
+          "level": 3
+        },
+        {
+          "id": "3-dump-logs-cli-tool",
+          "title": "3. --dump-logs CLI Tool",
+          "level": 3
+        },
+        {
+          "id": "selection-log-noise-and-correlation",
+          "title": "Selection log noise and correlation",
+          "level": 3
+        },
+        {
+          "id": "fullscreen-selection-popup-diagnostics",
+          "title": "Fullscreen selection / popup diagnostics",
+          "level": 3
+        }
+      ]
+    },
+    {
+      "id": "directory-structure",
+      "slug": "directory-structure",
+      "title": "Source Directory Structure",
+      "category": "Architecture & Internals",
+      "categorySlug": "architecture",
+      "description": "Detailed map of all Core and OpenClip source files, components, and responsibilities.",
+      "order": 7,
+      "sourcePath": "docs/architecture/directory-structure.md",
+      "headings": []
+    },
+    {
+      "id": "known-debt",
+      "slug": "known-debt",
+      "title": "Architecture Status & Debt",
+      "category": "Architecture & Internals",
+      "categorySlug": "architecture",
+      "description": "Verified current state, completed refactors, and tracked architectural improvements.",
+      "order": 8,
+      "sourcePath": "docs/architecture/known-debt.md",
+      "headings": [
+        {
+          "id": "extension-automatic-updates",
+          "title": "Extension Automatic Updates",
+          "level": 2
+        },
+        {
+          "id": "ai-action-prompting",
+          "title": "AI Action Prompting",
+          "level": 2
+        },
+        {
+          "id": "manual-update-window-activation",
+          "title": "Manual Update Window Activation",
+          "level": 2
+        },
+        {
+          "id": "preferences-search",
+          "title": "Preferences Search",
+          "level": 2
+        },
+        {
+          "id": "settings-migration-userdefaults-settingsstore",
+          "title": "Settings Migration (UserDefaults → SettingsStore)",
+          "level": 2
+        },
+        {
+          "id": "action-seams-already-implemented",
+          "title": "Action Seams Already Implemented",
+          "level": 2
+        },
+        {
+          "id": "extension-js-module-runtime",
+          "title": "Extension JS Module Runtime",
+          "level": 2
+        },
+        {
+          "id": "presentation-rule-holes",
+          "title": "Presentation / Rule Holes",
+          "level": 2
+        },
+        {
+          "id": "action-search-palette-popup-growth",
+          "title": "Action-Search Palette & Popup Growth",
+          "level": 2
+        },
+        {
+          "id": "ai-providers",
+          "title": "AI Providers",
+          "level": 2
+        },
+        {
+          "id": "screen-text-capture",
+          "title": "Screen text capture",
+          "level": 2
+        },
+        {
+          "id": "unused-latent",
+          "title": "Unused / Latent",
+          "level": 2
+        },
+        {
+          "id": "concurrency",
+          "title": "Concurrency",
+          "level": 2
+        },
+        {
+          "id": "selection-retrieval",
+          "title": "Selection Retrieval",
+          "level": 2
+        },
+        {
+          "id": "test-isolation",
+          "title": "Test Isolation",
+          "level": 2
+        },
+        {
+          "id": "logging",
+          "title": "Logging",
+          "level": 2
+        },
+        {
+          "id": "actions-per-page-148",
+          "title": "Actions per page (#148)",
+          "level": 2
+        },
+        {
+          "id": "native-content-requirements-190-source",
+          "title": "Native content requirements (1.9.0 source)",
+          "level": 2
+        },
+        {
+          "id": "url-opening",
+          "title": "URL opening",
+          "level": 2
+        }
+      ]
+    }
+  ]
+}

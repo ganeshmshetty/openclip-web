@@ -1,0 +1,209 @@
+.frame {
+  width: 100%;
+  max-width: 40rem;
+  margin-inline: auto;
+}
+
+@media (min-width: 1024px) {
+  .frame { max-width: min(60vw, 64rem); }
+}
+
+.card {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid var(--border-subtle);
+  border-radius: 20px;
+  background: var(--bg-surface);
+  box-shadow: var(--shadow-sm);
+}
+
+.card .previewToggle,
+.card .topControls {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.card:hover .playButton,
+.card:hover .previewToggle,
+.card:hover .topControls,
+.card:focus-within .playButton,
+.card:focus-within .previewToggle,
+.card:focus-within .topControls {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.card .playButton {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 11px 20px;
+  border-radius: 999px;
+  color: var(--text-primary);
+  font-size: 14px;
+  font-weight: 500;
+  white-space: nowrap;
+  cursor: pointer;
+  translate: -50% -50%;
+  transition: box-shadow 180ms ease;
+}
+
+.playButton:hover {
+  box-shadow: var(--shadow-md);
+}
+
+.playButton:focus-visible,
+.iconButton:focus-visible,
+.slider:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+.playButton:focus-visible {
+  transform: none !important;
+}
+
+.card .previewToggle {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  border-radius: 50%;
+}
+
+.topControls {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  display: flex;
+  gap: 8px;
+  color: var(--text-primary);
+}
+
+.timeline {
+  position: absolute;
+  bottom: 4px;
+  left: 16px;
+  right: 16px;
+  opacity: 0;
+  transition: opacity 180ms ease;
+}
+
+.card:hover .timeline,
+.card:focus-within .timeline {
+  opacity: 1;
+}
+
+.iconButton {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background 150ms ease;
+}
+
+.iconButton:hover {
+  background: var(--accent-soft);
+}
+
+.slider {
+  appearance: none;
+  width: 100%;
+  min-width: 0;
+  height: 24px;
+  margin: 0;
+  background: transparent;
+  cursor: pointer;
+  border-radius: 999px;
+}
+
+.slider::-webkit-slider-runnable-track {
+  height: 3px;
+  border-radius: 999px;
+  background: linear-gradient(to right, var(--text-primary) var(--fill, 0%), var(--border-strong) var(--fill, 0%));
+}
+
+.slider::-moz-range-track {
+  height: 3px;
+  border-radius: 999px;
+  background: linear-gradient(to right, var(--text-primary) var(--fill, 0%), var(--border-strong) var(--fill, 0%));
+}
+
+.slider::-webkit-slider-thumb {
+  appearance: none;
+  width: 0;
+  height: 0;
+  margin-top: 0;
+  border-radius: 50%;
+  background: var(--text-primary);
+  box-shadow: var(--shadow-sm);
+}
+
+.slider::-moz-range-thumb {
+  width: 0;
+  height: 0;
+  border: 0;
+  border-radius: 50%;
+  background: var(--text-primary);
+  box-shadow: var(--shadow-sm);
+}
+
+@media (hover: none) {
+  .card .playButton,
+  .card .previewToggle,
+  .card .topControls,
+  .timeline { opacity: 1; pointer-events: auto; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card .playButton { transform: none !important; transition: none; }
+  .timeline { transition: none; }
+}
+
+.card .playButton {
+  background: rgba(20, 20, 26, 0.5);
+  backdrop-filter: blur(6px) saturate(140%);
+  -webkit-backdrop-filter: blur(6px) saturate(140%);
+  overflow: hidden;
+  font-weight: 500;
+  letter-spacing: -0.015em;
+  color: #fff;
+}
+
+.card .previewToggle {
+  overflow: hidden;
+  color: #fff;
+}
+
+.card .playButton[data-lens-ready="true"],
+.card .previewToggle[data-lens-ready="true"] {
+  background: transparent;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+
+.lens {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: 0;
+}
+
+.playButton[data-lens-ready="true"] .lens,
+.previewToggle[data-lens-ready="true"] .lens { opacity: 1; }
+
+.playButton > svg,
+.playButton > span,
+.previewToggle > svg {
+  position: relative;
+  z-index: 1;
+}

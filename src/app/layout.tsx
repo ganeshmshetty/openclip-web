@@ -2,7 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "./components/ThemeProvider";
-import TextSelectionPopup from "./components/TextSelectionPopup";
+import LiquidGlassDefs from "./components/LiquidGlassDefs";
 import { Analytics } from "@vercel/analytics/react";
 import { siteUrl } from "@/lib/site";
 
@@ -168,9 +168,9 @@ export default function RootLayout({
         />
       </head>
       <body className="min-h-full flex flex-col antialiased bg-[var(--bg-app)] text-[var(--text-primary)] transition-colors duration-300">
+        <LiquidGlassDefs />
         <ThemeProvider>
           {children}
-          <TextSelectionPopup />
         </ThemeProvider>
         <Analytics />
       </body>

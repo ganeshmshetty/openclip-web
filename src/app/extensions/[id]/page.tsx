@@ -1,13 +1,20 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import { getExtensionById, getCatalog, type ExtensionItem } from '@/lib/extensions';
+import { getExtensionById, getCatalog, getSyncedExtensionIds, type ExtensionItem } from '@/lib/extensions';
 import { siteUrl } from '@/lib/site';
 import ExtensionDetailContent from './ExtensionDetailContent';
 
-export const dynamic = 'force-dynamic';
+// Revalidate instead of rendering per request; see ../page.tsx.
+export const revalidate = 300;
 
 interface Props {
   params: Promise<{ id: string }>;
+}
+
+/** Prerender every extension in the build-time snapshot so crawler traffic never
+ *  triggers a cold server render. */
+export function generateStaticParams() {
+  return getSyncedExtensionIds().map((id) => ({ id }));
 }
 
 function getRelatedExtensions(current: ExtensionItem, all: ExtensionItem[]): ExtensionItem[] {

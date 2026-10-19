@@ -2,7 +2,10 @@ import type { Metadata } from 'next';
 import { getCatalog, loadFeatured } from '@/lib/extensions';
 import ExtensionsContent from './ExtensionsContent';
 
-export const dynamic = 'force-dynamic';
+// Revalidate instead of rendering per request: the catalog changes rarely, and a
+// cold dynamic render has to reach GitHub before it can emit a byte. Five minutes
+// matches the changelog; the API route stays the live source.
+export const revalidate = 300;
 
 export const metadata: Metadata = {
   title: 'The Clip Store',

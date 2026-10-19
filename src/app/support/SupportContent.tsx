@@ -3,16 +3,9 @@
 import React from 'react';
 import Link from 'next/link';
 import Navbar from '../components/Navbar';
-import {
-  Heart,
-  Star,
-  Coffee,
-  ArrowUpRight,
-  MessageSquareHeart,
-  CheckCircle2,
-} from 'lucide-react';
+import { Star, ArrowUpRight, MessageSquareHeart } from 'lucide-react';
 
-function GithubIcon({ className = 'w-5 h-5' }: { className?: string }) {
+function GithubIcon({ className = 'w-4 h-4' }: { className?: string }) {
   return (
     <svg
       className={className}
@@ -29,7 +22,7 @@ function GithubIcon({ className = 'w-5 h-5' }: { className?: string }) {
   );
 }
 
-function BuyMeACoffeeIcon({ className = 'w-5 h-5' }: { className?: string }) {
+function BuyMeACoffeeIcon({ className = 'w-4 h-4' }: { className?: string }) {
   return (
     <svg
       className={className}
@@ -42,7 +35,7 @@ function BuyMeACoffeeIcon({ className = 'w-5 h-5' }: { className?: string }) {
   );
 }
 
-function KofiIcon({ className = 'w-5 h-5' }: { className?: string }) {
+function KofiIcon({ className = 'w-4 h-4' }: { className?: string }) {
   return (
     <svg
       className={className}
@@ -55,206 +48,114 @@ function KofiIcon({ className = 'w-5 h-5' }: { className?: string }) {
   );
 }
 
-interface SponsorCardProps {
-  icon: React.ReactNode;
-  iconWrapperClass: string;
-  badge: string;
-  badgeClass: string;
-  accentClass: string;
-  title: string;
-  description: string;
-  perks: string[];
-  href: string;
-  ariaLabel: string;
-  ctaLabel: string;
-  ctaIcon: React.ReactNode;
-  ctaClass: string;
-}
+const OTHER_OPTIONS = [
+  {
+    icon: <GithubIcon />,
+    label: 'GitHub Sponsors',
+    detail: 'Monthly tiers or a one-time amount',
+    href: 'https://github.com/sponsors/ganeshmshetty',
+  },
+  {
+    icon: <KofiIcon />,
+    label: 'Ko-fi',
+    detail: 'One-time tip or monthly membership',
+    href: 'https://ko-fi.com/ganeshmshetty',
+  },
+];
 
-function SponsorCard({
-  icon,
-  iconWrapperClass,
-  badge,
-  badgeClass,
-  accentClass,
-  title,
-  description,
-  perks,
-  href,
-  ariaLabel,
-  ctaLabel,
-  ctaIcon,
-  ctaClass,
-}: SponsorCardProps) {
-  return (
-    <div className="bento-card group flex flex-col justify-between p-4 sm:p-6 shadow-md hover:shadow-lg transition-all duration-300">
-      <span aria-hidden="true" className={`absolute inset-x-0 top-0 h-[3px] ${accentClass}`} />
-      <div>
-        <div className="flex items-center justify-between gap-2 mb-3 sm:mb-3.5">
-          <div
-            className={`w-9 h-9 sm:w-10 sm:h-10 rounded-xl flex items-center justify-center shadow-xs group-hover:scale-105 transition-transform ${iconWrapperClass}`}
-          >
-            {icon}
-          </div>
-          <span className={`badge-subtle text-[11px] font-medium border-0 ${badgeClass}`}>
-            {badge}
-          </span>
-        </div>
-
-        <h2 className="text-[16px] sm:text-[17px] font-semibold text-[var(--text-primary)] tracking-tight">
-          {title}
-        </h2>
-        <p className="mt-1 sm:mt-1.5 text-[12.5px] text-[var(--text-secondary)] leading-relaxed">
-          {description}
-        </p>
-
-        <ul className="mt-2.5 sm:mt-3 space-y-1.5 text-[12px] text-[var(--text-secondary)]">
-          {perks.map((perk) => (
-            <li key={perk} className="flex items-center gap-1.5">
-              <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500 shrink-0" />
-              <span>{perk}</span>
-            </li>
-          ))}
-        </ul>
-      </div>
-
-      <a
-        href={href}
-        target="_blank"
-        rel="noopener noreferrer"
-        aria-label={ariaLabel}
-        className={`mt-4 sm:mt-5 w-full inline-flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl text-[13px] font-semibold transition-all duration-200 shadow-sm hover:shadow active:scale-[0.98] ${ctaClass}`}
-      >
-        {ctaIcon}
-        <span>{ctaLabel}</span>
-        <ArrowUpRight className="w-3.5 h-3.5 opacity-70" />
-      </a>
-    </div>
-  );
-}
+const FREE_WAYS = [
+  {
+    icon: <Star className="w-3.5 h-3.5" />,
+    label: 'Star on GitHub',
+    href: 'https://github.com/ganeshmshetty/openclip',
+  },
+  {
+    icon: <MessageSquareHeart className="w-3.5 h-3.5" />,
+    label: 'Review on AlternativeTo',
+    href: 'https://alternativeto.net/software/openclip/about/?utm_source=badge&utm_medium=referral',
+  },
+  { icon: null, label: 'Share on X', href: 'https://x.com/pandannzo' },
+];
 
 export default function SupportContent() {
   return (
     <div className="h-dvh flex flex-col justify-between overflow-y-auto lg:overflow-hidden bg-[var(--bg-app)] selection:bg-[var(--accent)] selection:text-white">
-      {/* Top Navbar */}
       <Navbar />
 
-      {/* Main Support Center */}
-      <main className="flex-1 flex flex-col items-center justify-center px-4 sm:px-6 py-4 sm:py-6 max-w-4xl mx-auto w-full">
-        {/* Ambient Subtle Glow */}
-        <div className="hero-ambient-glow w-full flex flex-col items-center">
-          {/* Eyebrow Pill */}
-          <div className="feature-eyebrow mb-2 sm:mb-3 flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] sm:text-[12px]">
-            <Heart className="w-3.5 h-3.5 text-pink-500 fill-pink-500 animate-pulse" />
-            <span>Support Independent macOS Software</span>
-          </div>
+      <main className="flex-1 flex flex-col justify-center px-4 sm:px-6 py-8 max-w-2xl mx-auto w-full">
+        <h1 className="section-title">Support OpenClip</h1>
 
-          {/* Heading */}
-          <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight text-[var(--text-primary)] text-center leading-tight">
-            Support OpenClip
-          </h1>
+        <p className="section-sub mt-3 max-w-lg">
+          OpenClip is free and open source under AGPL-3.0. There is no paid tier,
+          no telemetry, and no company behind it. Sponsorship pays for macOS releases
+          and new extensions.
+        </p>
 
-          {/* Subheading */}
-          <p className="mt-2 text-[13.5px] sm:text-[14.5px] text-[var(--text-secondary)] text-center max-w-lg leading-relaxed">
-            OpenClip is 100% free and open-source under AGPL-3.0 with no paywalls or trackers.
-            Your sponsorship directly fuels ongoing updates, macOS releases, and new extensions.
-          </p>
-        </div>
-
-        {/* Sponsor Cards Grid (3 Column) */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3.5 sm:gap-5 w-full mt-5 sm:mt-7 max-w-3xl">
-          <SponsorCard
-            icon={<Heart className="w-4 h-4 sm:w-5 sm:h-5 fill-[#ea4aaa]" />}
-            iconWrapperClass="bg-pink-500/10 dark:bg-pink-500/15 text-[#ea4aaa]"
-            badge="0% platform fee"
-            badgeClass="text-pink-600 dark:text-pink-400 bg-pink-50 dark:bg-pink-950/40"
-            accentClass="bg-gradient-to-r from-pink-500/70 via-pink-500/25 to-transparent"
-            title="GitHub Sponsors"
-            description="Sponsor monthly or with a one-time contribution. Displays a sponsor badge on your GitHub profile."
-            perks={[
-              'Monthly tiers or custom one-time amount',
-              'GitHub Sponsor profile badge',
-            ]}
-            href="https://github.com/sponsors/ganeshmshetty"
-            ariaLabel="Sponsor Ganesh M on GitHub Sponsors (opens in new tab)"
-            ctaLabel="Sponsor"
-            ctaIcon={<GithubIcon className="w-4 h-4" />}
-            ctaClass="text-white bg-[#24292f] hover:bg-[#1b1f24] dark:bg-pink-600 dark:hover:bg-pink-500"
-          />
-
-          <SponsorCard
-            icon={<Coffee className="w-4 h-4 sm:w-5 sm:h-5" />}
-            iconWrapperClass="bg-amber-500/10 dark:bg-amber-500/15 text-amber-500"
-            badge="Instant Tip"
-            badgeClass="text-amber-700 dark:text-amber-400 bg-amber-50 dark:bg-amber-950/40"
-            accentClass="bg-gradient-to-r from-amber-400/80 via-amber-400/30 to-transparent"
-            title="Buy Me a Coffee"
-            description="Send a quick coffee tip in seconds. Pay seamlessly with Apple Pay, cards, or PayPal without an account."
-            perks={[
-              'Apple Pay, Google Pay, Cards & PayPal',
-              'Leave a message or feature shoutout',
-            ]}
+        {/* One decisive ask, not a comparison table of three. */}
+        <div className="mt-7">
+          <a
             href="https://buymeacoffee.com/ganeshmshetty"
-            ariaLabel="Buy Ganesh M a coffee on Buy Me a Coffee (opens in new tab)"
-            ctaLabel="Buy a Coffee"
-            ctaIcon={<BuyMeACoffeeIcon className="w-4 h-4" />}
-            ctaClass="text-neutral-900 bg-[#FFDD00] hover:bg-[#ffea40]"
-          />
-
-          <SponsorCard
-            icon={<KofiIcon className="w-4 h-4 sm:w-5 sm:h-5" />}
-            iconWrapperClass="bg-[#FF5E5B]/10 dark:bg-[#FF5E5B]/15 text-[#FF5E5B]"
-            badge="No account needed"
-            badgeClass="text-[#FF5E5B] bg-[#FF5E5B]/10 dark:bg-[#FF5E5B]/15"
-            accentClass="bg-gradient-to-r from-[#FF5E5B]/70 via-[#FF5E5B]/25 to-transparent"
-            title="Ko-fi"
-            description="Treat me to a coffee on Ko-fi. One-time or monthly support in seconds, with no sign-up required."
-            perks={[
-              'One-time tip or monthly membership',
-              'Cards, Apple Pay & PayPal',
-            ]}
-            href="https://ko-fi.com/ganeshmshetty"
-            ariaLabel="Support Ganesh M on Ko-fi (opens in new tab)"
-            ctaLabel="Buy a Ko-fi"
-            ctaIcon={<KofiIcon className="w-4 h-4" />}
-            ctaClass="text-white bg-[#FF5E5B] hover:bg-[#ff706d]"
-          />
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn-primary inline-flex items-center justify-center gap-2 h-[46px] px-6 rounded-full text-[14.5px] font-semibold transition-all active:scale-[0.98]"
+          >
+            <BuyMeACoffeeIcon className="w-[18px] h-[18px]" />
+            <span>Buy me a coffee</span>
+            <ArrowUpRight className="w-4 h-4 opacity-70" />
+          </a>
         </div>
 
-        {/* Free Ways to Support Bar */}
-        <div className="mt-3.5 sm:mt-5 w-full max-w-3xl px-4 py-3 sm:py-2.5 rounded-xl bg-[var(--bg-surface)]/60 backdrop-blur-md shadow-xs flex flex-col sm:flex-row items-center justify-between gap-2 sm:gap-2.5 text-[12px] text-[var(--text-secondary)]">
-          <span className="font-medium text-[var(--text-primary)]">
-            Free ways to help:
-          </span>
-          <div className="flex flex-wrap items-center justify-center gap-x-3 gap-y-1.5">
-            <a
-              href="https://github.com/ganeshmshetty/openclip"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hover:text-[var(--text-primary)] transition-colors inline-flex items-center gap-1"
-            >
-              <Star className="w-3 h-3 text-amber-500 fill-amber-500" />
-              <span>Star on GitHub</span>
-            </a>
-            <span className="opacity-30">•</span>
-            <a
-              href="https://alternativeto.net/software/openclip/about/?utm_source=badge&utm_medium=referral"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hover:text-[var(--text-primary)] transition-colors inline-flex items-center gap-1"
-            >
-              <MessageSquareHeart className="w-3 h-3 text-blue-500" />
-              <span>Review on AlternativeTo</span>
-            </a>
-            <span className="opacity-30">•</span>
-            <a
-              href="https://x.com/pandannzo"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hover:text-[var(--text-primary)] transition-colors inline-flex items-center gap-1"
-            >
-              <span>Share on X</span>
-            </a>
+        <p className="mt-3 text-[12.5px] text-[var(--text-tertiary)]">
+          Apple Pay, cards, or PayPal. No account needed.
+        </p>
+
+        {/* The other two are alternatives to the primary ask, so they get a plain row. */}
+        <div className="mt-9 pt-7 border-t border-[var(--border-subtle)]">
+          <p className="text-[12.5px] font-medium text-[var(--text-tertiary)]">
+            Or pick whichever is easier
+          </p>
+          <div className="mt-3 flex flex-col gap-1">
+            {OTHER_OPTIONS.map(({ icon, label, detail, href }) => (
+              <a
+                key={label}
+                href={href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group flex items-center gap-3 py-2.5 -mx-2 px-2 rounded-xl hover:bg-[var(--bg-surface)] transition-colors"
+              >
+                <span className="text-[var(--text-secondary)] group-hover:text-[var(--text-primary)] transition-colors shrink-0">
+                  {icon}
+                </span>
+                <span className="text-[13.5px] font-medium text-[var(--text-primary)]">
+                  {label}
+                </span>
+                <span className="text-[12.5px] text-[var(--text-tertiary)] hidden sm:inline">
+                  {detail}
+                </span>
+                <ArrowUpRight className="w-3.5 h-3.5 text-[var(--text-tertiary)] ml-auto shrink-0 opacity-0 group-hover:opacity-100 transition-opacity" />
+              </a>
+            ))}
+          </div>
+        </div>
+
+        {/* Free ways to help — no money involved, so it sits below the fold of the ask. */}
+        <div className="mt-8 pt-6 border-t border-[var(--border-subtle)]">
+          <p className="text-[12.5px] font-medium text-[var(--text-tertiary)]">
+            Free ways to help
+          </p>
+          <div className="mt-3 flex flex-wrap items-center gap-x-5 gap-y-2 text-[13px]">
+            {FREE_WAYS.map(({ icon, label, href }) => (
+              <a
+                key={label}
+                href={href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 text-[var(--text-secondary)] hover:text-[var(--accent)] transition-colors"
+              >
+                {icon}
+                <span>{label}</span>
+              </a>
+            ))}
           </div>
         </div>
       </main>
@@ -262,7 +163,7 @@ export default function SupportContent() {
       {/* Minimal Clean Bottom Bar */}
       <footer className="shrink-0 border-t border-[var(--border-subtle)]/20 py-2.5 sm:py-3 px-4 text-center text-[11.5px] text-[var(--text-tertiary)] flex flex-wrap items-center justify-center gap-x-4 gap-y-1">
         <span>
-          Built with 💙 by{' '}
+          Built by{' '}
           <a
             href="https://x.com/pandannzo"
             target="_blank"
@@ -273,7 +174,7 @@ export default function SupportContent() {
           </a>
         </span>
         <span className="opacity-30">•</span>
-        <span>Free & Open Source under AGPL-3.0</span>
+        <span>Free &amp; Open Source under AGPL-3.0</span>
         <span className="opacity-30">•</span>
         <Link href="/" className="hover:text-[var(--text-secondary)] transition-colors">
           Home

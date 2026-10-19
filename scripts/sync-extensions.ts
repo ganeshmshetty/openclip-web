@@ -1,4 +1,4 @@
-import { existsSync, readFileSync, writeFileSync, mkdirSync, readdirSync, statSync } from 'fs';
+import { existsSync, readFileSync, writeFileSync, mkdirSync, readdirSync, statSync, copyFileSync, rmSync } from 'fs';
 import { join, resolve } from 'path';
 
 export interface SyncedOption {
@@ -376,11 +376,70 @@ export function syncExtensions() {
   const payload = {
     generatedAt: new Date().toISOString(),
     count: Object.keys(results).length,
+    // Icons actually copied into public/icons/extensions. The live catalog can be
+    // newer than the local extensions clone, so this tells the store which icons it
+    // can serve statically and which need the same-origin proxy.
+    icons: listPublishedIcons(repoRoot),
     extensions: results,
   };
 
   writeFileSync(outputFile, JSON.stringify(payload, null, 2), 'utf-8');
   console.log(`[Extensions Sync] ✓ Successfully synchronized ${Object.keys(results).length} extensions to ${outputFile}`);
+
+  copyPublishedIcons(repoRoot, webRoot);
+}
+
+/**
+ * Copies the published monochrome icons into `public/` so the store serves them
+ * from its own origin. They used to be fetched by the browser from
+ * cdn.jsdelivr.net — 130+ third-party requests on every store visit.
+ *
+ * Vercel builds have no `Extensions/` clone, so the committed copies are what
+ * ships there; the early return keeps them intact.
+ */
+/**
+ * Ids with a local icon file, lower-cased. Empty when the extensions clone is absent
+ * (Vercel), where the committed `public/icons/extensions` copies are used instead.
+ */
+function listPublishedIcons(repoRoot: string): string[] {
+  const dir = join(repoRoot, 'Extensions/published/icons');
+  const targetDir = join(repoRoot, 'web/public/icons/extensions');
+  const source = existsSync(dir) ? dir : targetDir;
+  if (!existsSync(source)) return [];
+  return readdirSync(source)
+    .filter((file) => file.endsWith('.svg'))
+    .map((file) => file.slice(0, -4).toLowerCase());
+}
+
+function copyPublishedIcons(repoRoot: string, webRoot: string) {
+  const sourceDir = join(repoRoot, 'Extensions/published/icons');
+  const targetDir = join(webRoot, 'public/icons/extensions');
+
+  if (!existsSync(sourceDir)) {
+    console.log('[Extensions Sync] · No local icons source; keeping committed copies in public/icons/extensions.');
+    return;
+  }
+
+  mkdirSync(targetDir, { recursive: true });
+
+  const sourceFiles = readdirSync(sourceDir).filter((file) => file.endsWith('.svg'));
+  for (const file of sourceFiles) {
+    copyFileSync(join(sourceDir, file), join(targetDir, file));
+  }
+
+  const keep = new Set(sourceFiles);
+  let removed = 0;
+  for (const file of readdirSync(targetDir)) {
+    if (file.endsWith('.svg') && !keep.has(file)) {
+      rmSync(join(targetDir, file), { force: true });
+      removed += 1;
+    }
+  }
+
+  console.log(
+    `[Extensions Sync] ✓ Copied ${sourceFiles.length} icons to public/icons/extensions` +
+      (removed ? ` (pruned ${removed} stale)` : '')
+  );
 }
 
 syncExtensions();

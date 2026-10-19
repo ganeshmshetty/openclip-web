@@ -483,7 +483,7 @@ export default function TextSelectionPopup() {
 
       {/* Main HUD Pill — matches native macOS OpenClip popup */}
       <div
-        className={`popup-pill flex items-center transition-all ${
+        className={`popup-pill glass-surface flex items-center transition-all ${
           aiState === 'processing' ? 'mac-glow-ring' : ''
         }`}
       >

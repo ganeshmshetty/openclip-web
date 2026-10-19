@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useState, useEffect } from 'react';
-import { Menu, X, Star } from 'lucide-react';
+import { Menu, X } from 'lucide-react';
 import { motion } from 'motion/react';
 import ThemeToggle from './ThemeToggle';
 import { downloadLatestDmg, getLatestDmgUrl } from '@/lib/downloadClient';
@@ -56,31 +56,18 @@ const KNOB_SPRING = { type: 'spring', stiffness: 420, damping: 34 } as const;
 
 export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [stars, setStars] = useState<number | null>(null);
   const pathname = usePathname();
 
   useEffect(() => {
-    let isMounted = true;
     getLatestDmgUrl().catch(() => {});
-    fetch('/api/v1/stars')
-      .then((res) => res.json())
-      .then((data) => {
-        if (isMounted && typeof data.stars === 'number') {
-          setStars(data.stars);
-        }
-      })
-      .catch(() => {});
-    return () => {
-      isMounted = false;
-    };
   }, []);
 
-  const shell = 'nav-shell flex items-stretch px-1 h-[44px]';
+  const shell = 'nav-shell glass-surface flex items-stretch px-1 h-[44px]';
   const isActiveHref = (href: string) =>
     pathname === href || (href === '/docs' && pathname === '/developers');
 
   return (
-    <header className="sticky top-4 z-[100] px-4 sm:px-6">
+    <header className="site-navbar sticky top-4 z-[100] px-4 sm:px-6">
       <div className="relative max-w-fit mx-auto">
         <div className="flex items-stretch gap-2">
           {/* ── Island 1 · Navigation ── */}
@@ -148,17 +135,11 @@ export default function Navbar() {
               href="https://github.com/ganeshmshetty/openclip"
               target="_blank"
               rel="noopener noreferrer"
-              className="nav-chip self-stretch my-[3px] gap-2 pl-3 pr-3.5"
-              title="Star OpenClip on GitHub"
+              className="nav-chip self-stretch my-[3px] w-9"
+              title="OpenClip on GitHub"
+              aria-label="OpenClip on GitHub"
             >
               <GithubIcon className="w-[15px] h-[15px] shrink-0" />
-              <span>GitHub</span>
-              {stars !== null && stars >= 100 && (
-                <span className="nav-star-badge">
-                  <Star className="w-2.5 h-2.5 fill-current shrink-0" />
-                  <span>{stars}</span>
-                </span>
-              )}
             </a>
             <a
               href="https://discord.gg/acYYdzM7jR"
@@ -180,6 +161,7 @@ export default function Navbar() {
               downloadLatestDmg();
             }}
             className="nav-cta self-stretch my-[3px] px-4 sm:px-5"
+            aria-label="Download for Mac"
           >
             <AppleIcon className="w-3.5 h-3.5 shrink-0" />
             <span className="hidden sm:inline">Download</span>
@@ -194,7 +176,7 @@ export default function Navbar() {
               onClick={() => setMobileOpen(false)}
             />
 
-            <div className="md:hidden absolute top-full left-1/2 -translate-x-1/2 mt-2 w-[calc(100vw-2rem)] max-w-xs nav-shell !rounded-3xl p-2 flex flex-col gap-0.5 shadow-2xl animate-in fade-in slide-in-from-top-2 duration-150 z-[101]">
+            <div className="md:hidden absolute top-full left-1/2 -translate-x-1/2 mt-2 w-[calc(100vw-2rem)] max-w-xs nav-shell glass-surface !rounded-3xl p-2 flex flex-col gap-0.5 shadow-2xl animate-in fade-in slide-in-from-top-2 duration-150 z-[101]">
               {NAV_LINKS.map(({ href, label }) => (
                 <Link
                   key={href}
@@ -213,15 +195,9 @@ export default function Navbar() {
                 rel="noopener noreferrer"
                 className="nav-chip self-stretch !justify-start px-3.5 py-2.5 !rounded-2xl !text-[13.5px]"
                 onClick={() => setMobileOpen(false)}
+                aria-label="OpenClip on GitHub"
               >
                 <GithubIcon className="w-4 h-4 shrink-0" />
-                <span className="ml-2.5">GitHub</span>
-                {stars !== null && (
-                  <span className="nav-star-badge ml-auto">
-                    <Star className="w-2.5 h-2.5 fill-current shrink-0" />
-                    <span>{stars}</span>
-                  </span>
-                )}
               </a>
               <a
                 href="https://discord.gg/acYYdzM7jR"
