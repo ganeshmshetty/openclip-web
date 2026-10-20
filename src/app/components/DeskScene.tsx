@@ -12,6 +12,7 @@ const CLIPS: Clip[] = [
   { name: 'word-completion', label: 'Spell check', src: mediaURL('word-completion.mp4') },
   { name: 'render-mermaid', label: 'Render Mermaid', src: mediaURL('extensions/com.openclip.render-mermaid.mp4') },
   { name: 'shortenlink', label: 'Shorten Link', src: mediaURL('extensions/com.openclip.shortenlink.mp4') },
+  { name: 'qrcode', label: 'QR Code', src: mediaURL('extensions/com.openclip.qrcode.mp4') },
 ];
 
 // Percent positions so the scene scales with the viewport.
