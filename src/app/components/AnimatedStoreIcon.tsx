@@ -32,7 +32,9 @@ const PIVOT = { x: 127.75, y: 80 };
 const CSS = `
 .asi-root { cursor: pointer; overflow: visible; }
 .asi-roof-fill { fill: #292929; }
-:is(.dark, [data-theme="dark"]) .asi-roof-fill { fill: #f5f5f7; }
+:is(.dark, [data-theme="dark"]) .asi-roof-fill { fill: #d9dbe1; }
+.asi-body-fill { fill: #2983fd; }
+:is(.dark, [data-theme="dark"]) .asi-body-fill { fill: #4a94ff; }
 `;
 
 export default function AnimatedStoreIcon({
@@ -135,7 +137,7 @@ export default function AnimatedStoreIcon({
         </mask>
       </defs>
 
-      <path d={BODY_PATH} fill="#2983FD" mask={`url(#${id('door')})`} />
+      <path className="asi-body-fill" d={BODY_PATH} mask={`url(#${id('door')})`} />
       <g ref={roofRef}>
         <path className="asi-roof-fill" d={ROOF_PATH} />
       </g>
