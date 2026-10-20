@@ -1201,11 +1201,9 @@ body {
   font-size: 12.5px;
   font-weight: 500;
   color: #000;
-  text-shadow: 0 0 6px #fff, 0 0 12px #fff, 0 0 2px #fff;
 }
 :is(.dark, [data-theme="dark"]) .desk-caption {
   color: #fff;
-  text-shadow: 0 0 6px #000, 0 0 12px #000, 0 0 2px #000;
 }
 @keyframes desk-in {
   from { opacity: 0; transform: translateY(14px) scale(0.96); }

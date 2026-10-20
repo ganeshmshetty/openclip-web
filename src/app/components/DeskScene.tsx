@@ -4,7 +4,7 @@ import { useEffect, useRef } from 'react';
 import { mediaURL } from '@/lib/media';
 
 type Clip = { name: string; label: string; src: string };
-type Slot = { className: string; width: number };
+type Slot = { className: string; width: number; drift: number };
 
 // Add a clip to this list and it takes the next free slot around the hero.
 const CLIPS: Clip[] = [
@@ -17,12 +17,12 @@ const CLIPS: Clip[] = [
 
 // Percent positions so the scene scales with the viewport.
 const SLOTS: Slot[] = [
-  { className: 'left-[3%] top-[10%] origin-top-left', width: 230 },
-  { className: 'right-[3.5%] top-[9%] origin-top-right', width: 215 },
-  { className: 'right-[6%] top-[57%] origin-top-right', width: 235 },
-  { className: 'left-[6.5%] top-[58%] origin-top-left', width: 200 },
-  { className: 'left-[19%] top-[34%] origin-top-left', width: 170 },
-  { className: 'right-[21%] top-[40%] origin-top-right', width: 170 },
+  { className: 'left-[3%] top-[10%] origin-top-left', width: 230, drift: 0.07 },
+  { className: 'right-[3.5%] top-[9%] origin-top-right', width: 215, drift: -0.05 },
+  { className: 'right-[6%] top-[57%] origin-top-right', width: 235, drift: 0.04 },
+  { className: 'left-[6.5%] top-[58%] origin-top-left', width: 200, drift: -0.08 },
+  { className: 'left-[19%] top-[34%] origin-top-left', width: 170, drift: 0.03 },
+  { className: 'right-[21%] top-[40%] origin-top-right', width: 170, drift: -0.04 },
 ];
 
 function useLazyPlay(ref: React.RefObject<HTMLVideoElement | null>) {
@@ -47,7 +47,11 @@ function ClipWindow({ clip, slot, index }: { clip: Clip; slot: Slot; index: numb
       tabIndex={0}
       aria-label={`${clip.label} demo`}
       className={`desk-window absolute ${slot.className}`}
-      style={{ width: slot.width, animationDelay: `${0.1 + index * 0.08}s` }}
+      style={{
+        width: slot.width,
+        animationDelay: `${0.1 + index * 0.08}s`,
+        translate: `0 calc(var(--desk-scroll, 0) * ${slot.drift}px)`,
+      }}
     >
       <div className="desk-frame">
         <video ref={ref} src={clip.src} muted loop playsInline preload="metadata" className="block aspect-[16/10] w-full object-cover" />
@@ -59,13 +63,34 @@ function ClipWindow({ clip, slot, index }: { clip: Clip; slot: Slot; index: numb
 
 /**
  * Desktop-only backdrop for the hero: a dotted desk with the supporting clips
- * floating on it. They play dimmed; hovering one lights it up and grows it in place.
+ * floating on it. They play dimmed and drift slightly against the scroll; hovering one lights it up and grows it in place.
  */
 export default function DeskScene() {
+  const rootRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const root = rootRef.current;
+    if (!root || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    let frame = 0;
+    const update = () => {
+      frame = 0;
+      root.style.setProperty('--desk-scroll', String(Math.min(window.scrollY, 500)));
+    };
+    const onScroll = () => {
+      if (!frame) frame = requestAnimationFrame(update);
+    };
+    update();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => {
+      window.removeEventListener('scroll', onScroll);
+      cancelAnimationFrame(frame);
+    };
+  }, []);
+
   return (
     <>
       <div className="desk-grid pointer-events-none absolute inset-0 hidden lg:block" aria-hidden="true" />
-      <div className="absolute inset-0 hidden lg:block">
+      <div ref={rootRef} className="absolute inset-0 hidden lg:block">
         {CLIPS.slice(0, SLOTS.length).map((clip, index) => (
           <ClipWindow key={clip.name} clip={clip} slot={SLOTS[index]} index={index} />
         ))}
