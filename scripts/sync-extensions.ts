@@ -1,5 +1,6 @@
 import { existsSync, readFileSync, writeFileSync, mkdirSync, readdirSync, statSync, copyFileSync, rmSync } from 'fs';
 import { join, resolve } from 'path';
+import { createHash } from 'crypto';
 
 export interface SyncedOption {
   identifier: string;
@@ -443,3 +444,12 @@ function copyPublishedIcons(repoRoot: string, webRoot: string) {
 }
 
 syncExtensions();
+
+const iconsDir = join(__dirname, '../public/icons/extensions');
+const iconHashes = Object.fromEntries(
+  readdirSync(iconsDir).filter((file) => file.endsWith('.svg')).sort().map((file) => [
+    file.slice(0, -4).toLowerCase(),
+    createHash('sha256').update(readFileSync(join(iconsDir, file))).digest('hex').slice(0, 16),
+  ])
+);
+writeFileSync(join(__dirname, '../src/lib/extension-icon-hashes.json'), `${JSON.stringify(iconHashes, null, 2)}\n`);

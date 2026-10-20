@@ -10,17 +10,17 @@
     "sync-docs": "bun run scripts/sync-docs.ts",
     "sync-extensions": "bun run scripts/sync-extensions.ts",
     "sync-changelog": "bun run scripts/sync-changelog.ts",
-    "build": "next build",
+    "build": "next build --webpack",
     "start": "next start",
     "lint": "eslint",
     "render-diagrams": "bun run scripts/render-diagrams.ts",
-    "build-docs-meta": "bun run scripts/build-docs-meta.ts"
+    "build-docs-meta": "bun run scripts/build-docs-meta.ts",
+    "analyze": "ANALYZE=true bun run build"
   },
   "dependencies": {
     "@types/marked": "^6.0.0",
     "@types/prismjs": "^1.26.6",
     "@vercel/analytics": "^2.0.1",
-    "lottie-react": "^3.1.2",
     "lucide-react": "^1.28.0",
     "marked": "^18.0.11",
     "motion": "^13.1.0",
@@ -28,10 +28,10 @@
     "pele": "^1.6.0",
     "prismjs": "^1.30.0",
     "react": "19.2.4",
-    "react-dom": "19.2.4",
-    "vercel": "^62.7.0"
+    "react-dom": "19.2.4"
   },
   "devDependencies": {
+    "@next/bundle-analyzer": "16.2.12",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
     "@types/react": "^19",
@@ -39,7 +39,8 @@
     "eslint": "^9",
     "eslint-config-next": "16.2.12",
     "tailwindcss": "^4",
-    "typescript": "^5"
+    "typescript": "^5",
+    "vercel": "^62.7.0"
   },
   "ignoreScripts": [
     "sharp",

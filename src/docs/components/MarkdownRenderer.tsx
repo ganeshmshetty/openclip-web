@@ -3,9 +3,11 @@
 import React from 'react';
 import { marked, Tokens, Token } from 'marked';
 import { CodeBlock, Callout, DocTable, InlineCode } from './DocComponents';
-import { DiagramImage } from './DiagramImage';
+import dynamic from 'next/dynamic';
 import { DIAGRAM_LANGUAGE } from '../diagram-hash';
 import Link from 'next/link';
+
+const DiagramImage = dynamic(() => import('./DiagramImage').then((module) => module.DiagramImage));
 
 interface MarkdownRendererProps {
   content: string;

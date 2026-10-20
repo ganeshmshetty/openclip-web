@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { getCatalog, loadFeatured, ExtensionItem } from '@/lib/extensions';
+import { siteUrl } from '@/lib/site';
 
 export type { ExtensionItem } from '@/lib/extensions';
 
@@ -21,8 +22,7 @@ function withAbsoluteIcon(item: ExtensionItem, base: string): ExtensionItem {
 }
 
 export async function GET(request: Request) {
-  const { searchParams, origin } = new URL(request.url);
-  const base = (process.env.NEXT_PUBLIC_SITE_URL || origin).replace(/\/$/, '');
+  const { searchParams } = new URL(request.url);
   const q = (searchParams.get('q') || '').toLowerCase().trim();
   const filter = (searchParams.get('filter') || searchParams.get('sort') || '').toLowerCase().trim();
   // Number() rejects malformed input ("2abc") and non-integers ("1.9") as NaN,
@@ -84,17 +84,17 @@ export async function GET(request: Request) {
 
   return NextResponse.json(
     {
-      featured: featured.map((e) => withAbsoluteIcon(e, base)),
-      new: newShowcase.map((e) => withAbsoluteIcon(e, base)),
-      extensions: paginatedExtensions.map((e) => withAbsoluteIcon(e, base)),
+      featured: featured.map((e) => withAbsoluteIcon(e, siteUrl)),
+      new: newShowcase.map((e) => withAbsoluteIcon(e, siteUrl)),
+      extensions: paginatedExtensions.map((e) => withAbsoluteIcon(e, siteUrl)),
       page,
       totalPages,
       totalCount,
     },
     {
       headers: {
-        'Access-Control-Allow-Origin': '*',
-        'Cache-Control': 'public, s-maxage=60, stale-while-revalidate=300',
+        'Cache-Control': 'public, max-age=60',
+        'CDN-Cache-Control': 'public, max-age=60, stale-while-revalidate=300',
       },
     }
   );

@@ -37,7 +37,8 @@ export async function GET(_request: Request, { params }: { params: Promise<{ id:
     return new NextResponse(svg, {
       headers: {
         'Content-Type': 'image/svg+xml; charset=utf-8',
-        'Cache-Control': 'public, max-age=3600, s-maxage=86400, stale-while-revalidate=604800',
+        'Cache-Control': 'public, max-age=3600',
+        'CDN-Cache-Control': 'public, max-age=86400, stale-while-revalidate=604800',
       },
     });
   } catch {

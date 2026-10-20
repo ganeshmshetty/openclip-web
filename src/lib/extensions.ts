@@ -70,16 +70,10 @@ export interface ExtensionItem {
 }
 
 import extensionsPayload from '@/docs/data/extensionsData.json';
+import iconHashes from './extension-icon-hashes.json';
+import { CURATED_FEATURED_IDS } from './featured-extensions';
 
-// Bootstrap/offline fallback for the Featured section. The published
-// featured.json in the extensions repo is the source of truth; this list is
-// only served when that file can't be reached.
-export const CURATED_FEATURED_IDS = [
-  'com.openclip.cleanemdashes',     // Clean Em Dashes
-  'com.openclip.runcommand',        // Run in Terminal
-  'com.openclip.copy-as-markdown',  // Copy as Markdown
-  'com.openclip.shortenlink',       // Shorten Link
-];
+export { CURATED_FEATURED_IDS } from './featured-extensions';
 
 const REPO = 'ganeshmshetty/openclip-extensions';
 const BRANCH = 'main';
@@ -567,16 +561,6 @@ export async function getExtensionById(id: string): Promise<ExtensionItem | unde
 }
 
 /**
- * Ids that have a static icon in `public/icons/extensions`. `null` means the payload
- * predates the list, in which case we assume static icons exist (the previous
- * behaviour) rather than routing every icon through the proxy.
- */
-const syncedIconIds: Set<string> | null = (() => {
-  const list = (extensionsPayload as { icons?: string[] } | null)?.icons;
-  return Array.isArray(list) ? new Set(list.map((id) => id.toLowerCase())) : null;
-})();
-
-/**
  * Icons ship with the site (see `copyPublishedIcons` in scripts/sync-extensions.ts)
  * so the store's images come from its own origin, cache and lazy-load like normal
  * images, and never depend on a third-party CDN being reachable from the browser.
@@ -586,10 +570,8 @@ const syncedIconIds: Set<string> | null = (() => {
  */
 function localIconURL(id: string): string {
   const key = id.toLowerCase();
-  if (syncedIconIds === null || syncedIconIds.has(key)) {
-    return `/icons/extensions/${key}.svg`;
-  }
-  return `/api/v1/icon/${encodeURIComponent(key)}`;
+  const hash = (iconHashes as Record<string, string>)[key];
+  return hash ? `/icons/extensions/${key}.svg?v=${hash}` : `/api/v1/icon/${encodeURIComponent(key)}`;
 }
 
 /**

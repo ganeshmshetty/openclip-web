@@ -4,9 +4,11 @@ const REPO = 'ganeshmshetty/openclip';
 const GITHUB_API_URL = `https://api.github.com/repos/${REPO}`;
 const GITHUB_TOKEN = process.env.GITHUB_TOKEN || process.env.GH_TOKEN || '';
 
-export const dynamic = 'force-dynamic';
-
 const CACHE_TTL_MS = 5 * 60 * 1000; // 5 minutes
+const CACHE_HEADERS = {
+  'Cache-Control': 'public, max-age=60',
+  'CDN-Cache-Control': 'public, max-age=900, stale-while-revalidate=1800',
+};
 let cachedStars: number | null = null;
 let cachedAt = 0;
 
@@ -15,9 +17,7 @@ export async function GET() {
 
   if (cachedStars !== null && now - cachedAt < CACHE_TTL_MS) {
     return NextResponse.json({ stars: cachedStars }, {
-      headers: {
-        'Cache-Control': 'public, s-maxage=900, stale-while-revalidate=1800',
-      },
+      headers: CACHE_HEADERS,
     });
   }
 
@@ -42,16 +42,18 @@ export async function GET() {
       cachedStars = count;
       cachedAt = now;
       return NextResponse.json({ stars: count }, {
-        headers: {
-          'Cache-Control': 'public, s-maxage=900, stale-while-revalidate=1800',
-        },
+        headers: CACHE_HEADERS,
       });
     }
 
     // Return fallback if throttled or error
-    return NextResponse.json({ stars: cachedStars ?? 0 });
+    return NextResponse.json({ stars: cachedStars ?? 0 }, {
+      headers: { 'Cache-Control': 'no-store' },
+    });
   } catch (err) {
     console.error('Error fetching GitHub stars:', err);
-    return NextResponse.json({ stars: cachedStars ?? 0 });
+    return NextResponse.json({ stars: cachedStars ?? 0 }, {
+      headers: { 'Cache-Control': 'no-store' },
+    });
   }
 }

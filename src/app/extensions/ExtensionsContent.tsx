@@ -20,7 +20,8 @@ import {
 import Link from 'next/link';
 import { motion } from 'motion/react';
 import ExtensionIcon from '../components/ExtensionIcon';
-import { type ExtensionItem, CURATED_FEATURED_IDS } from '@/lib/extensions';
+import type { ExtensionItem } from '@/lib/extensions';
+import { CURATED_FEATURED_IDS } from '@/lib/featured-extensions';
 
 interface Props {
   extensions: ExtensionItem[];
