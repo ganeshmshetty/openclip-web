@@ -6,10 +6,10 @@ The URL templates engine ([`URLTemplateAction`](../../Sources/Core/Actions/URLTe
 
 When a user selects a URL template action:
 
-1. **Text Extraction**: Selected text is trimmed of leading and trailing whitespace.
-2. **Placeholder Substitution**: [`TextPlaceholderEngine`](../../Sources/Core/Utils/TextPlaceholderEngine.swift) substitutes template tokens with percent-encoded query parameters.
-3. **URL Resolution**: The resulting string is parsed into a `URL` object and returned as `ActionResult.openURL(url)`.
-4. **Platform Launch**: `DefaultActionResultHandler` opens the URL via `NSWorkspace.shared.open(url)`.
+1. Text extraction: Selected text is trimmed of leading and trailing whitespace.
+2. Placeholder substitution: [`TextPlaceholderEngine`](../../Sources/Core/Utils/TextPlaceholderEngine.swift) substitutes template tokens with percent-encoded query parameters.
+3. URL resolution: The resulting string is parsed into a `URL` object and returned as `ActionResult.openURL(url)`.
+4. Platform launch: `DefaultActionResultHandler` opens the URL via `NSWorkspace.shared.open(url)`.
 
 ## Supported placeholders
 

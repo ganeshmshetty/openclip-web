@@ -1,15 +1,17 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
+import { mediaURL } from '@/lib/media';
 
 type Clip = { name: string; label: string; src: string };
 type Slot = { className: string; width: number };
 
 // Add a clip to this list and it takes the next free slot around the hero.
 const CLIPS: Clip[] = [
-  { name: 'calculate', label: 'Inline math', src: '/gifs/calculate.mp4' },
-  { name: 'word-completion', label: 'Spell check', src: '/gifs/word-completion.mp4' },
-  { name: 'in-app-extensions', label: 'Extensions', src: '/gifs/in-app-extensions.mp4' },
+  { name: 'calculate', label: 'Inline math', src: mediaURL('calculate.mp4') },
+  { name: 'word-completion', label: 'Spell check', src: mediaURL('word-completion.mp4') },
+  { name: 'render-mermaid', label: 'Render Mermaid', src: mediaURL('extensions/com.openclip.render-mermaid.mp4') },
+  { name: 'shortenlink', label: 'Shorten Link', src: mediaURL('extensions/com.openclip.shortenlink.mp4') },
 ];
 
 // Percent positions so the scene scales with the viewport.

@@ -13,7 +13,7 @@ The Extension Store is in **Preferences > Extension Store**. You can browse offi
 3. [`ExtensionManager.installExtension(from:)`](../../Sources/Core/Extensions/ExtensionManager.swift) extracts and verifies it in `~/.openclip/extensions/`.
 4. `ExtensionManager` reloads the catalog and registers the new actions with `ActionRegistry`.
 
-The official and community catalog is published from the open [`openclip-extensions`](https://github.com/ganeshmshetty/openclip-extensions) repository. It is a git submodule at `Extensions/`, and its builds, releases, and download stats all live there. The app and the store only talk to the extension store API. After cloning the app repository, run `git submodule update --init` to fill in `Extensions/`.
+The official and community catalog is published from the open [`openclip-extensions`](https://github.com/ganeshmshetty/openclip-extensions) repository, which holds its builds, releases, and download stats. The app and the store only talk to the extension store API. If you write extensions, clone that repository into `Extensions/` inside the app checkout. It is a separate clone, not a git submodule.
 
 ## Installing by hand
 

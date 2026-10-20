@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect } from 'react';
 import { FileVideo } from 'lucide-react';
+import { mediaURL } from '@/lib/media';
 
 interface GifFrameProps {
   src: string;
@@ -33,7 +34,8 @@ export default function GifFrame({
   const videoRef = useRef<HTMLVideoElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const isVisibleRef = useRef(false);
-  const mp4Path = src.endsWith('.mp4') ? src : src.replace(/\.gif$/, '.mp4');
+  const local = src.endsWith('.mp4') ? src : src.replace(/\.gif$/, '.mp4');
+  const mp4Path = local.startsWith('/gifs/') ? mediaURL(local.slice('/gifs/'.length)) : local;
 
   // Handle visibility changes via IntersectionObserver
   useEffect(() => {

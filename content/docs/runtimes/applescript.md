@@ -10,30 +10,22 @@ flowchart TD
   B --> C[AppleScriptRunner: osascript subprocess]
   C -->|ShellProcessRunner.run, watchdog only when a timeout is set| D["ActionResult: .text, .success, or .failure"]
 ```
-Selection Context ---> AppleScriptAction.perform(_:)
-                         |
-                         v
-              AppleScriptRunner (osascript subprocess)
-                         |   ShellProcessRunner.run (watchdog only when a timeout is set)
-                         v
-  ActionResult (.text / .success / .failure)
-```
 
-1. **Environment Setup**: The selected text string is sanitized by escaping double quotes (`"` $\rightarrow$ `\"`).
-2. **Variable Injection**: OpenClip prepends top-level `property` declarations to the script before execution:
+1. Environment setup: The selected text string is sanitized by escaping double quotes (each `"` becomes `\"`).
+2. Variable injection: OpenClip prepends top-level `property` declarations to the script before execution:
   ```applescript
   property OPENCLIP_TEXT : "<escaped_selected_text>"
   property OPENCLIP_HTML : "<escaped_selected_html>"
   property OPENCLIP_RTF : "<escaped_selected_rtf>"
   ```
-3. **Subprocess Execution**: The script runs as an `/usr/bin/osascript` subprocess through
+3. Subprocess execution: The script runs as an `/usr/bin/osascript` subprocess through
     [`AppleScriptRunner`](../../Sources/OpenClip/Platform/AppleScriptRunner.swift), which delegates
     to the shared `ShellProcessRunner` (the same runner used by shell actions, with instant cancellation support).
 
 ### Why a subprocess (bounded off-main strategy)
 
 In-process `NSAppleScript.executeAndReturnError()` blocks the calling thread until the target
-application answers over Apple Events — it cannot be cancelled, has no timeout, and a hung
+application answers over Apple Events. It cannot be cancelled, has no timeout, and a hung
 `tell application` permanently parks a cooperative-pool thread. `NSAppleScript` is also not
 thread-safe across instances. Running each script as a killable subprocess keeps the
 cooperative-thread pool free, and a stuck script never wedges a thread forever: callers that want a
@@ -72,7 +64,7 @@ return (upperText as text)
 `AppleScriptAction` reads the script's stdout (the value osascript prints for the last statement):
 
 - **String Return Value**: If the script returns a non-empty string value, `AppleScriptAction`
-  returns `ActionResult.text(str)` — implicitly returned text, delivered per the user's per-click
+  returns `ActionResult.text(str)` for implicitly returned text, delivered per the user's per-click
   preference (preview/paste/copy; a secondary click derives copy via delivery).
 - **No Return Value (empty)**: If the script executes without returning text, it returns `ActionResult.success`.
 - **Error Handling**: On a non-zero subprocess exit (the AppleScript error text goes to stderr), the runtime returns `ActionResult.failure(error)` with the error message.

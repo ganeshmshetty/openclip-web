@@ -1,6 +1,6 @@
 # Extension package format (`.openclipext`)
 
-> **Authoritative reference:** the current manifest schema, all action kinds, options,
+> Authoritative reference: the current manifest schema, all action kinds, options,
 > requirements, groups, and the runtime result surface are documented in
 > [`Extensions/AGENTS.md`](../../Extensions/AGENTS.md). This page is a summary and may lag it.
 
@@ -10,10 +10,10 @@ OpenClip extension packages are directory bundles (suffixed with `.openclipext` 
 
 ```text
 my-extension.openclipext/
-├── manifest.json # Required: Extension manifest definition
+├── manifest.json
 ├── main.js # Action script file (JavaScript, AppleScript, or Executable)
-├── icon.png # Optional: Local action icon image
-└── README.md # Optional: Documentation
+├── icon.png
+└── README.md
 ```
 
 ## Installation
@@ -24,7 +24,7 @@ my-extension.openclipext/
 
 ## Manifest JSON schema (`ExtensionMetadata`)
 
-OpenClip decodes extension metadata via [`ExtensionMetadata`](../../Sources/Core/Extensions/ExtensionManager.swift). To ensure backward compatibility, the decoder supports both modern camelCase keys and legacy capitalized/singular keys.
+OpenClip decodes extension metadata via [`ExtensionMetadata`](../../Sources/Core/Extensions/ExtensionManager.swift). For backward compatibility, the decoder accepts both modern camelCase keys and legacy capitalized or singular keys.
 
 ### Complete example `manifest.json`
 
@@ -60,7 +60,7 @@ OpenClip decodes extension metadata via [`ExtensionMetadata`](../../Sources/Core
 
 ## Manifest fields reference
 
-### Top-Level metadata (`ExtensionMetadata`)
+### Top-level metadata (`ExtensionMetadata`)
 
 | Field | Type | Legacy Alias | Description |
 | :--- | :--- | :--- | :--- |
@@ -69,13 +69,13 @@ OpenClip decodes extension metadata via [`ExtensionMetadata`](../../Sources/Core
 | `description` | String / Object | `Description` | Optional package summary. Plain string or localized dictionary. |
 | `actions` | Array / Object | `action`, `Actions` | List of action definitions (or single action object). |
 | `options` | Array | `Options` | Optional array of user-configurable settings. |
-| `keywords` | Array / String |, | Optional search keywords for the package actions in the action-search palette. |
-| `version` | String |, | Declared package version; recorded in the validation log line, not used for loading. |
-| `capabilities` | Array |, | Declared runtime capabilities. The known set is **empty** on day one, so any non-empty value rejects the manifest. Reserved. |
-| `output` | String |, | Optional default output contract kind (`"text"`, `"file"`, `"none"`, `"dynamic"`) inherited by actions in the package. |
-| `result` | String |, | Optional default delivery recommendation (`"preview"`, `"paste"`, `"copy"`, `"paste-or-copy"`, `"open"`, `"save"`) inherited by actions. |
+| `keywords` | Array / String | - | Optional search keywords for the package actions in the action-search palette. |
+| `version` | String | - | Declared package version; recorded in the validation log line, not used for loading. |
+| `capabilities` | Array | - | Declared runtime capabilities. The known set is empty on day one, so any non-empty value rejects the manifest. Reserved. |
+| `output` | String | - | Optional default output contract kind (`"text"`, `"file"`, `"none"`, `"dynamic"`) inherited by actions in the package. |
+| `result` | String | - | Optional default delivery recommendation (`"preview"`, `"paste"`, `"copy"`, `"paste-or-copy"`, `"open"`, `"save"`) inherited by actions. |
 
-Manifests are **validated** on load (`ManifestValidator`): unknown action kinds, missing required
+Manifests are validated on load (`ManifestValidator`): unknown action kinds, missing required
 fields (`keyPress`/`shortcutName`/`subActions`/executable payload), and any declared capability
 reject the package, which is then logged (category `extensions`) rather than silently skipped. See
 [`docs/architecture/extensions.md`](../architecture/extensions.md).
@@ -123,7 +123,7 @@ Toast) then applies the probe and resolves the companion toast.
 
 ### Extension output contract and delivery resolution
 
-OpenClip uses an **Author Output Contract** system (`output` and `result`) for extensions:
+OpenClip uses an author output contract (`output` and `result`) for extensions:
 - **`output` (`text` | `file` | `none` | `dynamic`)**: Declares what type of output the action produces. Non-output actions (`url`, `keyPress`, `shortcut`, `service`) default to `none`.
 - **`result` (`preview` | `paste` | `copy` | `paste-or-copy` | `open` | `save`)**: Declares the author's recommended default outcome. Text actions default to `paste-or-copy`; file actions default to `preview`.
 - **User Customization**: Users can override the delivery mode per-action in Settings (`Show in card`, `Paste`, `Copy`).

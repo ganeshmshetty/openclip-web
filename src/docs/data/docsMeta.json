@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-20T10:02:44.545Z",
+  "generatedAt": "2026-10-20T10:40:19.830Z",
   "categories": [
     {
       "id": "user-guide",
@@ -561,7 +561,7 @@
             },
             {
               "id": "top-level-metadata-extensionmetadata",
-              "title": "Top-Level metadata (ExtensionMetadata)",
+              "title": "Top-level metadata (ExtensionMetadata)",
               "level": 3
             },
             {
@@ -665,22 +665,22 @@
             },
             {
               "id": "1a-entry-dispatch",
-              "title": "1a. entry dispatch",
+              "title": "1a. Entry dispatch",
               "level": 3
             },
             {
               "id": "1b-resolution-and-caching",
-              "title": "1b. resolution and caching",
+              "title": "1b. Resolution and caching",
               "level": 3
             },
             {
               "id": "1c-containment",
-              "title": "1c. containment",
+              "title": "1c. Containment",
               "level": 3
             },
             {
               "id": "1d-rejected-specifiers",
-              "title": "1d. rejected specifiers",
+              "title": "1d. Rejected specifiers",
               "level": 3
             },
             {
@@ -690,7 +690,7 @@
             },
             {
               "id": "2a-build-contract",
-              "title": "2a. build contract",
+              "title": "2a. Build contract",
               "level": 3
             },
             {
@@ -700,7 +700,7 @@
             },
             {
               "id": "2c-bundling-third-party-libraries",
-              "title": "2c. bundling third-party libraries",
+              "title": "2c. Bundling third-party libraries",
               "level": 3
             },
             {
@@ -790,8 +790,8 @@
               "level": 2
             },
             {
-              "id": "prettify-json-returns-a-string-pasted",
-              "title": "Prettify JSON (returns a string → pasted)",
+              "id": "prettify-json-returns-a-string-which-is-pasted",
+              "title": "Prettify JSON (returns a string, which is pasted)",
               "level": 3
             },
             {
@@ -805,8 +805,8 @@
               "level": 3
             },
             {
-              "id": "display-file-preview-card-image-document",
-              "title": "Display file preview card (Image / document)",
+              "id": "display-file-preview-card-image-or-document",
+              "title": "Display file preview card (image or document)",
               "level": 3
             },
             {
@@ -1209,17 +1209,17 @@
             },
             {
               "id": "scoped-sub-action-palette",
-              "title": "Scoped Sub-Action palette",
+              "title": "Scoped sub-action palette",
               "level": 3
             },
             {
               "id": "key-mode-exceptions",
-              "title": "Key-Mode exceptions",
+              "title": "Key mode exceptions",
               "level": 3
             },
             {
               "id": "panel-growth-anchoring-content-driven-resize",
-              "title": "Panel-Growth anchoring (content-driven resize)",
+              "title": "Panel growth anchoring (content-driven resize)",
               "level": 3
             }
           ]
@@ -1266,7 +1266,7 @@
             },
             {
               "id": "privacy-and-non-destructive-guarantees",
-              "title": "Privacy and Non-Destructive guarantees",
+              "title": "Privacy and non-destructive guarantees",
               "level": 2
             },
             {
@@ -2051,7 +2051,7 @@
         },
         {
           "id": "top-level-metadata-extensionmetadata",
-          "title": "Top-Level metadata (ExtensionMetadata)",
+          "title": "Top-level metadata (ExtensionMetadata)",
           "level": 3
         },
         {
@@ -2155,22 +2155,22 @@
         },
         {
           "id": "1a-entry-dispatch",
-          "title": "1a. entry dispatch",
+          "title": "1a. Entry dispatch",
           "level": 3
         },
         {
           "id": "1b-resolution-and-caching",
-          "title": "1b. resolution and caching",
+          "title": "1b. Resolution and caching",
           "level": 3
         },
         {
           "id": "1c-containment",
-          "title": "1c. containment",
+          "title": "1c. Containment",
           "level": 3
         },
         {
           "id": "1d-rejected-specifiers",
-          "title": "1d. rejected specifiers",
+          "title": "1d. Rejected specifiers",
           "level": 3
         },
         {
@@ -2180,7 +2180,7 @@
         },
         {
           "id": "2a-build-contract",
-          "title": "2a. build contract",
+          "title": "2a. Build contract",
           "level": 3
         },
         {
@@ -2190,7 +2190,7 @@
         },
         {
           "id": "2c-bundling-third-party-libraries",
-          "title": "2c. bundling third-party libraries",
+          "title": "2c. Bundling third-party libraries",
           "level": 3
         },
         {
@@ -2271,8 +2271,8 @@
           "level": 2
         },
         {
-          "id": "prettify-json-returns-a-string-pasted",
-          "title": "Prettify JSON (returns a string → pasted)",
+          "id": "prettify-json-returns-a-string-which-is-pasted",
+          "title": "Prettify JSON (returns a string, which is pasted)",
           "level": 3
         },
         {
@@ -2286,8 +2286,8 @@
           "level": 3
         },
         {
-          "id": "display-file-preview-card-image-document",
-          "title": "Display file preview card (Image / document)",
+          "id": "display-file-preview-card-image-or-document",
+          "title": "Display file preview card (image or document)",
           "level": 3
         },
         {
@@ -2681,17 +2681,17 @@
         },
         {
           "id": "scoped-sub-action-palette",
-          "title": "Scoped Sub-Action palette",
+          "title": "Scoped sub-action palette",
           "level": 3
         },
         {
           "id": "key-mode-exceptions",
-          "title": "Key-Mode exceptions",
+          "title": "Key mode exceptions",
           "level": 3
         },
         {
           "id": "panel-growth-anchoring-content-driven-resize",
-          "title": "Panel-Growth anchoring (content-driven resize)",
+          "title": "Panel growth anchoring (content-driven resize)",
           "level": 3
         }
       ]
@@ -2738,7 +2738,7 @@
         },
         {
           "id": "privacy-and-non-destructive-guarantees",
-          "title": "Privacy and Non-Destructive guarantees",
+          "title": "Privacy and non-destructive guarantees",
           "level": 2
         },
         {

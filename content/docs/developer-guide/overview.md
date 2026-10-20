@@ -1,6 +1,6 @@
 # Extending OpenClip
 
-> **Start here:** the self-contained authoring guide is [`Extensions/AGENTS.md`](../../Extensions/AGENTS.md). It covers the manifest schema, every action kind, options and requirements, groups, and the result surface. This page is a short orientation.
+> Start here: the self-contained authoring guide is [`Extensions/AGENTS.md`](../../Extensions/AGENTS.md). It covers the manifest schema, every action kind, options and requirements, groups, and the result surface. This page is a short orientation.
 
 OpenClip has a pluggable extension architecture. You can use it to add your own text tools, connect third-party APIs, and automate macOS workflows.
 
@@ -22,9 +22,9 @@ flowchart LR
   D --> D3[Options UI schema]
 ```
 
-1. **Custom actions** are set up in the app. They are web URL search templates or inline shell scripts (bash, zsh, python, node).
-2. **Script snippets** are single files (`.sh`, `.py`, `.js`, `.applescript`). Comments in the header declare the title, icon, and options.
-3. **Extension packages** (`.openclipext`) are directories containing `manifest.json` or `openclip.json`. They can run JavaScript (JSContext), AppleScript (NSAppleScript), or executables, and they can define an options UI with strings, booleans, and dropdowns.
+1. Custom actions are set up in the app. They are web URL search templates or inline shell scripts (bash, zsh, python, node).
+2. Script snippets are single files (`.sh`, `.py`, `.js`, `.applescript`). Comments in the header declare the title, icon, and options.
+3. Extension packages (`.openclipext`) are directories containing `manifest.json` or `openclip.json`. They can run JavaScript (JSContext), AppleScript (NSAppleScript), or executables, and they can define an options UI with strings, booleans, and dropdowns.
 
 ## Action types
 

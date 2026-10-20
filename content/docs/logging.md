@@ -27,7 +27,7 @@ flowchart TD
   }
   ```
 - **`LogChannel`**: A named logger struct wrapping category metadata and `os.Logger`. Provides convenience methods (`debug`, `info`, `notice`, `warning`, `error`, `fault`, `log(level:_:)`) taking a `LogMessage`.
-- **`LogLevel`**: Enum defining severity cases: `.debug`, `.info`, `.notice`, `.warning`, `.error`, `.fault`. Implements `Comparable` (based on priority 1–6) and provides `osLogType` mappings.
+- **`LogLevel`**: Enum defining severity cases: `.debug`, `.info`, `.notice`, `.warning`, `.error`, `.fault`. Implements `Comparable` (based on priority 1 through 6) and provides `osLogType` mappings.
 - **`LogMessage`**: Supports string interpolation with optional `LogPrivacy` specifiers (`.public`, `.private`, `.auto`).
 - **`Log.addSink(_:)` & `Log.removeAllSinks()`**: Dynamic, thread-safe registration of sinks.
 
@@ -52,24 +52,24 @@ Each subsystem owns a dedicated `LogChannel` property on `Log` under the `com.op
 | `icons`          | icon fetching/caching (`UnifiedIconProvider`, icon picker)  |
 | `updates`        | Sparkle software updates, background check events, update notifications |
 
-**Add a new category when a new subsystem starts logging.** Never create a raw
+Add a new category when a new subsystem starts logging. Never create a raw
 `Logger(subsystem:category:)` at the call site, extend `Log` and keep this table in step.
 
 ## Conventions
 
-- **Levels:**
+- Levels:
   - `.notice`, lifecycle transitions (install/uninstall, download start/success, permission fallbacks).
   - `.info`, durable, useful state (rules loaded/saved counts).
   - `.error`, recoverable failures that still surface to the user (manifest write failure, action throw).
   - `.fault`, reserved for multi-process crashes / invariant violations (currently none).
   - `.debug`/`.warning`, diagnostic detail and soft failures (defensive parses, transient network).
-- **Structured & greppable:** include the action id, extension id, and/or error domain. e.g.
+- Structured and greppable: include the action id, extension id, and/or error domain. e.g.
   `Log.extensions.error("Failed to load extension from \(path): \(error)")`.
-- **Privacy:** anything touching selected text, clipboard content, or extension-authored data stays
+- Privacy: anything touching selected text, clipboard content, or extension-authored data stays
   default-private. Only ids and URLs are marked `privacy: .public` (e.g.
   `\(action.id, privacy: .public)`). Do not mark user text `.public`. JS script `console.log` arguments
   are redacted into structural metadata (`<string len=N>`, `<Object keys=[...]>`) before logging.
-- **No hot-path logging:** never log in per-mouse-move hover updates or high-frequency view bodies.
+- No hot-path logging: never log in per-mouse-move hover updates or high-frequency view bodies.
 
 ## Viewing and filtering workflows
 
@@ -78,10 +78,8 @@ Each subsystem owns a dedicated `LogChannel` property on `Log` under the `com.op
 OpenClip automatically logs all entries to disk:
 
 ```sh
-# Follow live logs from file
 tail -f ~/Library/Logs/OpenClip/openclip.log
 
-# Search recent disk logs
 grep "extensions" ~/Library/Logs/OpenClip/openclip.log
 ```
 
@@ -90,13 +88,11 @@ grep "extensions" ~/Library/Logs/OpenClip/openclip.log
 All categories share subsystem `com.openclip`:
 
 ```sh
-# Live tail for a subsystem (e.g. extensions)
 log stream --predicate 'subsystem == "com.openclip" && category == "extensions"'
 
 # Debug builds only (release strips info-level spam); include level
 log stream --predicate 'subsystem == "com.openclip" AND category == "selection" AND messageType >= 1'
 
-# Last N messages from disk
 log show --predicate 'subsystem == "com.openclip"' --last 1h
 ```
 
@@ -110,9 +106,9 @@ OpenClip provides a fast, built-in CLI log reader powered directly by `DebugLogS
 "/path/to/OpenClip.app/Contents/MacOS/OpenClip" --dump-logs --category=extensions --level=error
 ```
 
-- **0ms Indexing Delay**: Log entries are written directly to the in-memory buffer at emission time, making them instantly queryable without waiting for macOS unified log ingestion or indexing.
-- **Zero Polling Overhead**: Normal app operation has zero polling timers or `OSLogService.xpc` CPU usage.
-- **Flags**: `--category=`, `--level=`, `--count=`, `--collect=` (seconds, default 4), `--help`.
+- No indexing delay (0 ms): log entries are written directly to the in-memory buffer at emission time, so they are queryable at once, without waiting for macOS unified log ingestion or indexing.
+- No polling overhead: normal app operation has zero polling timers or `OSLogService.xpc` CPU usage.
+- Flags: `--category=`, `--level=`, `--count=`, `--collect=` (seconds, default 4), `--help`.
 - It cold-launches the app, runs extension loading (so load/reject lines are produced), waits for collection, prints matching lines to stdout, and exits 0 (`2` on usage errors). This is the quickest agent check for "did my extension load or reject?".
 
 ### Selection log noise and correlation

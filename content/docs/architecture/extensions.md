@@ -1,6 +1,6 @@
 # Extension architecture: trust model and runtime privilege tiers
 
-This page documents **what an extension is allowed to do**, how OpenClip decides that, and where
+This page documents what an extension is allowed to do, how OpenClip decides that, and where
 the line is between malformed and untrusted. The authoritative manifest schema lives in
 [`Extensions/AGENTS.md`](../../Extensions/AGENTS.md); this page is about the security
 and trust posture.
@@ -11,17 +11,17 @@ Source of truth: `Sources/Core/Extensions/` (`ExtensionManager.swift`,
 
 ## 1. What an extension is
 
-An extension is a **directory** (conventionally `<name>.openclipext`) containing an `openclip.json`
+An extension is a directory (conventionally `<name>.openclipext`) containing an `openclip.json`
 manifest plus optional script files and local assets, copied into `~/.openclip/extensions`. On
 startup the app scans that directory, decodes each manifest, **validates** it, and registers one
 action per manifest entry (or a group row + its sub-actions for `type: "group"`). There is no
-compilation, sandbox, or approval step, a manifest plus an optional script is a complete
+compilation, sandbox, or approval step. A manifest plus an optional script is a complete
 extension.
 
 ## 2. Trust model
 
-> **Current reality (2026-08):** OpenClip treats an installed extension as **trusted code running
-> with the user's privileges**. Installing an extension is an act of trust; OpenClip does not
+> Current state (2026-08): OpenClip treats an installed extension as trusted code running
+> with the user's privileges. Installing an extension is an act of trust; OpenClip does not
 > sandbox extension execution, prompt per-action, or quarantine packages.
 
 Consequences of this model:
@@ -35,16 +35,16 @@ Consequences of this model:
   - `keypress` posts synthetic keyboard events to the frontmost app.
   - `js` async mode can reach the network via a `fetch` polyfill, and the `openclip.*` bridge can
     paste/copy to the pasteboard, post notifications, run Shortcuts, and synthesize keys.
-- **Validation is a correctness gate, not a security boundary.** The manifest validation pass
+- Validation is a correctness gate, not a security boundary. The manifest validation pass
   (below) rejects *malformed* manifests (unknown action kinds, missing required fields, unknown
-  capabilities). It does not, and cannot, make a malicious manifest benign. A "bad" extension is
-  one that doesn't load, not one that is disarmed.
+  capabilities). It does not, and cannot, make a malicious manifest benign. A bad extension fails
+  to load; it is not disarmed.
 
 ## 3. Manifest validation pass
 
 Every manifest package is validated by `ManifestValidator`
 (`Sources/Core/Extensions/Manifest/ManifestValidation.swift`) before any action is created. A
-manifest that fails validation is **rejected as a whole** and the rejection is surfaced through
+manifest that fails validation is rejected as a whole and the rejection is surfaced through
 `Log.extensions` (category `extensions`) instead of being silently skipped.
 
 Validation rules:
@@ -69,10 +69,10 @@ previous silent `nil`.
 ## 4. Capability gating (mechanism)
 
 `ManifestCapabilityGate` is a generic mechanism: a manifest may declare `capabilities: [...]` and
-the host validates them against a **known set**. The known set is intentionally **empty** on day
+the host validates them against a **known set**. The known set is intentionally empty on day
 one, so:
 
-- any non-empty `capabilities` list currently **rejects** the manifest (everything is unknown), and
+- any non-empty `capabilities` list currently rejects the manifest (everything is unknown), and
 - no capability slot is reserved or invented ahead of its runtime existing.
 
 The mechanism stays generic so a future capability can be shipped by seeding
@@ -83,7 +83,7 @@ surfaced via the logging layer.
 ## 5. Runtime privilege tiers
 
 Kinds are grouped by what they can reach on the system. Lower tiers are a subset of the ones above
-for risk reasoning, but every kind executes without a sandbox, tiers describe *typical reach*, not
+for risk reasoning, but every kind executes without a sandbox. The tiers describe *typical reach*, not
 a containment boundary.
 
 | Tier | Kinds | Reaches | Examples |
@@ -98,7 +98,7 @@ Notes:
 
 - **`js` is the interesting one.** Synchronous JS runs in a `JSContext` with a read-only input and
   a fixed `openclip.*` effect bridge; async mode additionally reaches the network. Through the
-  bridge it can already trigger L3-style effects (synthetic keys, Shortcuts, notifications), the
+  bridge it can already trigger L3-style effects (synthetic keys, Shortcuts, notifications). The
   *intent* of the manifest author is the real capability boundary, which is why §2 says installing
   is trusting.
 - **JS module containment is not a sandbox.** JS file scripts (`"script"`) resolve `require()` only
@@ -107,9 +107,10 @@ Notes:
   *file reads* to the package; it is not a privilege boundary (see §2, JS still reaches the network,
   pasteboard, and `openclip.*` effects).
 - **Subprocess watchdog (opt-in).** Every subprocess-spawning runtime (`shell`, `scriptfile`, `applescript`, `shortcut`)
-  runs through `ShellProcessRunner`, which arms a kill watchdog only when the invocation carries an explicit
-  `timeout`, a liveness guard, not a privilege guard. With none (the default for loading tasks) the child runs
-  until it exits; users can abort running loading tasks anytime by clicking the loading toast. When armed, the runner kills the direct child, the process group when the child is the leader, and remaining descendants.
+  runs through `ShellProcessRunner`. The kill watchdog is armed only when the invocation carries an explicit
+  `timeout`. That timeout is a liveness guard, not a privilege guard. Without one (the default for loading tasks)
+  the child runs until it exits, and users can abort running loading tasks by clicking the loading toast. When armed,
+  the runner kills the direct child, the process group when the child is the leader, and remaining descendants.
 - **Secrets.** Option values of `type: "secret"` live in `SecretStore` (`~/.openclip/secrets.json` with POSIX 0600 permissions) and never reach UserDefaults or the manifest itself.
 
 ## 6. Failure surfacing
@@ -119,17 +120,17 @@ Notes:
   full issue list. Filter in Console.app with `category == "extensions"` (or `"factory"`).
 - Per-action drops that used to be silent (e.g. a script file that is missing or a directory) are
   now logged, so "my extension isn't showing up" is diagnosable.
-- There is deliberately **no user-facing error UI** for a rejected manifest today; the package is
+- There is deliberately no user-facing error UI for a rejected manifest today; the package is
   simply not loaded and the reason is in the log. A future iteration may surface load failures in
   the Preferences → Extensions list.
 
 ## 7. Hot reload
 
-Extensions are **re-scanned at launch and on every change** without relaunching.
+Extensions are re-scanned at launch and on every change, without relaunching.
 
 `ExtensionsDirectoryWatcher` (`Sources/OpenClip/Platform/Extensions/ExtensionsDirectoryWatcher.swift`)
 polls `~/.openclip/extensions` on a background queue and reloads via the same
-`ExtensionManager.loadExtensions()` seam that startup uses. It is started by `AppDelegate` **after**
+`ExtensionManager.loadExtensions()` seam that startup uses. It is started by `AppDelegate` after
 `ActionCoordinator.loadInitialState()` returns, so the `onRegister`/`onUnregister` registry wiring is
 already in place before any watcher-triggered reload.
 
@@ -141,7 +142,7 @@ Mechanism (poll-snapshot diff, not FSEvents, pure Foundation):
 - A reload fires only when **two consecutive ticks agree** that the tree changed. The settle window
   keeps a reload from firing mid-copy while `cp -R`/download staging is still writing.
 - On fire it hops to the MainActor and calls `loadExtensions()`; failures surface exactly as they do
-  at startup (§6). Silent by design, a hot-reloaded rejection shows up in the log, not the UI.
+  at startup (§6). The failure is silent by design: a hot-reloaded rejection shows up in the log, not the UI.
 
 Latency: one tick per second, so a settled change appears within ~2 seconds. `stop()` cancels the
 timer (also used by tests; tests drive the settle logic synchronously via `pollOnce()`).

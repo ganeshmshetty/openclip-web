@@ -8,9 +8,12 @@
  * dedicated Hero Video preview above the documentation.
  */
 
+import { mediaURL } from './media';
+
 export const EXTENSION_PREVIEW_VIDEOS: Record<string, string> = {
-  // Quick Decision
-  'com.openclip.quickdecision': 'https://pub-3cf3907486a54f7ab91eda44c426a7d3.r2.dev/extensions/com.openclip.quickdecision.mp4',
+  'com.openclip.quickdecision': mediaURL('extensions/com.openclip.quickdecision.mp4'),
+  'com.openclip.render-mermaid': mediaURL('extensions/com.openclip.render-mermaid.mp4'),
+  'com.openclip.shortenlink': mediaURL('extensions/com.openclip.shortenlink.mp4'),
 
   // Add more extension videos here gradually:
   // 'com.openclip.wordcount': 'https://media.getopenclip.app/word-count.mp4',

@@ -1,10 +1,10 @@
 # Integration and automation API
 
 OpenClip exposes an inbound `openclip://` URL scheme so other apps and scripts can trigger a small,
-curated set of actions. This document is the **current-state contract**: what exists today, exactly
+curated set of actions. This document is the current-state contract: what exists today, exactly
 as implemented.
 
-> **Status:** first iteration. The surface is deliberately small and **fire-and-forget**: a URL
+> Status: first iteration. The surface is deliberately small and fire-and-forget: a URL
 > asks OpenClip to do one thing and nothing is returned. There is no settings read/write route, no
 > x-callback-url reply, and no CLI yet; see [Not available yet](#not-available-yet).
 
@@ -63,9 +63,9 @@ openclip://command/resume
 Earlier iterations exposed `openclip://settings` (read), `openclip://set` (write), and an
 x-callback-url reply. They were removed:
 
-- **A URL scheme is unauthenticated.** Any local process can open `openclip://`, so a read/write
+- A URL scheme is unauthenticated. Any local process can open `openclip://`, so a read/write
   settings route is an untrusted configuration API for every app on the machine.
-- **A reply needs the wrong transport.** Returning a value required the caller to register a
+- A reply needs the wrong transport. Returning a value required the caller to register a
   callback scheme and OpenClip to switch apps (`NSWorkspace.open`). Anything that needs a return
   value belongs in a CLI (stdout) or App Intents (return value).
 
@@ -76,12 +76,12 @@ configuration.
 
 Candidates for a later iteration:
 
-- **Running actions** (`openclip run <action-id>`), headless invocation with the result on stdout.
+- Running actions (`openclip run <action-id>`), headless invocation with the result on stdout.
   A CLI is the right transport for this, not a URL callback.
-- **Capability discovery** (`openclip list --json`), the runnable actions and their ids.
-- **App Intents / Shortcuts integration**, `Run OpenClip Action`, `Capture Text`, and
+- Capability discovery (`openclip list --json`), the runnable actions and their ids.
+- App Intents / Shortcuts integration, `Run OpenClip Action`, `Capture Text`, and
   `Toggle OpenClip`, which return values natively.
-- **macOS Services**, expose actions into the Services menu / context menu.
+- macOS Services, expose actions into the Services menu / context menu.
 
 ## Implementation map
 
