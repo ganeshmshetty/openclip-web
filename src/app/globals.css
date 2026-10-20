@@ -207,47 +207,77 @@ body {
   .home-tabs svg { display: none; }
 }
 
-/* ── Testimonials ── */
-.testimonial-wall {
-  columns: 1;
-  column-gap: 16px;
+/* ── Testimonials ──
+   Two rows of quotes drift slowly in opposite directions. The track holds each
+   set twice so the loop is seamless; the copy is aria-hidden. Hover or focus
+   pauses a row, and reduced motion turns it into a plain scrollable row. */
+.quote-rows {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 }
 
-.testimonial-card {
-  display: inline-block;
-  width: 100%;
-  margin-bottom: 16px;
+.quote-marquee {
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(to right, transparent, #000 8%, #000 92%, transparent);
+  mask-image: linear-gradient(to right, transparent, #000 8%, #000 92%, transparent);
+}
+
+.quote-track {
+  display: flex;
+  width: max-content;
+  gap: 16px;
+  padding-block: 4px;
+  animation: quote-drift 70s linear infinite;
+}
+
+.quote-marquee.is-reverse .quote-track {
+  animation-direction: reverse;
+  animation-duration: 80s;
+}
+
+.quote-marquee:hover .quote-track,
+.quote-marquee:focus-within .quote-track {
+  animation-play-state: paused;
+}
+
+@keyframes quote-drift {
+  to { transform: translateX(calc(-50% - 8px)); }
+}
+
+.quote-card {
+  display: block;
+  flex: 0 0 auto;
+  width: min(82vw, 320px);
   padding: 22px;
-  break-inside: avoid;
-  border: 1px solid var(--border-subtle);
   border-radius: 18px;
   background: var(--bg-surface);
   box-shadow: var(--shadow-sm);
   text-decoration: none;
-  transition: transform 180ms ease, border-color 180ms ease, box-shadow 180ms ease;
 }
 
-.testimonial-card:hover,
-.testimonial-card:focus-visible {
-  transform: translateY(-3px);
-  border-color: var(--accent-border);
-  box-shadow: var(--shadow-md);
+.quote-card blockquote {
+  flex: 1;
+  margin: 14px 0 22px;
+  color: var(--text-primary);
+  font-size: 14.5px;
+  line-height: 1.6;
+  text-wrap: pretty;
 }
 
-.testimonial-author {
+.quote-author {
   display: flex;
   align-items: center;
   gap: 10px;
-  margin-bottom: 20px;
 }
 
-.testimonial-avatar {
+.quote-avatar {
   display: inline-flex;
   flex-shrink: 0;
   align-items: center;
   justify-content: center;
-  width: 34px;
-  height: 34px;
+  width: 32px;
+  height: 32px;
   border-radius: 50%;
   background: var(--bg-tertiary);
   color: var(--text-secondary);
@@ -256,49 +286,15 @@ body {
   letter-spacing: -0.03em;
 }
 
-.testimonial-arrow {
-  color: var(--text-tertiary);
-  transition: color 180ms ease;
-}
-
-.testimonial-card:hover .testimonial-arrow,
-.testimonial-card:focus-visible .testimonial-arrow {
-  color: var(--accent);
-}
-
-.testimonial-card blockquote {
-  margin: 0;
-  color: var(--text-secondary);
-  font-size: 14px;
-  line-height: 1.65;
-  text-wrap: pretty;
-}
-
-.testimonial-card-featured {
-  background: var(--accent-soft);
-  border-color: var(--accent-border);
-}
-
-.testimonial-card-featured blockquote {
-  color: var(--text-primary);
-  font-size: 23px;
-  font-weight: 500;
-  line-height: 1.4;
-  letter-spacing: -0.025em;
-}
-
-@media (min-width: 640px) {
-  .testimonial-wall { columns: 2; }
-}
-
-@media (min-width: 960px) {
-  .testimonial-wall { columns: 3; }
-}
-
 @media (prefers-reduced-motion: reduce) {
-  .testimonial-card { transition: none; }
-  .testimonial-card:hover,
-  .testimonial-card:focus-visible { transform: none; }
+  .quote-marquee {
+    overflow-x: auto;
+    scrollbar-width: none;
+    -webkit-mask-image: none;
+    mask-image: none;
+  }
+  .quote-track { animation: none; }
+  .quote-card[aria-hidden="true"] { display: none; }
 }
 
 /* ── Heading scale — three sizes, and only three ──

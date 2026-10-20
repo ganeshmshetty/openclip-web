@@ -1,28 +1,31 @@
 'use client';
 
-import { useEffect, useId, useRef } from 'react';
+import { useEffect, useId, useRef, type ReactNode } from 'react';
 import { animate, motionValue, type AnimationPlaybackControls } from 'motion/react';
 
 /**
  * Clip Store icon: a roof over a shop whose top edge is scalloped to match
  * the roof's lobes, leaving a clear gutter between them (blue points rise
- * between the lobes). Only the roof moves (drop-in, idle sway, hover lift,
- * click shrug), so the gutter breathes as it moves.
+ * between the lobes). Only the roof moves: it drops in once on load, then
+ * stays still except for a hover lift and a click shrug.
  */
 
 const ROOF_PATH =
-  'M75 48 L180.5 48 Q191.5 48 193.5 60 L208 92 L208 100 ' +
+  'M82 48 L173.5 48 Q189 48 193.5 62 L205 85 Q208 92 208 100 ' +
   'A23.75 12 0 0 1 160.5 100 L160.5 76 A4 4 0 0 0 152.5 76 L152.5 100 ' +
   'A25 12 0 0 1 102.5 100 L102.5 76 A4 4 0 0 0 94.5 76 L94.5 100 ' +
-  'A23.5 12 0 0 1 47.5 100 L47.5 92 L62 60 Q64 48 75 48Z';
+  'A23.5 12 0 0 1 47.5 100 Q47.5 92 50.5 85 L61.5 62 Q66 48 82 48Z';
 
 // Top edge is the roof's lobes offset down by the gutter (ellipses grown by 9),
 // meeting in points under the slits.
 const BODY_PATH =
-  'M53.5 179.5 L53.5 117.6 A32.5 21 0 0 0 98.6 111.1 A34 21 0 0 0 156.4 111.2 A32.75 21 0 0 0 201.5 117.9 ' +
-  'L201.5 179.5 A20 20 0 0 1 181.5 199.5 L73.5 199.5 A20 20 0 0 1 53.5 179.5Z';
+  'M53.5 169.5 L53.5 117.6 A32.5 21 0 0 0 98.6 111.1 A34 21 0 0 0 156.4 111.2 A32.75 21 0 0 0 201.5 117.9 ' +
+  'L201.5 169.5 A30 30 0 0 1 171.5 199.5 L83.5 199.5 A30 30 0 0 1 53.5 169.5Z';
 
-const DOOR_PATH = 'M104.5 210 L104.5 159 A14 14 0 0 1 118.5 145 L135.5 145 A14 14 0 0 1 149.5 159 L149.5 210Z';
+// Flares out at the floor so the shop's inner leg corners are rounded.
+const DOOR_PATH =
+  'M96.5 210 L96.5 199.5 A8 8 0 0 0 104.5 191.5 L104.5 165 A20 20 0 0 1 124.5 145 L129.5 145 A20 20 0 0 1 149.5 165 ' +
+  'L149.5 191.5 A8 8 0 0 0 157.5 199.5 L157.5 210Z';
 
 const PIVOT = { x: 127.75, y: 80 };
 
@@ -30,29 +33,15 @@ const CSS = `
 .asi-root { cursor: pointer; overflow: visible; }
 .asi-roof-fill { fill: #292929; }
 :is(.dark, [data-theme="dark"]) .asi-roof-fill { fill: #f5f5f7; }
-.asi-door-glow { opacity: 0; }
-
-@media (prefers-reduced-motion: no-preference) {
-  .asi-door-glow {
-    animation:
-      asi-glow-in 1.4s ease-out 0.7s both,
-      asi-glow-breathe 7s ease-in-out 2.1s infinite;
-  }
-  .asi-root[data-offscreen] .asi-door-glow { animation-play-state: paused; }
-}
-
-@keyframes asi-glow-in {
-  0% { opacity: 0; }
-  55% { opacity: 0.6; }
-  100% { opacity: 0.22; }
-}
-@keyframes asi-glow-breathe {
-  0%, 100% { opacity: 0.22; }
-  50% { opacity: 0.08; }
-}
 `;
 
-export default function AnimatedStoreIcon({ className }: { className?: string }) {
+export default function AnimatedStoreIcon({
+  className,
+  children,
+}: {
+  className?: string;
+  children?: ReactNode;
+}) {
   const svgRef = useRef<SVGSVGElement>(null);
   const roofRef = useRef<SVGGElement>(null);
   const shrugRef = useRef<(() => void) | null>(null);
@@ -89,9 +78,7 @@ export default function AnimatedStoreIcon({ className }: { className?: string })
     if (!reduced.matches) {
       running.push(
         animate(fade, 1, { duration: 0.35, delay: 0.2 }),
-        animate(dropY, 0, { type: 'spring', stiffness: 170, damping: 11, delay: 0.2 }),
-        animate(swayX, [0, 7, 0, -7, 0], { duration: 3.2, ease: 'easeInOut', repeat: Infinity, delay: 1.3 }),
-        animate(swayR, [0, 2.5, 0, -2.5, 0], { duration: 3.2, ease: 'easeInOut', repeat: Infinity, delay: 1.3 })
+        animate(dropY, 0, { type: 'spring', stiffness: 170, damping: 11, delay: 0.2 })
       );
     }
 
@@ -146,24 +133,13 @@ export default function AnimatedStoreIcon({ className }: { className?: string })
           <rect width="256" height="256" fill="#fff" />
           <path d={DOOR_PATH} fill="#000" />
         </mask>
-        <radialGradient id={id('glow')} cx="0.5" cy="1" r="1">
-          <stop offset="0" stopColor="#FFD58A" />
-          <stop offset="0.55" stopColor="#FFE3B0" stopOpacity="0.55" />
-          <stop offset="1" stopColor="#FFF0D6" stopOpacity="0" />
-        </radialGradient>
-        <clipPath id={id('shop')}>
-          <path d={BODY_PATH} />
-        </clipPath>
       </defs>
 
       <path d={BODY_PATH} fill="#2983FD" mask={`url(#${id('door')})`} />
-      <g clipPath={`url(#${id('shop')})`}>
-        <path className="asi-door-glow" d={DOOR_PATH} fill={`url(#${id('glow')})`} />
-      </g>
-
       <g ref={roofRef}>
         <path className="asi-roof-fill" d={ROOF_PATH} />
       </g>
+      {children}
     </svg>
   );
 }

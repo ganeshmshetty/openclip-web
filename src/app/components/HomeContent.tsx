@@ -7,7 +7,7 @@ import Navbar from './Navbar';
 import Footer from './Footer';
 import GifFrame from './GifFrame';
 import PromoVideo from './PromoVideo';
-import { ArrowRight, ArrowUpRight, Heart, Command, Blocks, Plus, Sparkles, Calculator, SpellCheck } from 'lucide-react';
+import { ArrowRight, ArrowUpRight, Quote, Heart, Command, Blocks, Plus, Sparkles, Calculator, SpellCheck } from 'lucide-react';
 import { DownloadPill, BrewPill } from './CtaPills';
 
 const PINNED_SHOWCASE = [
@@ -176,10 +176,8 @@ interface Testimonial {
 
 /*
  * Every quote below is a real, unedited comment with a link to its original
- * post — six from r/macapps and r/MacOSApps, one supporter note from Buy Me a
- * Coffee. Nothing here is written or paraphrased by us, which is why the
- * measured one is kept alongside the praise: cherry-picking only the glowing
- * comments is how testimonial sections stop being believable.
+ * post (Reddit threads and one Buy Me a Coffee supporter note). The wording is
+ * never trimmed or paraphrased; the selection is the positive ones.
  */
 const TESTIMONIALS: Testimonial[] = [
   {
@@ -188,14 +186,6 @@ const TESTIMONIALS: Testimonial[] = [
     author: 'u/Superb379',
     source: 'r/macapps',
     href: 'https://reddit.com/comments/p9h0a56',
-  },
-  {
-    id: 'reddit-icyb3r',
-    quote:
-      'Codex recommended this to me, and I was completely blown away. Although I already own a PopClip license and recently built my own app, neither satisfied me.',
-    author: 'u/iCyb3r',
-    source: 'r/MacOSApps',
-    href: 'https://reddit.com/comments/pcck11v',
   },
   {
     id: 'reddit-zackria',
@@ -214,12 +204,19 @@ const TESTIMONIALS: Testimonial[] = [
     href: 'https://buymeacoffee.com/ganeshmshetty/t/7060855',
   },
   {
-    id: 'reddit-penpal',
+    id: 'reddit-volatilefocus',
+    quote: 'I really like this — the kind of thing that should ship with Macs, but cooler :)',
+    author: 'u/volatilefocus',
+    source: 'r/MacOSApps',
+    href: 'https://reddit.com/comments/p9zvj4v',
+  },
+  {
+    id: 'reddit-icyb3r',
     quote:
-      'I’ve been dailying it for some 4-5 days now and I’m quite happy with the context awareness. You’ve done a great job OP.',
-    author: 'u/Pen-Pal-0',
-    source: 'r/macapps',
-    href: 'https://reddit.com/comments/p9ihvzi',
+      'Codex recommended this to me, and I was completely blown away. Although I already own a PopClip license and recently built my own app, neither satisfied me.',
+    author: 'u/iCyb3r',
+    source: 'r/MacOSApps',
+    href: 'https://reddit.com/comments/pcck11v',
   },
   {
     id: 'reddit-azfarrizvi',
@@ -229,22 +226,11 @@ const TESTIMONIALS: Testimonial[] = [
     source: 'r/MacOSApps',
     href: 'https://reddit.com/comments/p9zdr9d',
   },
-  {
-    id: 'reddit-volatilefocus',
-    quote:
-      'I really like this — the kind of thing that should ship with Macs, but cooler :)',
-    author: 'u/volatilefocus',
-    source: 'r/MacOSApps',
-    href: 'https://reddit.com/comments/p9zvj4v',
-  },
-  {
-    id: 'reddit-mc-chrome',
-    quote:
-      'Your app looks good, but I’m not sure what is compelling to make existing PopClip users like myself move over. PopClip still fits my workflows just fine at the moment.',
-    author: 'u/MC_chrome',
-    source: 'r/macapps',
-    href: 'https://reddit.com/comments/p8a78u1',
-  },
+];
+
+const QUOTE_ROWS: { items: Testimonial[]; reverse: boolean }[] = [
+  { items: TESTIMONIALS.slice(0, 3), reverse: false },
+  { items: TESTIMONIALS.slice(3), reverse: true },
 ];
 
 const DISCUSSION_LINKS = [
@@ -254,39 +240,51 @@ const DISCUSSION_LINKS = [
   { label: 'AlternativeTo', href: 'https://alternativeto.net/software/openclip/about/' },
 ];
 
+function QuoteCard({ t, hidden }: { t: Testimonial; hidden?: boolean }) {
+  const name = t.author.replace(/^u\//, '');
+  const initials = (name.includes(' ') ? name.split(' ').map((part) => part[0]).slice(0, 2).join('') : name.slice(0, 2)).toUpperCase();
+
+  return (
+    <a
+      href={t.href}
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label={`${t.author} on ${t.source}: “${t.quote}”`}
+      aria-hidden={hidden || undefined}
+      tabIndex={hidden ? -1 : undefined}
+      className="quote-card"
+    >
+      <figure className="flex h-full flex-col">
+        <Quote className="h-5 w-5 fill-[var(--accent)] text-[var(--accent)]" aria-hidden="true" />
+        <blockquote>{t.quote}</blockquote>
+        <figcaption className="quote-author">
+          <span className="quote-avatar" aria-hidden="true">{initials}</span>
+          <span className="min-w-0">
+            <span className="block truncate text-[13px] font-semibold text-[var(--text-primary)]">{t.author}</span>
+            <span className="block truncate text-[11.5px] text-[var(--text-tertiary)]">{t.source}</span>
+          </span>
+        </figcaption>
+      </figure>
+    </a>
+  );
+}
+
 function Testimonials() {
   return (
     <div>
-      <div className="testimonial-wall">
-        {TESTIMONIALS.map((t, index) => {
-          const name = t.author.replace(/^u\//, '');
-          const initials = name.includes(' ')
-            ? name.split(' ').map((part) => part[0]).slice(0, 2).join('')
-            : name.slice(0, 2);
-
-          return (
-            <a
-              key={t.id}
-              href={t.href}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label={`${t.author} on ${t.source}: “${t.quote}”`}
-              className={`testimonial-card ${index === 0 ? 'testimonial-card-featured' : ''}`}
-            >
-              <figure>
-                <figcaption className="testimonial-author">
-                  <span className="testimonial-avatar" aria-hidden="true">{initials.toUpperCase()}</span>
-                  <span className="min-w-0 flex-1">
-                    <span className="block truncate text-[13px] font-semibold text-[var(--text-primary)]">{t.author}</span>
-                    <span className="mt-0.5 block text-[11px] text-[var(--text-tertiary)]">{t.source}</span>
-                  </span>
-                  <ArrowUpRight className="testimonial-arrow h-3.5 w-3.5 shrink-0" aria-hidden="true" />
-                </figcaption>
-                <blockquote>&ldquo;{t.quote}&rdquo;</blockquote>
-              </figure>
-            </a>
-          );
-        })}
+      <div className="quote-rows">
+        {QUOTE_ROWS.map(({ items, reverse }, row) => (
+          <div key={row} className={`quote-marquee ${reverse ? 'is-reverse' : ''}`}>
+            <div className="quote-track">
+              {items.map((t) => (
+                <QuoteCard key={t.id} t={t} />
+              ))}
+              {items.map((t) => (
+                <QuoteCard key={`${t.id}-copy`} t={t} hidden />
+              ))}
+            </div>
+          </div>
+        ))}
       </div>
 
       <div className="mt-8 flex flex-wrap items-center justify-center gap-x-5 gap-y-3 text-[12px]">
@@ -512,16 +510,16 @@ export default function HomeContent() {
         <DirectDriveSection
           className="section-shell py-16 sm:py-24"
         >
-          <div className="mb-7">
+          <div className="mb-7 text-right">
             <h2 className="section-title">Every action, one keystroke away.</h2>
-            <p className="section-sub mt-2.5 max-w-xl">
+            <p className="section-sub ml-auto mt-2.5 max-w-xl">
               Press ⌥⌘C to search every action, extension, and calculation from anywhere on your Mac.
             </p>
           </div>
 
           {/* Segmented Control — same capsule and knob as the navbar */}
           <div
-            className="mb-6"
+            className="mb-6 flex justify-end"
             onPointerEnter={() => setFeatureHeld(true)}
             onPointerLeave={() => setFeatureHeld(false)}
           >
@@ -583,7 +581,7 @@ export default function HomeContent() {
           </div>
 
           {/* Zero-Layout-Shift Crossfade Frame */}
-          <div className="max-w-2xl w-full">
+          <div className="ml-auto max-w-2xl w-full">
             <div className="grid grid-cols-1 [grid-template-areas:'stack'] w-full">
               <div
                 className={`[grid-area:stack] space-y-3.5 transition-all duration-300 ${
@@ -610,7 +608,7 @@ export default function HomeContent() {
                         }
                   }
                 />
-                <p className="text-[13.5px] text-[var(--text-secondary)] leading-relaxed min-h-[22px]">
+                <p className="text-right text-[13.5px] text-[var(--text-secondary)] leading-relaxed min-h-[22px]">
                   Press <kbd className="mac-keycap mx-1">⌥⌘C</kbd> from anywhere to calculate, format, or trigger quick actions straight from your keyboard.
                 </p>
               </div>
@@ -640,7 +638,7 @@ export default function HomeContent() {
                         }
                   }
                 />
-                <div className="flex flex-col sm:flex-row items-center gap-2 sm:gap-4 text-[13.5px] text-[var(--text-secondary)] min-h-[22px]">
+                <div className="flex flex-col sm:flex-row items-end sm:items-center sm:justify-end gap-2 sm:gap-4 text-right text-[13.5px] text-[var(--text-secondary)] min-h-[22px]">
                   <span>Browse 100+ official extensions or create custom workflows in JS, AppleScript, and Shell.</span>
                   <Link
                     href="/extensions"
