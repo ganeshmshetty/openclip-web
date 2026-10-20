@@ -510,16 +510,16 @@ export default function HomeContent() {
         <DirectDriveSection
           className="section-shell py-16 sm:py-24"
         >
-          <div className="mb-7 text-right">
+          <div className="mb-7">
             <h2 className="section-title">Every action, one keystroke away.</h2>
-            <p className="section-sub ml-auto mt-2.5 max-w-xl">
+            <p className="section-sub mt-2.5 max-w-xl">
               Press ⌥⌘C to search every action, extension, and calculation from anywhere on your Mac.
             </p>
           </div>
 
           {/* Segmented Control — same capsule and knob as the navbar */}
           <div
-            className="mb-6 flex justify-end"
+            className="mb-6"
             onPointerEnter={() => setFeatureHeld(true)}
             onPointerLeave={() => setFeatureHeld(false)}
           >
@@ -581,7 +581,7 @@ export default function HomeContent() {
           </div>
 
           {/* Zero-Layout-Shift Crossfade Frame */}
-          <div className="ml-auto max-w-2xl w-full">
+          <div className="max-w-2xl w-full">
             <div className="grid grid-cols-1 [grid-template-areas:'stack'] w-full">
               <div
                 className={`[grid-area:stack] space-y-3.5 transition-all duration-300 ${
@@ -608,7 +608,7 @@ export default function HomeContent() {
                         }
                   }
                 />
-                <p className="text-right text-[13.5px] text-[var(--text-secondary)] leading-relaxed min-h-[22px]">
+                <p className="text-[13.5px] text-[var(--text-secondary)] leading-relaxed min-h-[22px]">
                   Press <kbd className="mac-keycap mx-1">⌥⌘C</kbd> from anywhere to calculate, format, or trigger quick actions straight from your keyboard.
                 </p>
               </div>
@@ -638,7 +638,7 @@ export default function HomeContent() {
                         }
                   }
                 />
-                <div className="flex flex-col sm:flex-row items-end sm:items-center sm:justify-end gap-2 sm:gap-4 text-right text-[13.5px] text-[var(--text-secondary)] min-h-[22px]">
+                <div className="flex flex-col sm:flex-row items-center gap-2 sm:gap-4 text-[13.5px] text-[var(--text-secondary)] min-h-[22px]">
                   <span>Browse 100+ official extensions or create custom workflows in JS, AppleScript, and Shell.</span>
                   <Link
                     href="/extensions"
