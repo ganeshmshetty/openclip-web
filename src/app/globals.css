@@ -1163,6 +1163,8 @@ body {
   border-radius: 8px;
   background: var(--bg-surface);
   box-shadow: 0 12px 32px -10px rgba(0, 0, 0, 0.3);
+  opacity: 0.5;
+  transition: opacity 0.22s ease;
 }
 :is(.dark, [data-theme="dark"]) .desk-frame {
   box-shadow: 0 12px 32px -10px rgba(0, 0, 0, 0.8);
@@ -1170,25 +1172,35 @@ body {
 
 .desk-window {
   z-index: 1;
-  opacity: 0.5;
   outline: none;
-  will-change: transform, opacity;
+  will-change: transform;
   backface-visibility: hidden;
-  transition: transform 0.32s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.22s ease;
+  transition: transform 0.32s cubic-bezier(0.22, 1, 0.36, 1);
   animation: desk-in 0.4s cubic-bezier(0.2, 0.7, 0.25, 1) backwards;
 }
 .desk-window:hover,
 .desk-window:focus-visible {
   z-index: 20;
-  opacity: 1;
   transform: scale(1.6);
 }
+.desk-window:hover .desk-frame,
+.desk-window:focus-visible .desk-frame {
+  opacity: 1;
+}
+.desk-caption {
+  margin-top: 10px;
+  text-align: center;
+  font-size: 12.5px;
+  font-weight: 500;
+  color: #000;
+}
+:is(.dark, [data-theme="dark"]) .desk-caption { color: #fff; }
 @keyframes desk-in {
   from { opacity: 0; transform: translateY(14px) scale(0.96); }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .desk-window { animation: none; transition: opacity 0.2s; }
+  .desk-window { animation: none; transition: none; }
   .desk-window:hover, .desk-window:focus-visible { transform: none; }
 }
 

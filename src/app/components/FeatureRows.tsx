@@ -4,12 +4,12 @@ import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
 import { ArrowRight } from 'lucide-react';
 import GifFrame from './GifFrame';
-import { ActionsVisual, PaletteVisual } from './FeatureVisuals';
+import { PaletteVisual } from './FeatureVisuals';
 import AnimatedStoreIcon from './AnimatedStoreIcon';
 
 type Row = {
   id: string;
-  visual: 'actions' | 'palette' | 'store';
+  visual?: 'palette' | 'store';
   title: string;
   body: string;
   mp4: string;
@@ -21,7 +21,6 @@ type Row = {
 const ROWS: Row[] = [
   {
     id: 'ai',
-    visual: 'actions',
     title: 'AI writing, inline.',
     body: 'Fix grammar, summarize, or translate. The result streams into the card in place, not a browser tab.',
     mp4: '/gifs/ai-actions.mp4',
@@ -107,7 +106,6 @@ export default function FeatureRows() {
               {row.visual === 'store' && <AnimatedStoreIcon className="mb-5 aspect-[200/170] w-28" />}
               <h2 className="section-title">{row.title}</h2>
               <p className="section-sub mt-2.5">{row.body}</p>
-              {row.visual === 'actions' && <ActionsVisual className="mt-6" />}
               {row.hint && <kbd className="mac-keycap mt-4 inline-block">{row.hint}</kbd>}
               {row.link && (
                 <Link

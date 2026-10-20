@@ -51,7 +51,7 @@ function ClipWindow({ clip, slot, index }: { clip: Clip; slot: Slot; index: numb
       <div className="desk-frame">
         <video ref={ref} src={clip.src} muted loop playsInline preload="metadata" className="block aspect-[16/10] w-full object-cover" />
       </div>
-      <figcaption className="mt-2.5 text-center text-[12px] text-[var(--text-tertiary)]">{clip.label}</figcaption>
+      <figcaption className="desk-caption">{clip.label}</figcaption>
     </figure>
   );
 }
