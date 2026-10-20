@@ -13,8 +13,9 @@ import { diagramHash } from '../diagram-hash';
  * (a diagram was edited without regenerating) falls back to a code block rather
  * than rendering nothing.
  */
-export function DiagramImage({ chart }: { chart: string }) {
-  const svg = DIAGRAM_SVGS[diagramHash(chart)];
+export function DiagramImage({ chart, rendered }: { chart: string; rendered?: Record<string, string> }) {
+  const hash = diagramHash(chart);
+  const svg = DIAGRAM_SVGS[hash] ?? rendered?.[hash];
   if (!svg) return <CodeBlock language="mermaid" code={chart} />;
 
   return (

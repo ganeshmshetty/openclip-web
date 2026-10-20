@@ -3,6 +3,8 @@ import { notFound } from 'next/navigation';
 import { getExtensionById, getCatalog, getSyncedExtensionIds, type ExtensionItem } from '@/lib/extensions';
 import { siteUrl } from '@/lib/site';
 import ExtensionDetailContent from './ExtensionDetailContent';
+import { render } from 'pele';
+import { diagramHash, DIAGRAM_LANGUAGE } from '@/docs/diagram-hash';
 
 // Revalidate instead of rendering per request; see ../page.tsx.
 export const revalidate = 300;
@@ -63,6 +65,28 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       images: ['/twitter-image'],
     },
   };
+}
+
+/**
+ * Extension READMEs are fetched live, so their ```mermaid fences are not in the
+ * build-time diagram map. Render them here on the server: pele takes a few
+ * milliseconds and nothing ships to the browser.
+ */
+function renderReadmeDiagrams(markdown?: string): Record<string, string> {
+  const out: Record<string, string> = {};
+  if (!markdown) return out;
+  for (const match of markdown.matchAll(new RegExp('```' + DIAGRAM_LANGUAGE + '\\n([\\s\\S]*?)```', 'g'))) {
+    const chart = match[1].trim();
+    if (!chart) continue;
+    const hash = diagramHash(chart);
+    try {
+      const { svg } = render(chart, { idPrefix: `pele-${hash}`, responsive: true });
+      if (svg.trim().startsWith('<svg')) out[hash] = svg;
+    } catch {
+      // Falls back to a code block.
+    }
+  }
+  return out;
 }
 
 export default async function ExtensionDetailPage({ params }: Props) {
@@ -135,7 +159,7 @@ export default async function ExtensionDetailPage({ params }: Props) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdSoftwareApplication) }}
       />
-      <ExtensionDetailContent extension={ext} relatedExtensions={related} />
+      <ExtensionDetailContent extension={ext} relatedExtensions={related} diagrams={renderReadmeDiagrams(ext.readmeMarkdown)} />
     </>
   );
 }

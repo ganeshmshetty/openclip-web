@@ -1133,3 +1133,119 @@ body {
   background: rgba(16, 185, 129, 0.12);
   color: rgb(16, 185, 129);
 }
+
+/* ── Feature rows: the row in view comes into focus ── */
+@media (min-width: 768px) {
+  .feature-row { transition: opacity 0.18s ease-out; opacity: 0.4; }
+  .feature-row.is-focus { opacity: 1; }
+  .feature-media {
+    transform: scale(0.82);
+    transition: transform 0.3s cubic-bezier(0.2, 0.7, 0.25, 1);
+  }
+  .feature-row.is-focus .feature-media { transform: scale(1.04); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .feature-row { opacity: 1; transition: none; }
+  .feature-media { transform: none; transition: none; }
+}
+
+/* ── Desk hero ── */
+.desk-grid {
+  background-image: radial-gradient(var(--border-strong) 1px, transparent 1.3px);
+  background-size: 34px 34px;
+  opacity: 0.55;
+  -webkit-mask-image: linear-gradient(to bottom, #000 55%, transparent);
+  mask-image: linear-gradient(to bottom, #000 55%, transparent);
+}
+
+.desk-frame {
+  overflow: hidden;
+  border-radius: 8px;
+  background: var(--bg-surface);
+  box-shadow: 0 12px 32px -10px rgba(0, 0, 0, 0.3);
+}
+:is(.dark, [data-theme="dark"]) .desk-frame {
+  box-shadow: 0 12px 32px -10px rgba(0, 0, 0, 0.8);
+}
+
+.desk-window {
+  z-index: 1;
+  opacity: 0.5;
+  outline: none;
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+  transition: transform 0.32s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.22s ease;
+  animation: desk-in 0.4s cubic-bezier(0.2, 0.7, 0.25, 1) backwards;
+}
+.desk-window:hover,
+.desk-window:focus-visible {
+  z-index: 20;
+  opacity: 1;
+  transform: scale(1.6);
+}
+@keyframes desk-in {
+  from { opacity: 0; transform: translateY(14px) scale(0.96); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .desk-window { animation: none; transition: opacity 0.2s; }
+  .desk-window:hover, .desk-window:focus-visible { transform: none; }
+}
+
+/* ── Text ribbons: quiet grey, with a phrase "selected" in the accent ── */
+.text-ribbon text { fill: var(--text-tertiary); opacity: 0.6; }
+.text-ribbon .ribbon-char {
+  --sel: 0;
+  fill: color-mix(in srgb, var(--accent) calc(var(--sel) * 100%), var(--text-tertiary));
+  stroke: var(--accent);
+  stroke-opacity: calc(var(--sel) * 0.16);
+  stroke-width: 12px;
+  stroke-linejoin: round;
+  paint-order: stroke;
+}
+
+/* ── Feature visuals: small live scenes in the copy column ── */
+.feature-selection {
+  border-radius: 3px;
+  background: rgba(245, 166, 35, 0.28);
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+  padding: 1px 2px;
+}
+.feature-swap { animation: feature-swap 0.3s cubic-bezier(0.2, 0.7, 0.25, 1); }
+@keyframes feature-swap {
+  from { opacity: 0; transform: translateY(6px); }
+}
+.feature-keycap {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  background: var(--bg-surface);
+  box-shadow: 0 1px 0 var(--border-strong), 0 2px 6px rgba(0, 0, 0, 0.08);
+  color: var(--text-primary);
+  font-family: inherit;
+  font-size: 16px;
+  font-weight: 600;
+}
+@media (prefers-reduced-motion: reduce) {
+  .feature-swap { animation: none; }
+}
+.ribbon-cursor { fill: var(--text-primary); stroke: var(--bg-app); }
+
+/* The ribbon fades out behind the headline and buttons so they stay clean. */
+.ribbon-fade-center {
+  -webkit-mask-image: radial-gradient(ellipse 30% 48% at 50% 52%, transparent 42%, rgba(0, 0, 0, 0.35) 72%, #000 100%);
+  mask-image: radial-gradient(ellipse 30% 48% at 50% 52%, transparent 42%, rgba(0, 0, 0, 0.35) 72%, #000 100%);
+}
+
+/* Sticky install bar on a clip's page: a solid surface, so the page text never shows through. */
+.sticky-install {
+  background: var(--bg-surface);
+  box-shadow: 0 10px 30px -8px rgba(0, 0, 0, 0.25), 0 0 0 0.5px rgba(0, 0, 0, 0.06);
+}
+:is(.dark, [data-theme="dark"]) .sticky-install {
+  box-shadow: 0 10px 30px -8px rgba(0, 0, 0, 0.7), 0 0 0 0.5px rgba(255, 255, 255, 0.1);
+}

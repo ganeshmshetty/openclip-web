@@ -10,6 +10,8 @@ import Link from 'next/link';
 interface MarkdownRendererProps {
   content: string;
   className?: string;
+  /** Pre-rendered diagram SVGs by hash, for content that is fetched at request time. */
+  diagrams?: Record<string, string>;
 }
 
 const DOC_LINK_MAP: Record<string, string> = {
@@ -225,7 +227,7 @@ function renderInlineTokens(tokens?: Token[]): React.ReactNode {
   });
 }
 
-export function MarkdownRenderer({ content, className = '' }: MarkdownRendererProps) {
+export function MarkdownRenderer({ content, className = '', diagrams }: MarkdownRendererProps) {
   const tokens = React.useMemo(() => {
     return marked.lexer(content, { gfm: true, breaks: false });
   }, [content]);
@@ -269,7 +271,7 @@ export function MarkdownRenderer({ content, className = '' }: MarkdownRendererPr
         <h2
           key={key}
           id={id}
-          className="text-[22px] sm:text-[24px] font-bold text-[var(--text-primary)] tracking-tight pt-5 pb-2 scroll-mt-24 group flex items-center gap-2 border-b border-[var(--border-subtle)]/70"
+          className="text-[22px] sm:text-[24px] font-bold text-[var(--text-primary)] tracking-tight pt-8 pb-1 scroll-mt-24 group flex items-center gap-2"
         >
           <span>{renderInlineTokens(token.tokens)}</span>
           <a
@@ -447,7 +449,7 @@ export function MarkdownRenderer({ content, className = '' }: MarkdownRendererPr
         case 'code': {
           const code = token as Tokens.Code;
           if (code.lang === DIAGRAM_LANGUAGE) {
-            return <DiagramImage key={key} chart={code.text} />;
+            return <DiagramImage key={key} chart={code.text} rendered={diagrams} />;
           }
           return <CodeBlock key={key} language={code.lang || 'text'} code={code.text} />;
         }
@@ -462,7 +464,7 @@ export function MarkdownRenderer({ content, className = '' }: MarkdownRendererPr
           return renderList(token as Tokens.List, key);
 
         case 'hr':
-          return <hr key={key} className="my-6 border-[var(--border-subtle)]/70" />;
+          return <hr key={key} className="my-4 border-0" />;
 
         case 'html':
           return (

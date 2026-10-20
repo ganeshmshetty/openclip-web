@@ -1,76 +1,16 @@
 'use client';
 
 import Link from 'next/link';
-import React, { useState, useSyncExternalStore } from 'react';
+import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import Navbar from './Navbar';
 import Footer from './Footer';
-import GifFrame from './GifFrame';
 import PromoVideo from './PromoVideo';
-import { ArrowRight, ArrowUpRight, Quote, Heart, Command, Blocks, Plus, Sparkles, Calculator, SpellCheck } from 'lucide-react';
+import FeatureRows from './FeatureRows';
+import SelectingRibbon from './SelectingRibbon';
+import DeskScene from './DeskScene';
+import { ArrowRight, ArrowUpRight, Quote, Heart, Blocks, Plus } from 'lucide-react';
 import { DownloadPill, BrewPill } from './CtaPills';
-
-const PINNED_SHOWCASE = [
-  {
-    id: 'ai',
-    tab: 'AI Writing',
-    icon: Sparkles,
-    title: 'AI writing, inline.',
-    body: 'Fix grammar, summarize, or translate. The result streams into the card in place, not a browser tab.',
-    mp4: '/gifs/ai-actions.mp4',
-    alt: 'OpenClip AI actions rewriting selected text',
-  },
-  {
-    id: 'math',
-    tab: 'Inline Math',
-    icon: Calculator,
-    title: 'Math without Calculator.',
-    body: 'Highlight any expression and the answer replaces it in place. Evaluated locally, no network round trip.',
-    mp4: '/gifs/calculate.mp4',
-    alt: 'OpenClip calculating a selected math expression',
-  },
-  {
-    id: 'words',
-    tab: 'Spell Check',
-    icon: SpellCheck,
-    title: 'Instant spell check.',
-    body: 'Suggests completions and fixes for the word under your cursor. Apply one with a single click.',
-    mp4: '/gifs/word-completion.mp4',
-    alt: 'OpenClip suggesting spelling completions for selected word',
-  },
-];
-
-// Shared spring so every segmented-control knob on the page feels identical.
-const KNOB_SPRING = { type: 'spring', stiffness: 420, damping: 34 } as const;
-
-/**
- * The demo carousels advance themselves when a clip finishes. That is the
- * "content moves at the page's pace" problem, so they also hold while the
- * pointer is over them, and stop advancing entirely for anyone who has asked
- * for reduced motion. useSyncExternalStore keeps the read out of an effect.
- */
-function usePrefersReducedMotion() {
-  return useSyncExternalStore(
-    (onChange) => {
-      const mq = window.matchMedia('(prefers-reduced-motion: reduce)');
-      mq.addEventListener('change', onChange);
-      return () => mq.removeEventListener('change', onChange);
-    },
-    () => window.matchMedia('(prefers-reduced-motion: reduce)').matches,
-    () => false
-  );
-}
-
-function Knob({ id }: { id: string }) {
-  return (
-    <motion.span
-      layoutId={id}
-      className="nav-knob"
-      transition={KNOB_SPRING}
-      initial={false}
-    />
-  );
-}
 
 interface FAQItem {
   question: string;
@@ -233,6 +173,8 @@ const QUOTE_ROWS: { items: Testimonial[]; reverse: boolean }[] = [
   { items: TESTIMONIALS.slice(3), reverse: true },
 ];
 
+const CTA_TEXT = 'Free and open source. No account, no paywall. No telemetry. Nothing leaves your Mac. Select text. Take action.';
+
 const DISCUSSION_LINKS = [
   { label: 'r/macapps thread', href: 'https://www.reddit.com/r/macapps/comments/1w7z6aj/' },
   { label: 'r/MacOSApps thread', href: 'https://www.reddit.com/r/MacOSApps/comments/1wgzmhg/' },
@@ -306,146 +248,7 @@ function Testimonials() {
 }
 
 
-function ActionShowcase() {
-  const [activeIdx, setActiveIdx] = useState(0);
-  const [progress, setProgress] = useState(0);
-  const [held, setHeld] = useState(false);
-  const reduced = usePrefersReducedMotion();
-
-  const current = PINNED_SHOWCASE[activeIdx];
-
-  return (
-    <section className="section-shell py-16 sm:py-24">
-      {/* Title and description sit side by side, so this section does not read
-          as the same centred block as the hero above it. */}
-      {/* Description sits under the heading rather than in a right column.
-          The media below is wider than that column, so a right-hand description
-          left a 289px empty slot beneath it and its left edge lined up with
-          nothing else in the section. */}
-      <div className="mb-7">
-        <h2 className="section-title">{current.title}</h2>
-        <p className="section-sub mt-2.5 max-w-xl">{current.body}</p>
-      </div>
-
-      <div
-        onPointerEnter={() => setHeld(true)}
-        onPointerLeave={() => setHeld(false)}
-      >
-        {/* Segmented Control — capsule shell and a sliding knob, matching the navbar */}
-        <div className="home-tabs inline-flex nav-shell glass-surface items-stretch h-[38px] px-1 mb-6">
-          {PINNED_SHOWCASE.map((item, idx) => {
-            const Icon = item.icon;
-            const isActive = activeIdx === idx;
-            return (
-              <button
-                key={item.id}
-                onClick={() => {
-                  setActiveIdx(idx);
-                  setProgress(0);
-                }}
-                className={`nav-chip gap-2 self-stretch my-[3px] px-3.5 sm:px-4 overflow-hidden ${
-                  isActive ? 'nav-chip-active' : ''
-                }`}
-                aria-selected={isActive}
-                role="tab"
-              >
-                {isActive && <Knob id="showcase-knob" />}
-                {!reduced && isActive && progress > 0 && (
-                  <span
-                    className="absolute inset-y-0 left-0 bg-[var(--accent-soft)] pointer-events-none"
-                    style={{ width: `${progress * 100}%` }}
-                  />
-                )}
-                <span className="relative z-10 flex items-center gap-2">
-                  <Icon className="w-3.5 h-3.5" />
-                  <span>{item.tab}</span>
-                </span>
-              </button>
-            );
-          })}
-        </div>
-
-      {/* Zero-Layout-Shift Crossfade Frame Stack */}
-      <div className="max-w-2xl w-full relative">
-        <div className="grid grid-cols-1 [grid-template-areas:'stack'] w-full">
-          {PINNED_SHOWCASE.map((item, idx) => {
-            const isActive = activeIdx === idx;
-            return (
-              <div
-                key={item.id}
-                className={`[grid-area:stack] space-y-3.5 transition-all duration-300 ${
-                  isActive
-                    ? 'opacity-100 scale-100 pointer-events-auto z-10'
-                    : 'opacity-0 scale-[0.99] pointer-events-none z-0'
-                }`}
-              >
-                <GifFrame
-                  src={item.mp4}
-                  alt={item.alt}
-                  name={`${item.id}.mp4`}
-                  isActive={isActive}
-                  paused={held}
-                  onProgress={isActive && !reduced ? setProgress : undefined}
-                  onEnded={
-                    reduced
-                      ? undefined
-                      : () => {
-                          setProgress(0);
-                          setActiveIdx((idx + 1) % PINNED_SHOWCASE.length);
-                        }
-                  }
-                />
-              </div>
-            );
-          })}
-        </div>
-
-
-      </div>
-      </div>
-    </section>
-  );
-}
-
-function DirectDriveSection({
-  children,
-  className = '',
-  onPointerEnter,
-  onPointerLeave,
-  onMouseEnter,
-  onMouseLeave,
-}: {
-  children: React.ReactNode;
-  className?: string;
-  onPointerEnter?: () => void;
-  onPointerLeave?: () => void;
-  onMouseEnter?: () => void;
-  onMouseLeave?: () => void;
-}) {
-  // No scroll-linked reveal. This section used to sit at 35% opacity, offset 28px,
-  // until its scroll progress caught up — which left a full-width statement ("Select
-  // text. Do things.") looking half-loaded, depended on JS and scroll position for
-  // content to be readable, and promoted a large layer via will-change-transform.
-  // It renders at full opacity on first paint instead.
-  return (
-    <section
-      onPointerEnter={onPointerEnter}
-      onPointerLeave={onPointerLeave}
-      onMouseEnter={onMouseEnter}
-      onMouseLeave={onMouseLeave}
-      className={className}
-    >
-      {children}
-    </section>
-  );
-}
-
 export default function HomeContent() {
-  const [featureTab, setFeatureTab] = useState<'palette' | 'extensions'>('palette');
-  const [featureProgress, setFeatureProgress] = useState(0);
-  const [featureHeld, setFeatureHeld] = useState(false);
-  const reduced = usePrefersReducedMotion();
-
   return (
     <div className="min-h-screen flex flex-col">
       <script
@@ -468,8 +271,9 @@ export default function HomeContent() {
       <Navbar />
 
       <main className="flex-1">
-        <section className="home-hero relative pb-8 sm:pb-10">
-          <div className="section-shell relative z-10 text-center">
+        <section className="home-hero relative pb-8 sm:pb-10 lg:min-h-[600px]">
+          <DeskScene />
+          <div className="section-shell pointer-events-none relative z-10 text-center [&_a]:pointer-events-auto [&_button]:pointer-events-auto">
             <h1
               className="home-hero-title font-semibold tracking-[-0.055em] leading-[1.04] text-[var(--text-primary)]"
             >
@@ -488,9 +292,9 @@ export default function HomeContent() {
                 <DownloadPill />
                 <Link
                   href="/support"
-                  className="inline-flex h-[38px] items-center justify-center gap-1.5 rounded-full border border-[var(--border-subtle)] px-4 text-[13px] font-medium text-[var(--text-primary)] transition-colors hover:border-[var(--border-strong)] hover:bg-[var(--bg-surface)] sm:h-[46px] sm:gap-2 sm:px-6 sm:text-[14.5px]"
+                  className="group inline-flex h-[38px] items-center justify-center gap-1.5 rounded-full border border-[var(--border-subtle)] px-4 text-[13px] font-medium text-[var(--text-primary)] transition-colors duration-200 hover:border-pink-400/60 hover:bg-pink-500/[0.06] sm:h-[46px] sm:gap-2 sm:px-6 sm:text-[14.5px]"
                 >
-                  <Heart className="h-3.5 w-3.5" aria-hidden="true" />
+                  <Heart className="h-3.5 w-3.5 transition-all duration-200 ease-out group-hover:scale-125 group-hover:fill-pink-500 group-hover:text-pink-500" aria-hidden="true" />
                   Support
                 </Link>
               </div>
@@ -503,155 +307,8 @@ export default function HomeContent() {
         {/* ── Product Demo ── */}
         <PromoVideo />
 
-        {/* ── Showcases (pinned scrollytelling) ── */}
-        <ActionShowcase />
-
-        {/* ── Interactive Features Tab Section (Direct-Drive Scroll-Linked) ── */}
-        <DirectDriveSection
-          className="section-shell py-16 sm:py-24"
-        >
-          <div className="mb-7">
-            <h2 className="section-title">Every action, one keystroke away.</h2>
-            <p className="section-sub mt-2.5 max-w-xl">
-              Press ⌥⌘C to search every action, extension, and calculation from anywhere on your Mac.
-            </p>
-          </div>
-
-          {/* Segmented Control — same capsule and knob as the navbar */}
-          <div
-            className="mb-6"
-            onPointerEnter={() => setFeatureHeld(true)}
-            onPointerLeave={() => setFeatureHeld(false)}
-          >
-            <div className="home-tabs nav-shell glass-surface inline-flex items-stretch h-[38px] px-1">
-              <button
-                onClick={() => {
-                  setFeatureTab('palette');
-                  setFeatureProgress(0);
-                }}
-                className={`nav-chip gap-2 self-stretch my-[3px] px-3.5 sm:px-4 overflow-hidden ${
-                  featureTab === 'palette' ? 'nav-chip-active' : ''
-                }`}
-                aria-selected={featureTab === 'palette'}
-                role="tab"
-              >
-                {featureTab === 'palette' && <Knob id="feature-knob" />}
-                {!reduced && featureTab === 'palette' && featureProgress > 0 && (
-                  <span
-                    className="absolute inset-y-0 left-0 bg-[var(--accent-soft)] pointer-events-none"
-                    style={{ width: `${featureProgress * 100}%` }}
-                  />
-                )}
-                <span className="relative z-10 flex items-center gap-2">
-                  <Command className="w-3.5 h-3.5" />
-                  <span>Command Palette</span>
-                  <kbd className="hidden sm:inline-flex text-[9.5px] font-mono opacity-80 bg-black/15 dark:bg-white/15 px-1.5 py-0.2 rounded ml-0.5">
-                    ⌥⌘C
-                  </kbd>
-                </span>
-              </button>
-
-              <button
-                onClick={() => {
-                  setFeatureTab('extensions');
-                  setFeatureProgress(0);
-                }}
-                className={`nav-chip gap-2 self-stretch my-[3px] px-3.5 sm:px-4 overflow-hidden ${
-                  featureTab === 'extensions' ? 'nav-chip-active' : ''
-                }`}
-                aria-selected={featureTab === 'extensions'}
-                role="tab"
-              >
-                {featureTab === 'extensions' && <Knob id="feature-knob" />}
-                {!reduced && featureTab === 'extensions' && featureProgress > 0 && (
-                  <span
-                    className="absolute inset-y-0 left-0 bg-[var(--accent-soft)] pointer-events-none"
-                    style={{ width: `${featureProgress * 100}%` }}
-                  />
-                )}
-                <span className="relative z-10 flex items-center gap-2">
-                  <Blocks className="w-3.5 h-3.5" />
-                  <span>In-App Extensions</span>
-                  <span className="hidden sm:inline-flex text-[9.5px] font-mono opacity-80 bg-black/15 dark:bg-white/15 px-1.5 py-0.2 rounded-full ml-0.5">
-                    100+
-                  </span>
-                </span>
-              </button>
-            </div>
-          </div>
-
-          {/* Zero-Layout-Shift Crossfade Frame */}
-          <div className="max-w-2xl w-full">
-            <div className="grid grid-cols-1 [grid-template-areas:'stack'] w-full">
-              <div
-                className={`[grid-area:stack] space-y-3.5 transition-all duration-300 ${
-                  featureTab === 'palette'
-                    ? 'opacity-100 scale-100 pointer-events-auto z-10'
-                    : 'opacity-0 scale-[0.99] pointer-events-none z-0'
-                }`}
-              >
-                <GifFrame
-                  src="/gifs/command-palette.gif"
-                  alt="OpenClip Universal Command Palette"
-                  name="command-palette.gif"
-                  isActive={featureTab === 'palette'}
-                  paused={featureHeld}
-                  onProgress={
-                    featureTab === 'palette' && !reduced ? setFeatureProgress : undefined
-                  }
-                  onEnded={
-                    reduced
-                      ? undefined
-                      : () => {
-                          setFeatureProgress(0);
-                          setFeatureTab('extensions');
-                        }
-                  }
-                />
-                <p className="text-[13.5px] text-[var(--text-secondary)] leading-relaxed min-h-[22px]">
-                  Press <kbd className="mac-keycap mx-1">⌥⌘C</kbd> from anywhere to calculate, format, or trigger quick actions straight from your keyboard.
-                </p>
-              </div>
-
-              <div
-                className={`[grid-area:stack] space-y-3.5 transition-all duration-300 ${
-                  featureTab === 'extensions'
-                    ? 'opacity-100 scale-100 pointer-events-auto z-10'
-                    : 'opacity-0 scale-[0.99] pointer-events-none z-0'
-                }`}
-              >
-                <GifFrame
-                  src="/gifs/in-app-extensions.gif"
-                  alt="OpenClip In-App Extensions"
-                  name="in-app-extensions.gif"
-                  isActive={featureTab === 'extensions'}
-                  paused={featureHeld}
-                  onProgress={
-                    featureTab === 'extensions' && !reduced ? setFeatureProgress : undefined
-                  }
-                  onEnded={
-                    reduced
-                      ? undefined
-                      : () => {
-                          setFeatureProgress(0);
-                          setFeatureTab('palette');
-                        }
-                  }
-                />
-                <div className="flex flex-col sm:flex-row items-center gap-2 sm:gap-4 text-[13.5px] text-[var(--text-secondary)] min-h-[22px]">
-                  <span>Browse 100+ official extensions or create custom workflows in JS, AppleScript, and Shell.</span>
-                  <Link
-                    href="/extensions"
-                    className="inline-flex items-center gap-1 text-[13px] font-medium text-[var(--accent)] hover:text-[var(--accent-hover)] transition-colors shrink-0"
-                  >
-                    <span>Explore Catalog</span>
-                    <ArrowRight className="w-3.5 h-3.5" />
-                  </Link>
-                </div>
-              </div>
-            </div>
-          </div>
-        </DirectDriveSection>
+        {/* ── Feature rows ── */}
+        <FeatureRows />
 
         {/* ── FAQ Section (two-column: questions left, answers right) ── */}
         <section className="section-shell py-16 sm:py-24">
@@ -692,6 +349,14 @@ export default function HomeContent() {
 
         {/* ── Download CTA Section ── */}
         <section id="download" className="relative py-20 sm:py-28 overflow-hidden scroll-mt-12">
+          <SelectingRibbon
+            path="M -100 430 C 400 410, 1000 230, 1540 170"
+            viewBox="0 0 1440 600"
+            preserveAspectRatio="xMidYMid slice"
+            text={CTA_TEXT}
+            size={30}
+            className="ribbon-fade-center absolute inset-0 hidden h-full w-full sm:block"
+          />
           <div className="section-shell relative z-10 text-center">
             <h2 className="section-title">Get OpenClip for Mac.</h2>
             <p className="section-sub mx-auto mt-3 max-w-md text-balance">

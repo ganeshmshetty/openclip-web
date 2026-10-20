@@ -37,7 +37,7 @@ export function CodeBlock({
               {filename}
             </span>
             {language && language !== 'text' && (
-              <span className="text-[10px] font-mono uppercase px-1.5 py-0.5 rounded bg-[var(--bg-app)] text-[var(--text-tertiary)] border border-[var(--border-subtle)]">
+              <span className="text-[11px] font-mono text-[var(--text-tertiary)]">
                 {language}
               </span>
             )}
@@ -65,7 +65,7 @@ export function CodeBlock({
         {!filename && (
           <div className="absolute top-3 right-3 flex items-center gap-2">
             {language && language !== 'text' && (
-              <span className="text-[10px] font-mono uppercase px-1.5 py-0.5 rounded bg-[var(--bg-surface)] text-[var(--text-tertiary)] border border-[var(--border-subtle)] opacity-75">
+              <span className="text-[11px] font-mono text-[var(--text-tertiary)] opacity-75">
                 {language}
               </span>
             )}

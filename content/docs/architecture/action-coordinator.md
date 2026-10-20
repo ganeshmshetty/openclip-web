@@ -1,10 +1,8 @@
-# Action Coordinator & Registry Architecture
+# Action coordinator and registry architecture
 
 The [`ActionCoordinator`](../../Sources/Core/Actions/ActionCoordinator.swift) serves as the **Action Coordinator & Composition** of OpenClip. It bridges domain managers (`ExtensionManager`, `RuleEngine`) with the central [`ActionRegistry`](../../Sources/Core/Actions/ActionRegistry.swift) catalog, resolving available actions based on user configuration, current text selection, and active application policy rules.
 
----
-
-## Architectural Responsibilities
+## Architectural responsibilities
 
 ```mermaid
 flowchart TD
@@ -28,13 +26,11 @@ flowchart TD
 4. **Action Reordering**: Exposes reordering primitives (`moveActions(from:to:)`) that mutate user preferences stored via `SettingsStore`.
 5. **Custom Action Groups Lifecycle**: Manages user-defined group CRUD operations and synchronization with `ActionRegistry`.
 
----
+## Action registration mechanics
 
-## Action Registration Mechanics
+> **Current reality (2026-08):** the `onRegister`/`onUnregister` callback seam described below is implemented. `ActionCoordinator.loadInitialState()` wires `ExtensionManager` to the registry via those callbacks; the manager never calls `ActionRegistry.shared` directly. GUI-authored custom actions are single-action manifest packages (written by `CustomActionManifestWriter`) and load through the same extension scan, `custom_actions.json`/`CustomActionManager` are retired.
 
-> **Current reality (2026-08):** the `onRegister`/`onUnregister` callback seam described below is implemented. `ActionCoordinator.loadInitialState()` wires `ExtensionManager` to the registry via those callbacks; the manager never calls `ActionRegistry.shared` directly. GUI-authored custom actions are single-action manifest packages (written by `CustomActionManifestWriter`) and load through the same extension scan — `custom_actions.json`/`CustomActionManager` are retired.
-
-### Initial Loading Lifecycle
+### Initial loading lifecycle
 
 ```swift
 @MainActor
@@ -59,19 +55,17 @@ public func loadInitialState(
 }
 ```
 
-### Registration & Unregistration
+### Registration and unregistration
 When extension packages are added, updated, or removed:
 - `ExtensionManager.loadExtensions()` unregisters previous extension actions and reports newly discovered ones through the `onRegister`/`onUnregister` callbacks (wired to the registry by `ActionCoordinator.loadInitialState()`).
 - Custom action group definitions (`ActionGroupDef`) in `SettingsStore` persist across extension unregistrations, reloads, and updates. Absent members are dynamically filtered out at runtime by `CustomGroupAction.subActions(in:)` without mutating the saved user configuration.
 - Neither Core domain manager touches `ActionRegistry.shared` directly; `ActionCoordinator` is the only type that does.
 
----
-
-## Action Registry & Ordering Policy
+## Action registry and ordering policy
 
 The [`ActionRegistry`](../../Sources/Core/Actions/ActionRegistry.swift) is responsible for maintaining the in-memory array of registered actions and enforcing sorting order based on user preferences.
 
-### Dynamic Ordering Math & Custom Groups
+### Dynamic ordering math and custom groups
 
 Actions are stored in an internal `@Published` array. Whenever new actions are registered or group definitions change, `sortActions()` evaluates their index against the user's saved preference array (`SettingKey.actionOrder`) using a three-tier ranking:
 1. **Tier 0**: Actions explicitly ordered by the user in `SettingKey.actionOrder`.
@@ -94,18 +88,16 @@ public func moveActions(from source: IndexSet, to destination: Int) {
 }
 ```
 
----
-
-## Custom Action Groups & Lifecycle
+## Custom action groups and lifecycle
 
 Custom action groups allow users to bundle multiple actions under a single expandable popup row.
 
-### Core Domain Models
+### Core domain models
 
 - **`ActionGroupDef`** (`Sources/Core/Actions/ActionGroupDef.swift`): Pure Codable model representing the persistent definition (`id`, `title`, `iconName`, `memberActionIDs`), stored as JSON in `SettingKey.actionGroups`.
 - **`CustomGroupAction`** (`Sources/Core/Actions/CustomGroupAction.swift`): Pure domain action conforming to `Action` and `SubActionProviding`. It defines `popupBehavior = .showSubActions` and dynamically resolves its sub-actions from the catalog by matching canonical IDs in `memberActionIDs`.
 
-### Group Membership Rules
+### Group membership rules
 
 A custom group is a **folder**, not a fixed-size set, so the enforced rule is *not* a hard minimum
 of two members. What is enforced is that a group **emptied by a mutation** is dissolved, while a
@@ -115,8 +107,8 @@ group that is empty or single-member by intent is kept:
   it is a folder the user intends to fill later. Duplicate/blank/ineligible IDs are filtered, not
   rejected.
 - `updateGroup` stores exactly what the editor saves, including an empty or single-member group.
-- A group **emptied by a mutation** — `removeFromGroup`, `addToGroup` moving its last member into
-  another group, or `deleteCustomAction` removing its last member — is dissolved.
+- A group **emptied by a mutation**, `removeFromGroup`, `addToGroup` moving its last member into
+  another group, or `deleteCustomAction` removing its last member, is dissolved.
   `saveAndApplyGroupDefs(pruningEmptiedFrom:)` distinguishes a group that *had* members before the
   mutation from one that was already empty, so only the former disappears.
 - Member IDs that no longer resolve to a registered action are filtered when the group is
@@ -130,13 +122,11 @@ Pinned by `ActionCoordinatorGroupTests` (`testGroupMembershipContractIsFolderRul
 `testUpdateGroupKeepsGroupWithFewerThanTwoMembers`, `testRemovingTheLastMemberRemovesTheGroup`,
 `testUnregisterExtensionRetainsGroupMembershipInDefs`).
 
----
-
-## Action Availability & Context Resolution
+## Action availability and context resolution
 
 When selected text is detected, `ActionCoordinator.resolveActions(for:)` converts the raw [`SelectionContext`](../../Sources/Core/Selection/SelectionContext.swift) into an evaluated context using `RuleEngine.resolvePolicies(for:)`.
 
-### Filtering Pipeline
+### Filtering pipeline
 
 `ActionRegistry.availableActions(for:)` applies multiple policy filters before returning actions to the UI:
 

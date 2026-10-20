@@ -1,4 +1,4 @@
-# Integration & Automation API
+# Integration and automation API
 
 OpenClip exposes an inbound `openclip://` URL scheme so other apps and scripts can trigger a small,
 curated set of actions. This document is the **current-state contract**: what exists today, exactly
@@ -8,16 +8,12 @@ as implemented.
 > asks OpenClip to do one thing and nothing is returned. There is no settings read/write route, no
 > x-callback-url reply, and no CLI yet; see [Not available yet](#not-available-yet).
 
----
-
 ## Availability
 
 The command route is always available.
 
 The `install` route is the existing extension-store flow and keeps its own source allow-list and
 confirmation dialog.
-
----
 
 ## Routes
 
@@ -62,8 +58,6 @@ openclip://command/resume
 | `pause` | Pause the popup for one hour (same as the menu bar's Pause) |
 | `resume` | Clear a temporary pause |
 
----
-
 ## Why there is no settings route
 
 Earlier iterations exposed `openclip://settings` (read), `openclip://set` (write), and an
@@ -78,20 +72,16 @@ x-callback-url reply. They were removed:
 The `openclip://` surface is therefore limited to side effects that neither read nor mutate
 configuration.
 
----
-
 ## Not available yet
 
 Candidates for a later iteration:
 
-- **Running actions** (`openclip run <action-id>`) — headless invocation with the result on stdout.
+- **Running actions** (`openclip run <action-id>`), headless invocation with the result on stdout.
   A CLI is the right transport for this, not a URL callback.
-- **Capability discovery** (`openclip list --json`) — the runnable actions and their ids.
-- **App Intents / Shortcuts integration** — `Run OpenClip Action`, `Capture Text`, and
+- **Capability discovery** (`openclip list --json`), the runnable actions and their ids.
+- **App Intents / Shortcuts integration**, `Run OpenClip Action`, `Capture Text`, and
   `Toggle OpenClip`, which return values natively.
-- **macOS Services** — expose actions into the Services menu / context menu.
-
----
+- **macOS Services**, expose actions into the Services menu / context menu.
 
 ## Implementation map
 

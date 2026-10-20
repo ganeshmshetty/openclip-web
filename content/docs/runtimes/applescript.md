@@ -1,11 +1,14 @@
-# AppleScript Action Runtime
+# AppleScript action runtime
 
 The AppleScript action runtime ([`AppleScriptAction`](../../Sources/OpenClip/Platform/Runtimes/AppleScriptAction.swift)) allows OpenClip to automate macOS system applications (such as Safari, Finder, Mail, Notes, and Messages).
 
----
+## Execution architecture
 
-## Execution Architecture
-
+```mermaid
+flowchart TD
+  A[Selection context] --> B["AppleScriptAction.perform(_:)"]
+  B --> C[AppleScriptRunner: osascript subprocess]
+  C -->|ShellProcessRunner.run, watchdog only when a timeout is set| D["ActionResult: .text, .success, or .failure"]
 ```
 Selection Context ---> AppleScriptAction.perform(_:)
                          |
@@ -42,11 +45,9 @@ The deadline-capped AX inspect in `SelectionRetrievalCoordinator` uses `OnceResu
 exactly-once continuation resume between the worker and the deadline. Web selection itself runs
 directly over native Accessibility APIs without touching AppleScript.
 
----
+## Example AppleScript snippets
 
-## Example AppleScript Snippets
-
-### Example 1: Create New Note in macOS Notes App
+### Example 1: create new note in macOS notes app
 
 ```applescript
 tell application "Notes"
@@ -55,7 +56,7 @@ tell application "Notes"
 end tell
 ```
 
-### Example 2: Transform Selected Text to Uppercase
+### Example 2: transform selected text to uppercase
 
 ```applescript
 use framework "Foundation"
@@ -66,9 +67,7 @@ set upperText to currentText's uppercaseString()
 return (upperText as text)
 ```
 
----
-
-## Return Values & Side Effects
+## Return values and side effects
 
 `AppleScriptAction` reads the script's stdout (the value osascript prints for the last statement):
 

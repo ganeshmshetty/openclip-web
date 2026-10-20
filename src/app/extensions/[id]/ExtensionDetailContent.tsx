@@ -5,17 +5,7 @@ import Link from 'next/link';
 import { AnimatePresence, motion } from 'motion/react';
 import Navbar from '../../components/Navbar';
 import Footer from '../../components/Footer';
-import {
-  Download,
-  Check,
-  User,
-  ShieldCheck,
-  ChevronRight,
-  Plus,
-  ExternalLink,
-  Sliders,
-  Cpu,
-} from 'lucide-react';
+import { Download, ChevronRight } from 'lucide-react';
 import type { ExtensionItem } from '@/lib/extensions';
 import ExtensionIcon from '../../components/ExtensionIcon';
 import { MarkdownRenderer } from '@/docs/components/MarkdownRenderer';
@@ -24,13 +14,17 @@ import { getExtensionPreviewVideo } from '@/lib/extension-videos';
 interface Props {
   extension: ExtensionItem;
   relatedExtensions?: ExtensionItem[];
+  diagrams?: Record<string, string>;
 }
 
-export default function ExtensionDetailContent({ extension, relatedExtensions = [] }: Props) {
+export default function ExtensionDetailContent({ extension, relatedExtensions = [], diagrams }: Props) {
   const [installed, setInstalled] = useState(false);
   const previewVideo = getExtensionPreviewVideo(extension.id);
   const ctaRef = useRef<HTMLDivElement>(null);
   const [ctaVisible, setCtaVisible] = useState(true);
+  const resetTimer = useRef<number>(0);
+
+  useEffect(() => () => window.clearTimeout(resetTimer.current), []);
 
   useEffect(() => {
     const node = ctaRef.current;
@@ -44,6 +38,8 @@ export default function ExtensionDetailContent({ extension, relatedExtensions = 
     const installURL = `openclip://install?id=${encodeURIComponent(extension.id)}&name=${encodeURIComponent(extension.name)}&url=${encodeURIComponent(extension.downloadURL)}`;
     window.location.assign(installURL);
     setInstalled(true);
+    window.clearTimeout(resetTimer.current);
+    resetTimer.current = window.setTimeout(() => setInstalled(false), 3000);
   };
 
   return (
@@ -62,9 +58,9 @@ export default function ExtensionDetailContent({ extension, relatedExtensions = 
         </nav>
 
         <div>
-          {/* Header Section (Border-Free & Clean) */}
-          <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 pb-6">
-            <div className="flex items-start sm:items-center gap-5">
+          {/* Header: who it is, and the one thing to do */}
+          <div className="flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
+            <div className="flex items-center gap-4 sm:gap-5">
               <ExtensionIcon
                 id={extension.id}
                 name={extension.name}
@@ -73,131 +69,55 @@ export default function ExtensionDetailContent({ extension, relatedExtensions = 
                 className="rounded-2xl shrink-0 w-14 h-14 sm:w-[68px] sm:h-[68px]"
               />
               <div>
-                <div className="flex items-center gap-2.5 flex-wrap">
-                  <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-[var(--text-primary)]">
-                    {extension.name}
-                  </h1>
-                  {extension.actionType && (
-                    <span className="px-2.5 py-0.5 rounded-full text-[11.5px] font-medium bg-[var(--bg-tertiary)] text-[var(--text-secondary)]">
-                      {extension.actionType}
-                    </span>
-                  )}
-                </div>
-                <div className="flex items-center gap-2.5 mt-2 flex-wrap text-[13px] text-[var(--text-secondary)]">
-                  <span className="flex items-center gap-1.5 font-medium text-[var(--text-primary)]">
-                    <User className="w-3.5 h-3.5 text-[var(--text-tertiary)]" />
-                    {extension.author}
-                  </span>
-                  <span className="opacity-30">·</span>
-                  <span className="font-mono text-[12px] text-[var(--text-tertiary)]">
-                    v{extension.version ?? '1.0.0'}
-                  </span>
-                  <span className="opacity-30">·</span>
-                  <span className="font-mono text-[12px] text-[var(--text-tertiary)]">
-                    {extension.id}
-                  </span>
-                </div>
+                <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-[var(--text-primary)]">
+                  {extension.name}
+                </h1>
+                <p className="mt-1 text-[13.5px] text-[var(--text-secondary)]">by {extension.author}</p>
               </div>
             </div>
 
-            {/* CTA Buttons */}
-            <div ref={ctaRef} className="flex items-center gap-3 shrink-0 w-full sm:w-auto">
+            <div ref={ctaRef} className="shrink-0 self-start sm:self-auto">
               <button
                 onClick={handleInstall}
-                className={`flex-1 sm:flex-none px-6 py-2.5 text-sm font-medium rounded-xl transition-all shadow-xs ${
-                  installed
-                    ? 'btn-secondary text-emerald-500 border-emerald-500/30'
-                    : 'btn-primary'
-                }`}
+                className={`store-install inline-flex h-10 items-center justify-center gap-2 rounded-full px-7 text-[14px] font-bold tracking-tight cursor-pointer transition-opacity active:opacity-70`}
               >
-                {installed ? (
-                  <span className="flex items-center gap-2">
-                    <Check className="w-4 h-4" />
-                    <span>Opening in OpenClip…</span>
-                  </span>
-                ) : (
-                  <span className="flex items-center gap-2">
-                    <Plus className="w-4 h-4" />
-                    <span>Install Extension</span>
-                  </span>
-                )}
+                <span>{installed ? 'Opening OpenClip…' : 'Install'}</span>
               </button>
-
-              <a
-                href={extension.downloadURL}
-                download
-                title="Download .openclipext package"
-                className="btn-secondary px-3.5 py-2.5 rounded-xl flex items-center gap-1.5 text-[13px]"
-              >
-                <Download className="w-4 h-4 text-[var(--text-secondary)]" />
-                <span className="hidden sm:inline">Package</span>
-              </a>
             </div>
           </div>
 
-          {/* Dynamic Informational Metadata Strip (Border-Free) */}
-          <div className="flex items-center flex-wrap gap-x-6 gap-y-3 py-3.5 px-5 rounded-2xl bg-[var(--bg-surface)] text-[12.5px] text-[var(--text-secondary)] shadow-xs">
-            {/* Downloads */}
-            <div className="flex items-center gap-1.5">
-              <Download className="w-3.5 h-3.5 text-[var(--accent)]" />
-              <span className="font-semibold text-[var(--text-primary)]">
-                {extension.downloadCount.toLocaleString()}
-              </span>
-              <span>installs</span>
-            </div>
-
-            {/* Action Engine */}
-            {extension.actionType && (
-              <div className="flex items-center gap-1.5">
-                <Cpu className="w-3.5 h-3.5 text-[var(--text-tertiary)]" />
-                <span className="text-[var(--text-primary)] font-medium">
-                  {extension.actionType}
-                </span>
-              </div>
-            )}
-
-            {/* Options */}
-            {extension.options && extension.options.length > 0 ? (
-              <div className="flex items-center gap-1.5">
-                <Sliders className="w-3.5 h-3.5 text-amber-500" />
-                <span className="text-[var(--text-primary)] font-medium">
-                  {extension.options.length} {extension.options.length === 1 ? 'Setting' : 'Settings'}
-                </span>
-              </div>
-            ) : (
-              <div className="flex items-center gap-1.5 opacity-80">
-                <Sliders className="w-3.5 h-3.5 text-[var(--text-tertiary)]" />
-                <span>Zero config</span>
-              </div>
-            )}
-
-            {/* Minimum OpenClip Version */}
-            {extension.minOpenClipVersion && (
-              <div className="flex items-center gap-1.5">
-                <ShieldCheck className="w-3.5 h-3.5 text-emerald-500" />
-                <span>OpenClip &ge; {extension.minOpenClipVersion}</span>
-              </div>
-            )}
-
-            {/* Compatibility */}
-            <div className="flex items-center gap-1.5 opacity-80">
-              <span>macOS 14+ Sonoma &amp; Sequoia</span>
-            </div>
-
-            {/* GitHub Source Link */}
+          {/* Links, then the facts */}
+          <div className="mt-6 flex gap-6 text-[13px] font-medium text-[var(--accent)]">
+            <a href={extension.downloadURL} download className="hover:underline">
+              Download package
+            </a>
             {extension.sourceURL && (
-              <a
-                href={extension.sourceURL}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="sm:ml-auto flex items-center gap-1 text-[var(--accent)] hover:underline font-medium"
-              >
-                <span>View Source</span>
-                <ExternalLink className="w-3 h-3" />
+              <a href={extension.sourceURL} target="_blank" rel="noopener noreferrer" className="hover:underline">
+                View source
               </a>
             )}
           </div>
- 
+
+          <dl className="mt-6 flex flex-wrap gap-x-9 gap-y-4 border-t border-[var(--border-subtle)] pt-5">
+            {[
+              ['Installs', extension.downloadCount.toLocaleString()],
+              extension.actionType ? ['Type', extension.actionType] : null,
+              [
+                'Settings',
+                extension.options && extension.options.length > 0 ? String(extension.options.length) : 'None',
+              ],
+              extension.minOpenClipVersion ? ['Needs', `OpenClip ${extension.minOpenClipVersion}+`] : null,
+              ['Version', extension.version ?? '1.0.0'],
+            ].map((fact) =>
+              fact ? (
+                <div key={fact[0]} className="whitespace-nowrap">
+                  <dt className="text-[12px] text-[var(--text-tertiary)]">{fact[0]}</dt>
+                  <dd className="mt-1 text-[14px] font-semibold text-[var(--text-primary)]">{fact[1]}</dd>
+                </div>
+              ) : null
+            )}
+          </dl>
+
           {/* Hero Video Preview (rendered when configured in extension-videos.ts) */}
           {previewVideo && (
             <div className="mt-8 rounded-2xl overflow-hidden border border-[var(--border-subtle)] bg-[var(--bg-surface)] shadow-md ring-1 ring-inset ring-white/10">
@@ -214,9 +134,9 @@ export default function ExtensionDetailContent({ extension, relatedExtensions = 
           )}
 
           {/* Extension Documentation (README rendered natively with MarkdownRenderer) */}
-          <article className="mt-8 pt-4">
+          <article className="mt-8 max-w-[46rem] pt-4">
             {extension.readmeMarkdown ? (
-              <MarkdownRenderer content={extension.readmeMarkdown} />
+              <MarkdownRenderer content={extension.readmeMarkdown} diagrams={diagrams} />
             ) : (
               <div className="space-y-4">
                 <h2 className="text-[20px] font-bold text-[var(--text-primary)]">
@@ -287,24 +207,24 @@ export default function ExtensionDetailContent({ extension, relatedExtensions = 
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 24 }}
             transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
-            className="fixed inset-x-4 bottom-[max(1rem,env(safe-area-inset-bottom))] z-40 mx-auto max-w-sm sm:max-w-md"
+            className="fixed inset-x-4 bottom-[max(1rem,env(safe-area-inset-bottom))] z-40 mx-auto max-w-md"
           >
-            <div className="glass-surface flex items-center gap-3 rounded-full py-2 pl-2.5 pr-2">
+            <div className="sticky-install flex items-center gap-3 rounded-2xl py-2.5 pl-3.5 pr-2.5">
               <ExtensionIcon
                 id={extension.id}
                 name={extension.name}
                 iconURL={extension.iconURL}
-                size={32}
+                size={36}
                 className="shrink-0"
               />
-              <span className="min-w-0 flex-1 truncate text-[13.5px] font-semibold text-[var(--text-primary)]">
-                {extension.name}
-              </span>
+              <div className="min-w-0 flex-1 leading-tight">
+                <p className="truncate text-[14px] font-semibold text-[var(--text-primary)]">{extension.name}</p>
+                <p className="truncate text-[11.5px] text-[var(--text-tertiary)]">by {extension.author}</p>
+              </div>
               <button
                 onClick={handleInstall}
-                className="btn-primary inline-flex items-center gap-1.5 rounded-full px-4 h-9 text-[12.5px] font-semibold"
+                className="store-install inline-flex h-9 items-center gap-1.5 rounded-full px-5 text-[13px] font-bold tracking-tight cursor-pointer active:opacity-70 transition-opacity"
               >
-                {installed ? <Check className="w-3.5 h-3.5" /> : <Plus className="w-3.5 h-3.5" />}
                 <span>{installed ? 'Opening…' : 'Install'}</span>
               </button>
             </div>

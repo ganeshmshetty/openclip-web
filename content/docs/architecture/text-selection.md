@@ -1,13 +1,19 @@
-# Text Selection Subsystem Architecture
+# Text selection subsystem architecture
 
 The text selection subsystem detects user text selection events across all macOS applications and extracts selected text non-destructively, then hands it to the popup.
 
----
-
-## Selection Detection Architecture
+## Selection detection architecture
 
 The subsystem consists of three primary components:
 
+```mermaid
+flowchart TD
+  M["MacSelectionMonitor<br/>global mouse and AX events"] --> R["RuleEngine<br/>per-app policy"]
+  M -->|builds| S[SelectionContext]
+  M --> C["SelectionRetrievalCoordinator<br/>gate and mode routing"]
+  R --> S
+  S --> O["onSelection callback<br/>PopupWindowController"]
+  C --> O
 ```
 +------------------------+   +-----------------------+
 | MacSelectionMonitor |-->| RuleEngine |
@@ -49,9 +55,7 @@ main actor. Native AX retrieval and the explicit hotkey use their existing behav
 The shared capture and window-geometry implementations live in OpenSelection. OpenClip retains
 only its app-specific monitor lifecycle (including hold-to-trigger and cached selections).
 
----
-
-## Retrieval: Resolver, Gate, and Strategies
+## Retrieval: resolver, gate, and strategies
 
 Every retrieval request (mouse-up drag, ⌘A/⇧+arrow gesture, or the ⌥⌘C hotkey) runs through `SelectionRetrievalCoordinator.retrieve(for:policy:cursor:)`:
 
@@ -98,7 +102,6 @@ Chain suffix per preferred mode:
 
 Web selections run directly through native Accessibility (`AXWebArea`), reading `kAXSelectedTextMarkerRange` in <1 ms without spawning subprocesses or requiring Apple Events permissions. If Accessibility yields no text (e.g. Google Docs canvas or custom editors), the coordinator falls back to `keyboard-copy`.
 
-
 ### Retrieval modes
 
 | Mode | kebab-case key | Strategy |
@@ -128,9 +131,7 @@ Both copy modes run through [`PasteboardCopyEngine`](../../Sources/OpenClip/Plat
 | `denyPasteApps` | Applications requiring paste suppression | `denyPaste: true` |
 | default | All other standard applications | `ax-text-control` |
 
----
-
-## Shortcut Clipboard Fallback & Synchronous Resolution
+## Shortcut clipboard fallback and synchronous resolution
 
 The retrieval path above applies to *passive selection monitoring*. The global toggle shortcut ([`HotkeyManager`](../../Sources/OpenClip/Platform/HotkeyManager.swift)) runs a strictly **synchronous resolution pipeline** on `@MainActor` without incurring asynchronous AX query latency:
 
@@ -145,15 +146,13 @@ The hold's editable-field lookup runs off the main actor through `SelectionEdita
 bound to the original source PID and one `axReadTimeout` deadline. If the lookup times out,
 clipboard fallback is refused; the UI thread keeps processing events.
 
----
-
-## Privacy & Non-Destructive Guarantees
+## Privacy and Non-Destructive guarantees
 
 - **No Clipboard Pollution (AX modes)**: `ax-text-control`, `ax-web-area`, and `browser-script` never write to `NSPasteboard` — they read the live accessibility tree or the browser's AppleScript bridge.
 - **Copy modes are archive-and-restore**: `menu-copy`/`keyboard-copy` temporarily place the selected text on the general pasteboard, then restore the archived items tagged with the nspasteboard transient markers so clipboard managers don't treat the restore as a user copy.
 - **Ignored Fields**: Secure text fields (such as password inputs or masked text areas) do not expose `kAXSelectedTextAttribute` through AX APIs, ensuring password security.
 
-## Inline Action Match Context
+## Inline action match context
 
 Inline result evaluation receives the same per-action regex match context as click execution. The
 selection remains available as `openclip.input.text`, while `openclip.input.matchedText` and

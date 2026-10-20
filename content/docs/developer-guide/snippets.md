@@ -1,21 +1,17 @@
-# Standalone Script Snippets (`OpenClipSnippetParser`)
+# Standalone script snippets (`OpenClipSnippetParser`)
 
 In addition to `.openclipext` package directories, OpenClip supports **standalone single-file script snippets** (`.js`, `.applescript`, `.sh`, `.py`). Standalone scripts declare action metadata in header comment blocks that are extracted by [`OpenClipSnippetParser`](../../Sources/Core/Extensions/OpenClipSnippetParser.swift).
 
----
-
-## Parser Architecture & Design Constraints
+## Parser architecture and design constraints
 
 - **Text Parser**: `OpenClipSnippetParser` operates purely on string content and line scanning.
 - **Non-isolated & Sendable**: `OpenClipSnippetParser` is non-isolated and `Sendable`, operating cleanly on background queues without main-actor hops during extension directory scanning.
 
----
-
-## Header Syntax & Format
+## Header syntax and format
 
 Header metadata can be specified using single-line comment prefixes (`//` or `#`) or block keys.
 
-### Example 1: Standalone JavaScript Snippet (`upper.js`)
+### Example 1: standalone JavaScript snippet (`upper.js`)
 
 ```javascript
 // title: Upper Case Transformer
@@ -26,7 +22,7 @@ var text = openclip.input.text;
 openclip.paste(text.toUpperCase());
 ```
 
-### Example 2: Standalone Shell Script (`format-sql.sh`)
+### Example 2: standalone shell script (`format-sql.sh`)
 
 ```bash
 #!/bin/bash
@@ -37,7 +33,7 @@ openclip.paste(text.toUpperCase());
 python3 -c "import sqlparse, sys; print(sqlparse.format(sys.stdin.read(), reindent=True))"
 ```
 
-### Example 3: Standalone AppleScript Snippet (`create-note.applescript`)
+### Example 3: standalone AppleScript snippet (`create-note.applescript`)
 
 ```applescript
 -- title: New Quick Note
@@ -49,7 +45,7 @@ tell application "Notes"
 end tell
 ```
 
-### Example 4: Standalone URL Search Snippet (`search-mdn.sh`)
+### Example 4: standalone URL search snippet (`search-mdn.sh`)
 
 ```bash
 # title: Search MDN
@@ -57,9 +53,7 @@ end tell
 # url: https://developer.mozilla.org/en-US/search?q={query}
 ```
 
----
-
-## Header Keys Matrix
+## Header keys matrix
 
 The parser extracts key-value metadata matching the following recognized keys:
 
@@ -73,11 +67,9 @@ The parser extracts key-value metadata matching the following recognized keys:
 | **AppleScript** | `applescript` | Inline AppleScript automation snippet block. |
 | **Shell Script** | `shell script`, `sh`, `shell` | Inline Zsh/Bash/Python executable script block. |
 
----
-
-## Parsing Algorithm Details
+## Parsing algorithm details
 
 1. **Header Line Scanning**: Scans up to `Constants.maxHeaderLinesToScan` lines for header comment prefixes (`//`, `#`, `//openclip`, `#openclip`).
 2. **Key-Value Splitting**: Splits line on the first colon (`:`).
-3. **Multiline Body Mode**: When a runtime key (`url`, `javascript`, `applescript`, `shell script`) is encountered without inline content, subsequent lines are accumulated as the script body string. Body mode only ends when a `#`-prefixed recognized header key appears (e.g. a later `# Icon:` line); `//`-prefixed lines and everything else stay part of the body — this preserves JS comments and URLs containing `#` fragments.
+3. **Multiline Body Mode**: When a runtime key (`url`, `javascript`, `applescript`, `shell script`) is encountered without inline content, subsequent lines are accumulated as the script body string. Body mode only ends when a `#`-prefixed recognized header key appears (e.g. a later `# Icon:` line); `//`-prefixed lines and everything else stay part of the body, this preserves JS comments and URLs containing `#` fragments.
 4. **Action Instantiation**: The parsed tuple `(ExtensionMetadata, ExtensionActionMetadata)` is passed to `DefaultActionFactory` to instantiate the runtime action.

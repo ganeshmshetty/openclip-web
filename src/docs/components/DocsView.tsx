@@ -38,10 +38,10 @@ import {
 } from 'lucide-react';
 
 const CATEGORY_ICONS: Record<string, React.ReactNode> = {
-  'user-guide': <Compass className="w-4 h-4 text-[var(--accent)]" />,
-  'extension-authoring': <Code2 className="w-4 h-4 text-emerald-500" />,
-  runtimes: <Cpu className="w-4 h-4 text-purple-500" />,
-  architecture: <Layers className="w-4 h-4 text-amber-500" />,
+  'user-guide': <Compass className="w-4 h-4 text-[var(--text-tertiary)]" />,
+  'extension-authoring': <Code2 className="w-4 h-4 text-[var(--text-tertiary)]" />,
+  runtimes: <Cpu className="w-4 h-4 text-[var(--text-tertiary)]" />,
+  architecture: <Layers className="w-4 h-4 text-[var(--text-tertiary)]" />,
 };
 
 export default function DocsView({ docId, content }: { docId: string; content?: string }) {
@@ -339,7 +339,7 @@ export default function DocsView({ docId, content }: { docId: string; content?: 
                                 onClick={() => selectDoc(item.id)}
                                 className={`w-full text-left px-2.5 py-1.5 rounded-lg text-[13px] transition-all flex items-center justify-between ${
                                   isActive
-                                    ? 'bg-[var(--accent-soft)] text-[var(--accent)] font-medium shadow-xs border border-[var(--accent-border)]'
+                                    ? 'bg-[var(--accent-soft)] text-[var(--accent)] font-medium'
                                     : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-surface-hover)]'
                                 }`}
                               >
@@ -359,21 +359,21 @@ export default function DocsView({ docId, content }: { docId: string; content?: 
           {/* Central Article Container */}
           <article className="flex-1 min-w-0 max-w-[75ch] py-2 sm:py-3">
             {/* Top Action Bar */}
-            <div className="flex items-center justify-between gap-3 pb-3.5 mb-1 border-b border-[var(--border-subtle)]">
+            <div className="flex items-center justify-between gap-3 pb-2">
               {/* Category Pill on left */}
               <div className="flex items-center gap-2">
-                <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11.5px] font-medium text-[var(--text-secondary)] bg-[var(--bg-surface)] border border-[var(--border-subtle)] shadow-xs">
+                <span className="inline-flex items-center gap-1.5 text-[12.5px] font-medium text-[var(--text-tertiary)]">
                   {CATEGORY_ICONS[activeDoc.categorySlug] || <Compass className="w-3.5 h-3.5 text-[var(--accent)]" />}
                   <span>{activeDoc.category}</span>
                 </span>
               </div>
 
               {/* Secondary Actions on right */}
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-5">
                 {content && (
                   <button
                     onClick={copyRawMarkdown}
-                    className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-[var(--bg-surface)] hover:bg-[var(--bg-surface-hover)] border border-[var(--border-subtle)] text-[12px] text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-all shadow-xs cursor-pointer"
+                    className="flex items-center gap-1.5 text-[12.5px] text-[var(--text-tertiary)] hover:text-[var(--text-primary)] transition-colors cursor-pointer"
                     title="Copy full page markdown text"
                   >
                     {copiedRawMarkdown ? (
@@ -393,7 +393,7 @@ export default function DocsView({ docId, content }: { docId: string; content?: 
                   href={githubSourceUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-[var(--bg-surface)] hover:bg-[var(--bg-surface-hover)] border border-[var(--border-subtle)] text-[12px] text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-all shadow-xs"
+                  className="flex items-center gap-1.5 text-[12.5px] text-[var(--text-tertiary)] hover:text-[var(--text-primary)] transition-colors"
                   title="View original Markdown file on GitHub"
                 >
                   <span>View source</span>
@@ -403,7 +403,7 @@ export default function DocsView({ docId, content }: { docId: string; content?: 
             </div>
 
             {/* Doc Title & Lead Paragraph */}
-            <header className="space-y-2.5 pt-4 pb-6 border-b border-[var(--border-subtle)]">
+            <header className="space-y-2.5 pt-6 pb-4">
               <h1 className="text-[28px] sm:text-[34px] font-extrabold text-[var(--text-primary)] tracking-tight leading-tight">
                 {activeDoc.title}
               </h1>
@@ -435,7 +435,7 @@ export default function DocsView({ docId, content }: { docId: string; content?: 
                           h.level === 3 ? 'ml-3 text-[11.5px]' : ''
                         } ${
                           isActive
-                            ? 'text-[var(--accent)] font-medium bg-[var(--accent-soft)]/60'
+                            ? 'text-[var(--accent)] font-medium'
                             : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-surface-hover)]'
                         }`}
                       >
@@ -537,7 +537,7 @@ export default function DocsView({ docId, content }: { docId: string; content?: 
 
           {/* Right Sidebar: Table of Contents & Sticky Outline */}
           <aside className="hidden xl:block w-44 shrink-0 sticky top-28 max-h-[calc(100vh-140px)] overflow-y-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden py-2 pl-4 border-l border-[var(--border-subtle)]">
-            <p className="text-[11px] font-bold uppercase tracking-wider text-[var(--text-tertiary)] mb-3">
+            <p className="text-[12.5px] font-medium text-[var(--text-primary)] mb-3">
               On this page
             </p>
             {activeDoc.headings && activeDoc.headings.length > 0 ? (
@@ -552,7 +552,7 @@ export default function DocsView({ docId, content }: { docId: string; content?: 
                         h.level === 3 ? 'ml-3 text-[11.5px]' : ''
                       } ${
                         isActive
-                          ? 'text-[var(--accent)] font-medium bg-[var(--accent-soft)]/60'
+                          ? 'text-[var(--accent)] font-medium'
                           : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-surface-hover)]'
                       }`}
                     >

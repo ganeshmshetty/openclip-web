@@ -1,4 +1,4 @@
-# OpenClip Directory Structure
+# OpenClip directory structure
 
 Annotated source tree. See `docs/architecture/overview.md` for the architectural (target-split)
 view; this is the detailed per-file map.

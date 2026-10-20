@@ -1,11 +1,16 @@
-# Executable Scripts Runtime (Zsh, Python, Bash)
+# Executable scripts runtime (Zsh, Python, bash)
 
 The executable script action runtime ([`ScriptAction`](../../Sources/Core/Extensions/ScriptAction.swift)) allows OpenClip to execute external standalone script files (`.sh`, `.zsh`, `.py`, `.rb`, `.node`) located within extension packages or `~/.openclip/extensions/`.
 
----
+## Process execution lifecycle
 
-## Process Execution Lifecycle
-
+```mermaid
+flowchart TD
+  A[Selection context] --> B[Process instance]
+  B --> C[Inject environment and write stdin]
+  C --> D[Run the script: Zsh or Python]
+  D --> E[Read stdout as JSON or text]
+  E --> F["ActionResult: .paste, .copy, or .openURL"]
 ```
 Selection Context ---> Process Instance ---> Inject Environment & write stdin
  |
@@ -28,9 +33,7 @@ Selection Context ---> Process Instance ---> Inject Environment & write stdin
 5. **Timeout Watchdog (opt-in)**: A GCD timer terminates the process once the invocation's explicit `timeout` elapses. With no timeout (the default for loading tasks) there is no watchdog — the process runs until it exits, and users can abort it anytime by clicking the loading toast. When armed, the runner signals the direct child, the process group when the child is the leader, and remaining descendants, then sends SIGKILL after a short delay if the process identifier is unchanged. Descendants come from a `proc_listchildpids` walk of the subtree, snapshotted before the child is terminated; a probe that reports no children is still read once, so a spurious zero cannot drop a descendant. Any new action that spawns a subprocess must route through the same runner.
 6. **Process Exit Evaluation**: Ensures termination status is `0`. Non-zero exit status throws `NSError` containing `stderr` text.
 
----
-
-## Environment Variables Matrix
+## Environment variables matrix
 
 | Environment Variable | Description |
 | :--- | :--- |
@@ -52,11 +55,11 @@ For example, `api-key` becomes `OPENCLIP_OPTION_API_KEY`; read it as
 Boolean values are strings (`"true"` / `"false"`). Choose identifiers whose normalized names are
 unique. Option values are passed as environment data, without shell interpolation.
 
-## Output Processing: JSON vs Plain Text
+## Output processing: JSON vs plain text
 
 `ScriptAction` evaluates output from `stdout` via `ShellResultMapper` using a dual-mode parser:
 
-### Mode 1: Structured JSON Output (`ScriptJSONOutput`)
+### Mode 1: structured JSON output (`ScriptJSONOutput`)
 
 Scripts can return a JSON payload to specify explicit platform actions:
 
@@ -88,18 +91,16 @@ Supported `type` values:
 
 `"showContent"` is **not** accepted — a decoded-but-unknown `type` maps to `.success`.
 
-### Mode 2: Plain Text Output Fallback
+### Mode 2: plain text output fallback
 
 If `stdout` contains non-JSON plain text:
 
 1. **File Detection**: If the action does not replace selection (`replaceSelection: false`), OpenClip checks if the trimmed output corresponds to an existing regular file path or `file://` URL on disk. If so, it returns `ActionResult.file(FileOutputPayload)` to render the native file card.
 2. **Text Fallback**: Otherwise, `ScriptAction` treats the raw output as implicitly returned text and returns `ActionResult.text(stdoutString)` — delivered per the user's per-click preference (preview/paste/copy).
 
----
+## Practical examples
 
-## Practical Examples
-
-### Python Script Generating a File (`generate_chart.py`)
+### Python script generating a file (`generate_chart.py`)
 
 ```python
 #!/usr/bin/env python3
@@ -120,7 +121,7 @@ print(json.dumps({
 }))
 ```
 
-### Python Script Example (`clean_markdown.py`)
+### Python script example (`clean_markdown.py`)
 
 ```python
 #!/usr/bin/env python3
@@ -136,7 +137,7 @@ clean_text = re.sub(r'\[([^\]]+)\]\([^\)]+\)', r'\1', text)
 sys.stdout.write(clean_text)
 ```
 
-### Zsh Shell Script Example (`uppercase.sh`)
+### Zsh shell script example (`uppercase.sh`)
 
 ```bash
 #!/bin/zsh

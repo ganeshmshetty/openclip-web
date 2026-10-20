@@ -14,6 +14,8 @@ interface GifFrameProps {
   /** Holds the clip where it is. Unlike `isActive: false` this does not rewind,
    *  so hovering a carousel to read it doesn't restart the demo. */
   paused?: boolean;
+  /** Fixed shape for the clip, e.g. 'aspect-[16/10]'; the video is cropped to fill it. */
+  aspect?: string;
 }
 
 export default function GifFrame({
@@ -25,6 +27,7 @@ export default function GifFrame({
   onProgress,
   loop,
   paused = false,
+  aspect,
 }: GifFrameProps) {
   const [error, setError] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -150,7 +153,7 @@ export default function GifFrame({
             aria-label={alt}
             onEnded={handleEnded}
             onError={() => setError(true)}
-            className="block w-full h-auto object-cover transition-transform duration-500 hover:scale-[1.01]"
+            className={`block w-full object-cover ${aspect ?? 'h-auto'}`}
           >
             <source src={mp4Path} type="video/mp4" />
           </video>

@@ -1,13 +1,11 @@
-# Known Debt & Current-State Realities
+# Known debt and current-state realities
 
-This file holds OpenClip's **current-state notes** — the places where the code has not yet
+This file holds OpenClip's **current-state notes**, the places where the code has not yet
 reached the target architecture. These change more often than the hard rules, so they are
 tracked here rather than in `AGENTS.md`. Keep this file current when you touch any of these
 areas; stale debt notes are worse than none.
 
----
-
-## Extension Automatic Updates
+## Extension automatic updates
 
 - About → Extension Updates contains a persisted toggle, enabled by default. The app checks
   at launch and every six hours while running, and applies updates only to store-sourced
@@ -15,7 +13,7 @@ areas; stale debt notes are worse than none.
 - Turning the toggle off prevents subsequent automatic installs; an install already in progress
   finishes. Manual update controls remain available. Local and sideloaded packages are excluded.
 
-## AI Action Prompting
+## AI action prompting
 
 - `AIRequestSupport.systemPrompt` uses a task-driven deliverable contract for both selected-text
   and standalone requests. Selected text is source material or context; explanations and examples
@@ -35,7 +33,7 @@ areas; stale debt notes are worse than none.
   provider's `customGuidelines`. CLI providers send it as part of the prompt argument, beneath the
   tool's own agent instructions.
 
-## Manual Update Window Activation
+## Manual update window activation
 
 - Production builds use Sparkle's standard UI and daily scheduler, with no forced launch check.
   Development/unknown bundle IDs never create an updater. The standard user-driver delegate adds
@@ -58,7 +56,7 @@ areas; stale debt notes are worse than none.
   restores the original activation policy once no regular windows remain visible; a Settings window
   opened during the check keeps its own lease.
 
-## Preferences Search
+## Preferences search
 
 - The sidebar keeps its seven static rows when the query is blank. A nonblank query searches the
   local settings-page index, concrete General controls, registered actions/extensions, and AI
@@ -78,22 +76,22 @@ areas; stale debt notes are worse than none.
   The catalog is normalized only when entries change; results and ids are cached once
   per query, rather than filtering the full catalog from each row’s selection/hover rendering.
 
-## Settings Migration (UserDefaults → SettingsStore)
+## Settings migration (UserDefaults → SettingsStore)
 
 - The typed settings abstraction is `SettingsStore` + `SettingKey<T>` (see `Sources/Core/Settings/`).
   New settings code must route through it.
 - **AI-config `@AppStorage` surface remains** (`AIServiceManager` keys), and `completionCopyToClipboard`
   / popup theme still read via `@AppStorage`, but the theme keys (`popupTheme`,
   `popupThemeColor`) now reference `SettingKey` definitions instead of raw literals. Migrating to
-  `SettingsStore` is ongoing — **don't add new direct call sites.** (`startAtLogin` was consolidated
-  onto `SettingKey.startAtLogin` — `LaunchAtLoginManager` persists through `DefaultSettingsStore`.)
+  `SettingsStore` is ongoing, **don't add new direct call sites.** (`startAtLogin` was consolidated
+  onto `SettingKey.startAtLogin`, `LaunchAtLoginManager` persists through `DefaultSettingsStore`.)
 - **Secrets live in SecretStore, not UserDefaults or macOS Keychain.** Sensitive credentials
   (the cloud AI API key and action secret options) use `SecretStore` (`~/.openclip/secrets.json`
   with 0600 POSIX permissions), replacing macOS Keychain to avoid code-signing ACL prompts.
   `AIServiceManager.cloudAPIKey` is `@Published`, backed by `SecretStore` (account `aiCloudAPIKey`);
   do not convert it back to `@AppStorage`. A one-time migration reads the old `UserDefaults`
   `"aiCloudAPIKey"` key, then deletes it.
-- **`isAppEnabled` is consolidated** onto `SettingKey.isAppEnabled` — the status bar item and the
+- **`isAppEnabled` is consolidated** onto `SettingKey.isAppEnabled`, the status bar item and the
   Preferences toggle read/write it through `DefaultSettingsStore`. It means **"Appear
   Automatically"** (its label in both places): it owns the selection monitor's passive auto-show and
   nothing else. It is applied in `MacSelectionMonitor.deliverSelection` (the mouse-release/keyboard
@@ -108,11 +106,11 @@ areas; stale debt notes are worse than none.
   true. `StatusBarController` removes/recreates its `NSStatusItem` immediately when the General-tab
   toggle changes, while reopening the running app presents Preferences so a hidden icon can be
   restored without terminating OpenClip.
-- **`ActionConfigSheet` is gone** (dead code — zero presenting call sites; its `useText` keys were
+- **`ActionConfigSheet` is gone** (dead code, zero presenting call sites; its `useText` keys were
   write-only). Removing it also dropped the only UI that wrote `SettingKey.searchURL` /
   `SettingKey.calculateMode`; the actions still read those keys (defaults apply). Search-engine
   configurability is **restored** via the built-in Search action's preset picker in the Preferences
-  edit sheet (`DynamicActionConfigView` — Google / DuckDuckGo / Kagi / Brave / Bing / Ecosia /
+  edit sheet (`DynamicActionConfigView`, Google / DuckDuckGo / Kagi / Brave / Bing / Ecosia /
   Custom), which writes the option-store key `action.builtin.search.option.url`
   (`SearchEnginePreset` in Core holds the curated catalog); calculate-result-mode still has no
   Preferences surface.
@@ -124,7 +122,7 @@ areas; stale debt notes are worse than none.
   resolves them through the factory-injected store on each invocation as `OPENCLIP_OPTION_*`
   environment variables, including secrets; `AppleScriptAction` does not consume options today.
 
-## Action Seams Already Implemented
+## Action seams already implemented
 
 - **Coordinator composition is done.** `ActionCoordinator.loadInitialState()` wires `ExtensionManager`
   to the registry via `onRegister`/`onUnregister`; the manager never calls `ActionRegistry.shared`
@@ -141,7 +139,7 @@ areas; stale debt notes are worse than none.
   stdin seeded and closed synchronously so a script reading stdin always sees EOF. Both pipe
   accumulators are drained **before** their buffers are read: `waitUntilExit()` returns when the
   direct child exits, so the readability handler can still be behind, or not have run at all. The
-  drain is bounded — it waits `grace` (2 s) for EOF, reads what is pending, then closes the handle —
+  drain is bounded, it waits `grace` (2 s) for EOF, reads what is pending, then closes the handle —
   so it captures output that reached the pipe before that deadline. A descendant that writes after
   the close still loses its output.
 - **Delivery is resolved by `ActionResultDelivery`, not per-runtime translation.** Runtimes
@@ -198,15 +196,15 @@ areas; stale debt notes are worse than none.
   `ActionRegistry.availableActions(for:)` maps canonical IDs to owning custom groups to hide member actions
   when their parent group is disabled or filtered out.
 
-## Extension JS Module Runtime
+## Extension JS module runtime
 
 - **JS file scripts run in module mode (CommonJS).** A `javascript` action with `"script"` gets
   `require`/`module`/`exports`/`__dirname` and can split across local files; resolution is Node-style
   and contained to the package directory (`OpenClipModuleLoader` + `Constants.isPathSafe`), with
   `../`/symlink escapes, absolute paths, and bare/Node-builtin specifiers rejected. Containment is
   checked on the final symlink-resolved candidate, including the appended `.js` / `index.js`
-  (issue #39). Folder installs are **not** scanned for symlinks at install time — only `.zip`
-  entries are (`validateZipEntries`) — and `ExtensionPackageHashResolver` skips out-of-package
+  (issue #39). Folder installs are **not** scanned for symlinks at install time, only `.zip`
+  entries are (`validateZipEntries`), and `ExtensionPackageHashResolver` skips out-of-package
   symlink targets from the trust hash, so the loader is the last line of defense for file reads.
   Containment verification is bound directly to the open file descriptor via `fcntl(F_GETPATH)`
   before reading, preventing check-then-read races. Inline `scriptCode` actions have no modules
@@ -214,7 +212,7 @@ areas; stale debt notes are worse than none.
 - **Third-party libraries live on the author side, not the host.** npm deps are bundled by the
   author with esbuild (`--platform=browser --target=es2020`) into `dist/main.js`; the host loader is
   **`.js`-only**, so TypeScript works only through the bundle path (`--with-npm` scaffold). Node
-  builtins are rejected at build time by the esbuild platform — they can never run.
+  builtins are rejected at build time by the esbuild platform, they can never run.
 - **The consent gate has landed; capability *enforcement* remains future work.** Nothing runs until
   a package is enabled (fail-closed trust states `seen`/`trusted`/`revoked` behind a single
   trust-model consent surface), and a tamper-watch auto-disables a trusted package whose content
@@ -223,13 +221,13 @@ areas; stale debt notes are worse than none.
   Extensions still execute in-process with the app's user context; module containment bounds file
   reads but is not a privilege boundary.
 
-## Presentation / Rule Holes
+## Presentation / rule holes
 
 - **No `switch action.id` fallback remains.** `ActionCustomizationManager.tableIcon()` resolves via
-  `ConfigurableAction.preferenceIconName` — the legacy block is gone. Keep it that way: never add
+  `ConfigurableAction.preferenceIconName`, the legacy block is gone. Keep it that way: never add
   id-string switches in presentation.
 
-## Action-Search Palette & Popup Growth
+## Action-search palette and popup growth
 
 - **Classic popup shadows use a separate padded rendering buffer.** `PopupCardChromeModifier`
   rasterizes only the solid rounded surface and its contact/ambient shadows, with
@@ -303,13 +301,13 @@ areas; stale debt notes are worse than none.
   (`PopupWindowController.swift:591,612,622`), so typing with the mouse elsewhere doesn't close the
   palette, and the result card stays open until it is collapsed or the popup hides.
 - **The floating bubble panel is gone; content renders inline.** The second `PopupPanel` (and its
-  `showBubble`/`hideBubble`/`bubbleBlocksDismiss` machinery) was removed — action/AI result
+  `showBubble`/`hideBubble`/`bubbleBlocksDismiss` machinery) was removed, action/AI result
   content renders inside the single panel via `.content` mode (`PopupModeStore`) as a native
   SwiftUI `ResultCardView`. The card is general, not AI-specific: any text-returning action lands
   there with its customization-resolved icon (`DeliveryContext.actionIcon`, snapshotted by the same
   perform paths as `actionTitle`); AI streaming deliveries pass no icon and keep the sparkles glyph. `StatusBadgeModel` and the old `.info`/`.result`/`.menu` emphasis
   model are gone, and the inline status banner is gone too: every `StatusFeedback` renders as a
-  floating toast (`ToastPanelController`) with no queue — statuses appear near the cursor — and
+  floating toast (`ToastPanelController`) with no queue, statuses appear near the cursor, and
   `showsLoading` actions (manifest `"loading"`) use the early-close spinner toast.
   Fresh toasts capture the cursor position and prefer a clear position above the pointer or
   action/group bar before using space below or beside it. Above-bar preference is limited to
@@ -361,7 +359,7 @@ areas; stale debt notes are worse than none.
   temporary-output filename map in `ShellProcessRunner.extensionForMimeType` gained the
   generated-document/media MIME types (md, csv, html, xml, yaml, rtf, docx, xlsx, pptx, wav, m4a, mov,
   webm) plus a `UTType` fallback instead of the old closed 11-entry list. ⌘S/⏎ save and ⌘C copies;
-  Space no longer opens the Quick Look panel (the key is left to the focused preview) — the generic
+  Space no longer opens the Quick Look panel (the key is left to the focused preview), the generic
   fallback card keeps a click-only **Preview** button. Embedded `PDFView`/`QLPreviewView` previews
   render outside the card's outer `ScrollView` so their own scrolling isn't shadowed, PDF card
   sizing uses page 0's rotated crop box, and an unopenable PDF falls back to the generic card.
@@ -388,12 +386,12 @@ areas; stale debt notes are worse than none.
   connect failures are retried; offline, cancelled and bad-URL errors give up at once.
   Fetches are one request per icon, not batched through `/{prefix}.json`.
 - **Popup sizing constants live in the App target.** `PopupMetrics`
-  (`Sources/OpenClip/UI/Popup/PopupMetrics.swift`) holds the UI-only values — `searchMaxRows`
+  (`Sources/OpenClip/UI/Popup/PopupMetrics.swift`) holds the UI-only values, `searchMaxRows`
   (5), `searchResultRowHeight` (32), `searchPeekRowFraction` (0.5), `popupMaxHeight` (300, the
-  shared height cap for the popup panel — lifted per-session via `PopupPanel.heightCap` while the
+  shared height cap for the popup panel, lifted per-session via `PopupPanel.heightCap` while the
   result card shows, since a user-resized card may be taller), the AI card bounds
   (`aiCardMinWidth` 220 / `aiCardIdealWidth` 320 / `aiCardMaxWidth` 360 / `aiCardMinHeight` 200 /
-  `aiCardMaxHeight` 280 — the max bounds only cap the content-driven default; the card's resize
+  `aiCardMaxHeight` 280, the max bounds only cap the content-driven default; the card's resize
   handles go up to the screen, see `PopupResizeGeometry`) plus placement/dismissal
   distances. The remembered card size is a popup preference declared in the App
   target (`SettingKey+ResultCard.swift`, next to
@@ -404,7 +402,7 @@ areas; stale debt notes are worse than none.
   true and is exposed under Customize → Behavior. Hiding it removes its width reservation
   from popup pagination and updates the Appearance preview. The search hotkey stays available.
 
-## AI Providers
+## AI providers
 
 - **Apple Intelligence is gated by one availability source.** `AppleIntelligenceAvailability`
   (`Sources/OpenClip/AI/AppleIntelligenceAvailability.swift`) folds the `#available(macOS 26.0, *)`
@@ -412,7 +410,7 @@ areas; stale debt notes are worse than none.
   `appleIntelligenceNotEnabled`, `modelNotReady`) into one `Status`, and owns the copy for each. The
   Preferences status row (`AIConfigureForm`) and the provider's runtime errors both read it, so they
   can't disagree about *why* the feature is off. The Apple picker segment is still selectable on
-  unsupported machines — it explains rather than disables.
+  unsupported machines, it explains rather than disables.
 - **The Apple provider uses guided generation, not tag scraping.** `AppleIntelligenceResponse`
   (`@Generable`, in `AppleIntelligenceProvider.swift`) declares `result`/`title`, so the framework
   constrains the model's output; the provider re-emits those fields via
@@ -421,7 +419,7 @@ areas; stale debt notes are worse than none.
   instructions for schema-field wording, because asking for tags would make the model embed them
   inside the fields; `taggedResponse` additionally runs values through `stripTagMarkup` for the same
   reason, since the palette's text-shaped prompts still say "inside <title> tags".
-- **One name per response.** `<title>` carries the short name for the work — a task heading for the
+- **One name per response.** `<title>` carries the short name for the work, a task heading for the
   answer card, or a reusable action name when saving a palette instruction as an AI tool. Which
   style to produce is the flow's business and lives only in the prompt wording
   (`PaletteAIPrompt.saveToolTaskPrompt`); one generated name serves both the preset title and the
@@ -474,7 +472,7 @@ first capture; capture errors show System Settings guidance. Selection monitorin
 and pending OCR is cancelled through the capture request token, so stale OCR results cannot
 replace a newer popup.
 
-## Unused / Latent
+## Unused / latent
 
 - **`ActionContext.modifiers` is currently unused.** No action reads it; `PopupWindowController`
   passes `modifiers: []`. The click intent itself *is* plumbed: `ActionContext.isSecondaryClick` is
@@ -488,8 +486,8 @@ replace a newer popup.
   click uses the declared `secondary` outcome (else derives `.copy` from a `.paste` primary), and
   the **unified** `PasteAvailability` answer (per-app rules win, AX `PasteAvailabilityProbe` fills
   in) downgrades a chosen `.paste` to `.copy` when it says no; otherwise the requested paste is
-  honored. The delivery inputs are snapshotted at perform time — before
-  the dismissing `hide()` clears the session context — so `denyPaste` holds even for pastes that
+  honored. The delivery inputs are snapshotted at perform time, before
+  the dismissing `hide()` clears the session context, so `denyPaste` holds even for pastes that
   dismiss the popup, and the AI card's Paste/Copy buttons are explicit requests
   (`performCardEffect`) that carry no delivery context and are never re-decided. The live probe
   (`PasteAvailabilityProbe`) needs
@@ -507,10 +505,10 @@ replace a newer popup.
   never inherits the right-click that opened a group's scoped palette. Since Task 4, each action's
   declared `Action.delivery` (a distinct
   secondary outcome + per-click `primaryToast`/`secondaryToast`) is snapshotted alongside the click
-  intent and fed into `resolve`, and the returned tuple's toast is rendered directly — the manual
+  intent and fed into `resolve`, and the returned tuple's toast is rendered directly, the manual
   `isDowngradedToCopy`/`isCopyDefinition` inline toast detection was removed in favor of the resolved
   `.toast`. Since Task 8, a script-emitted `.toast` (or any result whose `containsToast` is true)
-  suppresses the delivery companion toast entirely — one toast per run — and `keepVisible: true`
+  suppresses the delivery companion toast entirely, one toast per run, and `keepVisible: true`
   stops a toast's auto-dismiss and keeps the popup open (a `.toast` dismisses by default). Only the
   SwiftUI inline perform path snapshots via the new `onWillPerformAction` closure;
   the completion-button paste path (`PopupView` `onResult(.paste(word))`) routes through
@@ -524,7 +522,7 @@ replace a newer popup.
   optional user per-action delivery override (`ActionCustomizationManager`), the universal secondary-click
   Clipboard Invariant, and unified AX paste availability: a paste outcome probes like any paste
   and downgrades to copy when the target can't paste, a copy outcome delivers a native copy with no toast,
-  and a preview outcome keeps the popup open for the card render — dismissal for `.text` is decided by
+  and a preview outcome keeps the popup open for the card render, dismissal for `.text` is decided by
   the controller's `shouldDismiss`, not `dismissesPopup`. The loading re-show path (`settleLoadingResult`)
   re-creates the popup from the pre-early-close selection snapshot to present the card.
   - **Target application and delivery context snapshotted before perform.** Asynchronous actions snapshot
@@ -535,7 +533,7 @@ replace a newer popup.
   - **Re-show binds to the current frontmost app.** The loading-preview re-show
     (`settleLoadingResult`) re-creates the popup from the selection snapshot, but `hide()`
     clears `previousFrontmostApp`, so the re-show re-captures whatever is frontmost at settle
-    time — if the user switched apps during a multi-second spinner, dismissal reactivates that
+    time, if the user switched apps during a multi-second spinner, dismissal reactivates that
     app. The card's paste probe correctly targets the snapshotted app; only dismissal's
     reactivation is affected.
   - **Sequences resolve item by item.** `ActionResultDelivery` selects and probes each item of a
@@ -553,12 +551,12 @@ replace a newer popup.
   than adding abandoned threads. OS messaging timeouts and aggregate menu-walk deadlines
   still cannot forcibly terminate a synchronous call already executing.
 - **Subprocess pipe reads are non-blocking (hang fix).** `ShellProcessRunner` previously read stdout/
-  stderr with blocking `readToEnd()` tasks and a `Task.sleep` watchdog — both can be starved, so a
+  stderr with blocking `readToEnd()` tasks and a `Task.sleep` watchdog, both can be starved, so a
   child (or grandchild) holding a pipe open could wedge the cooperative pool and hang the test
   suite indefinitely (observed mid-suite in `ScriptActionTests.testScriptExecution`). The runner now
   uses a GCD timer watchdog + GCD `readabilityHandler` reads + synchronous stdin close. This claim
   covers only the pipe reads: `process.waitUntilExit()` still blocks its detached thread until the
-  child exits — bounded only when the invocation carries an explicit `timeout`, which arms the
+  child exits, bounded only when the invocation carries an explicit `timeout`, which arms the
   watchdog; with none (the default) it runs until the child exits or the caller cancels. At timeout
   the watchdog starts descendant cleanup (the child, the process group when the child is the leader,
   and remaining descendants).
@@ -569,7 +567,7 @@ replace a newer popup.
   spurious 0 would silently drop a descendant; and a grandchild that reparented to launchd before
   the snapshot is unreachable by any pid walk.
 
-## Selection Retrieval
+## Selection retrieval
 
 - **Extension rich input is captured on demand.** Per-action manifest flags `captureRtf`
   and `captureHtml` ask `RichInputAction` to prepare missing representations before the
@@ -601,7 +599,7 @@ replace a newer popup.
   identifiable toolbar/titlebar chrome, including unchanged fullscreen windows, while
   allowing embedded text controls and web content. Unknown AX hierarchies fail open; generic
   document groups are not treated as chrome merely because they have a window ancestor, and
-  neither is a bare `AXWindow` hit — apps with flat or lazily built AX trees (terminals, canvas
+  neither is a bare `AXWindow` hit, apps with flat or lazily built AX trees (terminals, canvas
   editors, Electron before its tree exists) report their whole content area that way. Each
   rejection logs `monitor: skipped press on window chrome`. The hit-test never sets a messaging
   timeout on the system-wide element (that would change the process-wide AX default); its
@@ -704,7 +702,7 @@ replace a newer popup.
   monitors.** While OpenClip is inactive over another app's fullscreen Space, the global monitor
   receives no own-window `mouseMoved` events (they are not "global"), the local monitor gets none
   (the non-activating panel is not key and the app is not active), and SwiftUI `.onHover` does not
-  fire for an inactive non-key window — so hover highlights, tooltips, and the group sub-bar dwell
+  fire for an inactive non-key window, so hover highlights, tooltips, and the group sub-bar dwell
   all died in fullscreen. `PopupPanel.ContentView` and `SubBarPanel.ContentView` now install
   `.activeAlways` + `.mouseMoved` tracking areas (AppKit delivers these regardless of app/key
   status) and forward mouse movement, entry, and exit to `PopupWindowController.handleTrackingMouseMoved`,
@@ -742,7 +740,7 @@ replace a newer popup.
   completely removing the legacy `browser-script` AppleScript subprocess churn and permission friction.
 - **Web-area settle-retry exhaustion is untested.** The `.axWebArea` retry loop
   (`webAreaSettleMaxRetries` = 6, re-inspecting fresh each attempt) returns `nil` when the text
-  never appears, but the exhausted path has no dedicated test — the loop is exercised only through
+  never appears, but the exhausted path has no dedicated test, the loop is exercised only through
   fixture snapshots in `SelectionRetrievalCoordinatorTests`.
 - **Copy-path clipboard visibility caveat (mostly closed in OpenSelection 0.2.6).** The
   `.menuCopy`/`.keyboardCopy` engine restores the archived items synchronously in the same
@@ -755,7 +753,7 @@ replace a newer popup.
   `MacSelectionMonitor` hold task inherits the clipboard only when the press point resolves to
   editable text via `pressIsOverEditableText` (and paste is not denied): an AX hit-test to a text
   control, or the focused editable element's frame covering the press (CodeMirror/Monaco's
-  caret-anchored hidden textarea). The earlier I-beam-cursor signal was dropped — browsers render
+  caret-anchored hidden textarea). The earlier I-beam-cursor signal was dropped, browsers render
   an I-beam over *read-only* selectable text, so it re-admitted the fallback over web articles.
   A "shared web area" widening was also rejected: it admitted any read-only page text while an
   input elsewhere held focus, which is the leak the gate exists to prevent. Residual limit: a
@@ -768,11 +766,10 @@ replace a newer popup.
   Saturation fails closed (no clipboard fallback) while those workers finish. The main actor
   remains responsive throughout.
 
-
-## Test Isolation
+## Test isolation
 
 - **Shared reset for the app singletons:** `Tests/OpenClipTests/TestIsolation.swift` centralizes
-  `TestIsolation.reset()` — clears `ActionRegistry.shared`, `ActionCustomizationManager.shared`,
+  `TestIsolation.reset()`, clears `ActionRegistry.shared`, `ActionCustomizationManager.shared`,
   `RuleEngine.shared`, and `ExtensionManager.shared` (loaded actions, `onRegister`/`onUnregister`
   callbacks, and factory). The singleton-touching test classes call it in `setUp()`, so the suite is
   order-independent. `ActionCoordinator.shared` needs no explicit reset: it mirrors the registry's
@@ -806,7 +803,7 @@ replace a newer popup.
   `docs/logging.md` for the category table and filtering workflow.
 - **Level budget is conservative.** Most messages are `.notice`/`.error`; `.debug` is used for
   defensive parses and transient network hiccups (filtered out by default in Console).
-- **`chrome` category is reserved but unused** — no popup-window-chrome code logs yet.
+- **`chrome` category is reserved but unused**, no popup-window-chrome code logs yet.
 - **`RotatingFileLogSink` keeps all non-`Sendable` state on its serial queue**, including
   its `DateFormatter`; its `@unchecked Sendable` depends on that rule (#45).
 # Popup appearance preview and pagination

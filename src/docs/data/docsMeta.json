@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-20T05:18:04.264Z",
+  "generatedAt": "2026-10-20T10:02:44.545Z",
   "categories": [
     {
       "id": "user-guide",
@@ -20,22 +20,22 @@
           "headings": [
             {
               "id": "system-requirements",
-              "title": "System Requirements",
+              "title": "System requirements",
               "level": 2
             },
             {
               "id": "installation-steps",
-              "title": "Installation Steps",
+              "title": "Installation steps",
               "level": 2
             },
             {
-              "id": "granting-accessibility-permissions",
-              "title": "Granting Accessibility Permissions",
+              "id": "granting-accessibility-permission",
+              "title": "Granting Accessibility permission",
               "level": 2
             },
             {
-              "id": "first-launch-onboarding-workflow",
-              "title": "First-Launch Onboarding Workflow",
+              "id": "first-launch",
+              "title": "First launch",
               "level": 2
             }
           ]
@@ -71,8 +71,8 @@
               "level": 2
             },
             {
-              "id": "how-action-ordering-works",
-              "title": "How Action Ordering Works",
+              "id": "action-order",
+              "title": "Action order",
               "level": 3
             },
             {
@@ -87,7 +87,7 @@
             },
             {
               "id": "custom-actions",
-              "title": "Custom Actions",
+              "title": "Custom actions",
               "level": 2
             },
             {
@@ -101,34 +101,44 @@
               "level": 2
             },
             {
-              "id": "customizing-action-titles-icons",
-              "title": "Customizing Action Titles & Icons",
+              "id": "action-titles-and-icons",
+              "title": "Action titles and icons",
               "level": 2
             },
             {
-              "id": "display-overrides-via-actioncustomizationmanager",
-              "title": "Display Overrides via ActionCustomizationManager",
+              "id": "result-delivery-and-clicks",
+              "title": "Result delivery and clicks",
               "level": 3
             },
             {
-              "id": "action-result-delivery-click-behavior",
-              "title": "Action Result Delivery & Click Behavior",
-              "level": 3
-            },
-            {
-              "id": "popup-appearance-theme",
-              "title": "Popup Appearance & Theme",
+              "id": "popup-appearance-and-theme",
+              "title": "Popup appearance and theme",
               "level": 2
             },
             {
               "id": "popup-theme",
-              "title": "Popup Theme",
+              "title": "Popup theme",
               "level": 3
             },
             {
-              "id": "ai-provider-setup",
-              "title": "AI Provider Setup",
+              "id": "actions-per-page",
+              "title": "Actions per page",
               "level": 2
+            },
+            {
+              "id": "ai-provider-setup",
+              "title": "AI provider setup",
+              "level": 2
+            },
+            {
+              "id": "putting-an-ai-preset-on-the-popup-bar",
+              "title": "Putting an AI preset on the popup bar",
+              "level": 3
+            },
+            {
+              "id": "editing-a-preset",
+              "title": "Editing a preset",
+              "level": 3
             },
             {
               "id": "system-prompt",
@@ -141,19 +151,9 @@
               "level": 3
             },
             {
-              "id": "refine-an-answer-in-the-result-card",
-              "title": "Refine an answer in the result card",
+              "id": "refining-an-answer-in-the-result-card",
+              "title": "Refining an answer in the result card",
               "level": 3
-            },
-            {
-              "id": "ai-settings-channel",
-              "title": "AI Settings Channel",
-              "level": 3
-            },
-            {
-              "id": "actions-per-page",
-              "title": "Actions per page",
-              "level": 2
             }
           ]
         },
@@ -168,23 +168,23 @@
           "sourcePath": "docs/user-guide/app-rules.md",
           "headings": [
             {
-              "id": "json-configuration-format-rulesjson",
-              "title": "JSON Configuration Format (rules.json)",
+              "id": "rule-file-format",
+              "title": "Rule file format",
               "level": 2
             },
             {
-              "id": "policy-properties-reference",
-              "title": "Policy Properties Reference",
+              "id": "properties",
+              "title": "Properties",
               "level": 2
             },
             {
-              "id": "retrieval-mode-values",
-              "title": "retrieval-mode values",
+              "id": "retrieval-modes",
+              "title": "Retrieval modes",
               "level": 3
             },
             {
-              "id": "identifier-matching-shortcuts",
-              "title": "Identifier Matching & Shortcuts",
+              "id": "matching-apps",
+              "title": "Matching apps",
               "level": 2
             },
             {
@@ -193,18 +193,18 @@
               "level": 3
             },
             {
-              "id": "wildcard-pattern-matching",
-              "title": "Wildcard Pattern Matching",
+              "id": "wildcards",
+              "title": "Wildcards",
               "level": 3
             },
             {
-              "id": "builtin-group-expansion-aliases",
-              "title": "Builtin Group Expansion Aliases",
+              "id": "group-aliases",
+              "title": "Group aliases",
               "level": 3
             },
             {
-              "id": "rule-evaluation-mechanics",
-              "title": "Rule Evaluation Mechanics",
+              "id": "how-a-rule-is-applied",
+              "title": "How a rule is applied",
               "level": 2
             }
           ]
@@ -220,33 +220,28 @@
           "sourcePath": "docs/user-guide/managing-extensions.md",
           "headings": [
             {
-              "id": "extension-store-remote-installation",
-              "title": "Extension Store & Remote Installation",
+              "id": "extension-store",
+              "title": "Extension Store",
               "level": 2
             },
             {
               "id": "how-remote-installation-works",
-              "title": "How Remote Installation Works",
+              "title": "How remote installation works",
               "level": 3
             },
             {
-              "id": "manual-installation-of-extensions-scripts",
-              "title": "Manual Installation of Extensions & Scripts",
+              "id": "installing-by-hand",
+              "title": "Installing by hand",
               "level": 2
             },
             {
-              "id": "installation-file-types",
-              "title": "Installation File Types",
-              "level": 3
-            },
-            {
-              "id": "creating-custom-actions-in-gui",
-              "title": "Creating Custom Actions in GUI",
+              "id": "creating-custom-actions-in-the-app",
+              "title": "Creating custom actions in the app",
               "level": 2
             },
             {
-              "id": "storage-persistence",
-              "title": "Storage & Persistence",
+              "id": "where-custom-actions-are-stored",
+              "title": "Where custom actions are stored",
               "level": 3
             }
           ]
@@ -271,23 +266,23 @@
           "sourcePath": "docs/developer-guide/overview.md",
           "headings": [
             {
-              "id": "extension-capabilities",
-              "title": "Extension Capabilities",
+              "id": "ways-to-extend-openclip",
+              "title": "Ways to extend OpenClip",
               "level": 2
             },
             {
-              "id": "action-types-at-a-glance",
-              "title": "Action Types at a Glance",
+              "id": "action-types",
+              "title": "Action types",
               "level": 2
             },
             {
-              "id": "extension-directory-locations",
-              "title": "Extension Directory Locations",
+              "id": "where-extensions-live",
+              "title": "Where extensions live",
               "level": 2
             },
             {
-              "id": "architectural-integration-seam",
-              "title": "Architectural Integration Seam",
+              "id": "how-extensions-plug-in",
+              "title": "How extensions plug in",
               "level": 2
             }
           ]
@@ -541,7 +536,7 @@
           "headings": [
             {
               "id": "package-directory-structure",
-              "title": "Package Directory Structure",
+              "title": "Package directory structure",
               "level": 2
             },
             {
@@ -551,37 +546,37 @@
             },
             {
               "id": "manifest-json-schema-extensionmetadata",
-              "title": "Manifest JSON Schema (ExtensionMetadata)",
+              "title": "Manifest JSON schema (ExtensionMetadata)",
               "level": 2
             },
             {
               "id": "complete-example-manifestjson",
-              "title": "Complete Example manifest.json",
+              "title": "Complete example manifest.json",
               "level": 3
             },
             {
               "id": "manifest-fields-reference",
-              "title": "Manifest Fields Reference",
+              "title": "Manifest fields reference",
               "level": 2
             },
             {
               "id": "top-level-metadata-extensionmetadata",
-              "title": "Top-Level Metadata (ExtensionMetadata)",
+              "title": "Top-Level metadata (ExtensionMetadata)",
               "level": 3
             },
             {
               "id": "action-object-extensionactionmetadata",
-              "title": "Action Object (ExtensionActionMetadata)",
+              "title": "Action object (ExtensionActionMetadata)",
               "level": 3
             },
             {
-              "id": "extension-output-contract-delivery-resolution",
-              "title": "Extension Output Contract & Delivery Resolution",
+              "id": "extension-output-contract-and-delivery-resolution",
+              "title": "Extension output contract and delivery resolution",
               "level": 3
             },
             {
               "id": "native-file-output-results",
-              "title": "Native File Output Results",
+              "title": "Native file output results",
               "level": 3
             },
             {
@@ -591,12 +586,12 @@
             },
             {
               "id": "options-schema-extensionoptionmetadata",
-              "title": "Options Schema (ExtensionOptionMetadata)",
+              "title": "Options schema (ExtensionOptionMetadata)",
               "level": 2
             },
             {
-              "id": "option-storage-retrieval",
-              "title": "Option Storage & Retrieval",
+              "id": "option-storage-and-retrieval",
+              "title": "Option storage and retrieval",
               "level": 3
             }
           ]
@@ -612,43 +607,43 @@
           "sourcePath": "docs/developer-guide/snippets.md",
           "headings": [
             {
-              "id": "parser-architecture-design-constraints",
-              "title": "Parser Architecture & Design Constraints",
+              "id": "parser-architecture-and-design-constraints",
+              "title": "Parser architecture and design constraints",
               "level": 2
             },
             {
-              "id": "header-syntax-format",
-              "title": "Header Syntax & Format",
+              "id": "header-syntax-and-format",
+              "title": "Header syntax and format",
               "level": 2
             },
             {
               "id": "example-1-standalone-javascript-snippet-upperjs",
-              "title": "Example 1: Standalone JavaScript Snippet (upper.js)",
+              "title": "Example 1: standalone JavaScript snippet (upper.js)",
               "level": 3
             },
             {
               "id": "example-2-standalone-shell-script-format-sqlsh",
-              "title": "Example 2: Standalone Shell Script (format-sql.sh)",
+              "title": "Example 2: standalone shell script (format-sql.sh)",
               "level": 3
             },
             {
               "id": "example-3-standalone-applescript-snippet-create-noteapplescript",
-              "title": "Example 3: Standalone AppleScript Snippet (create-note.applescript)",
+              "title": "Example 3: standalone AppleScript snippet (create-note.applescript)",
               "level": 3
             },
             {
               "id": "example-4-standalone-url-search-snippet-search-mdnsh",
-              "title": "Example 4: Standalone URL Search Snippet (search-mdn.sh)",
+              "title": "Example 4: standalone URL search snippet (search-mdn.sh)",
               "level": 3
             },
             {
               "id": "header-keys-matrix",
-              "title": "Header Keys Matrix",
+              "title": "Header keys matrix",
               "level": 2
             },
             {
               "id": "parsing-algorithm-details",
-              "title": "Parsing Algorithm Details",
+              "title": "Parsing algorithm details",
               "level": 2
             }
           ]
@@ -670,22 +665,22 @@
             },
             {
               "id": "1a-entry-dispatch",
-              "title": "1a. Entry dispatch",
+              "title": "1a. entry dispatch",
               "level": 3
             },
             {
-              "id": "1b-resolution-caching",
-              "title": "1b. Resolution & caching",
+              "id": "1b-resolution-and-caching",
+              "title": "1b. resolution and caching",
               "level": 3
             },
             {
               "id": "1c-containment",
-              "title": "1c. Containment",
+              "title": "1c. containment",
               "level": 3
             },
             {
               "id": "1d-rejected-specifiers",
-              "title": "1d. Rejected specifiers",
+              "title": "1d. rejected specifiers",
               "level": 3
             },
             {
@@ -695,7 +690,7 @@
             },
             {
               "id": "2a-build-contract",
-              "title": "2a. Build contract",
+              "title": "2a. build contract",
               "level": 3
             },
             {
@@ -705,7 +700,7 @@
             },
             {
               "id": "2c-bundling-third-party-libraries",
-              "title": "2c. Bundling third-party libraries",
+              "title": "2c. bundling third-party libraries",
               "level": 3
             },
             {
@@ -715,7 +710,7 @@
             },
             {
               "id": "4-esbuild-shims-for-browser-platform-builds",
-              "title": "4. esbuild shims for browser-platform builds",
+              "title": "4. Esbuild shims for browser-platform builds",
               "level": 2
             },
             {
@@ -751,12 +746,12 @@
             },
             {
               "id": "the-openclip-js-object",
-              "title": "The openclip JS Object",
+              "title": "The openclip JS object",
               "level": 2
             },
             {
-              "id": "options-preference-integration",
-              "title": "Options & Preference Integration",
+              "id": "options-and-preference-integration",
+              "title": "Options and preference integration",
               "level": 2
             },
             {
@@ -771,7 +766,7 @@
             },
             {
               "id": "async-mode-async-true",
-              "title": "Async Mode (\"async\": true)",
+              "title": "Async mode (\"async\": true)",
               "level": 2
             },
             {
@@ -780,18 +775,18 @@
               "level": 3
             },
             {
-              "id": "execution-model-watchdog",
-              "title": "Execution model & watchdog",
+              "id": "execution-model-and-watchdog",
+              "title": "Execution model and watchdog",
               "level": 3
             },
             {
               "id": "result-resolution",
-              "title": "Result Resolution",
+              "title": "Result resolution",
               "level": 2
             },
             {
               "id": "practical-examples",
-              "title": "Practical Examples",
+              "title": "Practical examples",
               "level": 2
             },
             {
@@ -801,7 +796,7 @@
             },
             {
               "id": "search-web-opens-a-url",
-              "title": "Search Web (opens a URL)",
+              "title": "Search web (opens a URL)",
               "level": 3
             },
             {
@@ -811,7 +806,7 @@
             },
             {
               "id": "display-file-preview-card-image-document",
-              "title": "Display File Preview Card (Image / Document)",
+              "title": "Display file preview card (Image / document)",
               "level": 3
             },
             {
@@ -833,7 +828,7 @@
           "headings": [
             {
               "id": "execution-architecture",
-              "title": "Execution Architecture",
+              "title": "Execution architecture",
               "level": 2
             },
             {
@@ -843,22 +838,22 @@
             },
             {
               "id": "example-applescript-snippets",
-              "title": "Example AppleScript Snippets",
+              "title": "Example AppleScript snippets",
               "level": 2
             },
             {
               "id": "example-1-create-new-note-in-macos-notes-app",
-              "title": "Example 1: Create New Note in macOS Notes App",
+              "title": "Example 1: create new note in macOS notes app",
               "level": 3
             },
             {
               "id": "example-2-transform-selected-text-to-uppercase",
-              "title": "Example 2: Transform Selected Text to Uppercase",
+              "title": "Example 2: transform selected text to uppercase",
               "level": 3
             },
             {
-              "id": "return-values-side-effects",
-              "title": "Return Values & Side Effects",
+              "id": "return-values-and-side-effects",
+              "title": "Return values and side effects",
               "level": 2
             }
           ]
@@ -875,27 +870,27 @@
           "headings": [
             {
               "id": "execution-mechanism",
-              "title": "Execution Mechanism",
+              "title": "Execution mechanism",
               "level": 2
             },
             {
               "id": "supported-placeholders",
-              "title": "Supported Placeholders",
+              "title": "Supported placeholders",
               "level": 2
             },
             {
-              "id": "regex-pattern-gating-visibility-rules",
-              "title": "Regex Pattern Gating & Visibility Rules",
+              "id": "regex-pattern-gating-and-visibility-rules",
+              "title": "Regex pattern gating and visibility rules",
               "level": 2
             },
             {
               "id": "common-regex-examples",
-              "title": "Common Regex Examples",
+              "title": "Common regex examples",
               "level": 3
             },
             {
               "id": "practical-examples",
-              "title": "Practical Examples",
+              "title": "Practical examples",
               "level": 2
             }
           ]
@@ -912,47 +907,47 @@
           "headings": [
             {
               "id": "process-execution-lifecycle",
-              "title": "Process Execution Lifecycle",
+              "title": "Process execution lifecycle",
               "level": 2
             },
             {
               "id": "environment-variables-matrix",
-              "title": "Environment Variables Matrix",
+              "title": "Environment variables matrix",
               "level": 2
             },
             {
               "id": "output-processing-json-vs-plain-text",
-              "title": "Output Processing: JSON vs Plain Text",
+              "title": "Output processing: JSON vs plain text",
               "level": 2
             },
             {
               "id": "mode-1-structured-json-output-scriptjsonoutput",
-              "title": "Mode 1: Structured JSON Output (ScriptJSONOutput)",
+              "title": "Mode 1: structured JSON output (ScriptJSONOutput)",
               "level": 3
             },
             {
               "id": "mode-2-plain-text-output-fallback",
-              "title": "Mode 2: Plain Text Output Fallback",
+              "title": "Mode 2: plain text output fallback",
               "level": 3
             },
             {
               "id": "practical-examples",
-              "title": "Practical Examples",
+              "title": "Practical examples",
               "level": 2
             },
             {
               "id": "python-script-generating-a-file-generate_chartpy",
-              "title": "Python Script Generating a File (generate_chart.py)",
+              "title": "Python script generating a file (generate_chart.py)",
               "level": 3
             },
             {
               "id": "python-script-example-clean_markdownpy",
-              "title": "Python Script Example (clean_markdown.py)",
+              "title": "Python script example (clean_markdown.py)",
               "level": 3
             },
             {
               "id": "zsh-shell-script-example-uppercasesh",
-              "title": "Zsh Shell Script Example (uppercase.sh)",
+              "title": "Zsh shell script example (uppercase.sh)",
               "level": 3
             }
           ]
@@ -1025,52 +1020,52 @@
           "headings": [
             {
               "id": "target-split",
-              "title": "Target Split",
+              "title": "Target split",
               "level": 2
             },
             {
               "id": "core-target-constraints",
-              "title": "Core Target Constraints",
+              "title": "Core target constraints",
               "level": 3
             },
             {
-              "id": "core-architectural-subsystems",
-              "title": "Core Architectural Subsystems",
+              "id": "subsystems",
+              "title": "Subsystems",
               "level": 2
             },
             {
-              "id": "1-settings-subsystem-settingsstore",
-              "title": "1. Settings Subsystem — SettingsStore",
+              "id": "1-settings-settingsstore",
+              "title": "1. Settings: SettingsStore",
               "level": 3
             },
             {
               "id": "2-action-presentation-actioncustomizationmanager",
-              "title": "2. Action Presentation — ActionCustomizationManager",
+              "title": "2. Action presentation: ActionCustomizationManager",
               "level": 3
             },
             {
               "id": "3-action-chrome-policy-actionchrome",
-              "title": "3. Action Chrome Policy — ActionChrome",
+              "title": "3. Action chrome policy: ActionChrome",
               "level": 3
             },
             {
               "id": "4-action-factory-defaultactionfactory",
-              "title": "4. Action Factory — DefaultActionFactory",
+              "title": "4. Action factory: DefaultActionFactory",
               "level": 3
             },
             {
               "id": "5-action-result-handler-actionresulthandler",
-              "title": "5. Action Result Handler — ActionResultHandler",
+              "title": "5. Action result handler: ActionResultHandler",
               "level": 3
             },
             {
-              "id": "6-action-coordinator-composition-actioncoordinator",
-              "title": "6. Action Coordinator & Composition — ActionCoordinator",
+              "id": "6-action-coordinator-and-composition-actioncoordinator",
+              "title": "6. Action coordinator and composition: ActionCoordinator",
               "level": 3
             },
             {
-              "id": "key-design-guidelines",
-              "title": "Key Design Guidelines",
+              "id": "design-guidelines",
+              "title": "Design guidelines",
               "level": 2
             }
           ]
@@ -1087,57 +1082,57 @@
           "headings": [
             {
               "id": "architectural-responsibilities",
-              "title": "Architectural Responsibilities",
+              "title": "Architectural responsibilities",
               "level": 2
             },
             {
               "id": "action-registration-mechanics",
-              "title": "Action Registration Mechanics",
+              "title": "Action registration mechanics",
               "level": 2
             },
             {
               "id": "initial-loading-lifecycle",
-              "title": "Initial Loading Lifecycle",
+              "title": "Initial loading lifecycle",
               "level": 3
             },
             {
-              "id": "registration-unregistration",
-              "title": "Registration & Unregistration",
+              "id": "registration-and-unregistration",
+              "title": "Registration and unregistration",
               "level": 3
             },
             {
-              "id": "action-registry-ordering-policy",
-              "title": "Action Registry & Ordering Policy",
+              "id": "action-registry-and-ordering-policy",
+              "title": "Action registry and ordering policy",
               "level": 2
             },
             {
-              "id": "dynamic-ordering-math-custom-groups",
-              "title": "Dynamic Ordering Math & Custom Groups",
+              "id": "dynamic-ordering-math-and-custom-groups",
+              "title": "Dynamic ordering math and custom groups",
               "level": 3
             },
             {
-              "id": "custom-action-groups-lifecycle",
-              "title": "Custom Action Groups & Lifecycle",
+              "id": "custom-action-groups-and-lifecycle",
+              "title": "Custom action groups and lifecycle",
               "level": 2
             },
             {
               "id": "core-domain-models",
-              "title": "Core Domain Models",
+              "title": "Core domain models",
               "level": 3
             },
             {
               "id": "group-membership-rules",
-              "title": "Group Membership Rules",
+              "title": "Group membership rules",
               "level": 3
             },
             {
-              "id": "action-availability-context-resolution",
-              "title": "Action Availability & Context Resolution",
+              "id": "action-availability-and-context-resolution",
+              "title": "Action availability and context resolution",
               "level": 2
             },
             {
               "id": "filtering-pipeline",
-              "title": "Filtering Pipeline",
+              "title": "Filtering pipeline",
               "level": 3
             }
           ]
@@ -1154,7 +1149,7 @@
           "headings": [
             {
               "id": "window-components",
-              "title": "Window Components",
+              "title": "Window components",
               "level": 2
             },
             {
@@ -1168,63 +1163,63 @@
               "level": 3
             },
             {
-              "id": "hover-tracking-preview-isolation",
-              "title": "Hover Tracking & Preview Isolation",
+              "id": "hover-tracking-and-preview-isolation",
+              "title": "Hover tracking and preview isolation",
               "level": 2
             },
             {
               "id": "positioning-math-popuppositioner",
-              "title": "Positioning Math: PopupPositioner",
+              "title": "Positioning math: PopupPositioner",
               "level": 2
             },
             {
               "id": "calculation-rules",
-              "title": "Calculation Rules",
+              "title": "Calculation rules",
               "level": 3
             },
             {
-              "id": "content-mode-native-result-cards-ai-file-outputs",
-              "title": "Content Mode: Native Result Cards (AI & File Outputs)",
+              "id": "content-mode-native-result-cards-ai-and-file-outputs",
+              "title": "Content mode: native result cards (AI and file outputs)",
               "level": 2
             },
             {
-              "id": "content-mode-ai-text-results",
-              "title": "Content Mode (AI & Text Results)",
+              "id": "content-mode-ai-and-text-results",
+              "title": "Content mode (AI and text results)",
               "level": 3
             },
             {
               "id": "file-output-results",
-              "title": "File Output Results",
+              "title": "File output results",
               "level": 3
             },
             {
               "id": "text-and-diff-results",
-              "title": "Text and Diff Results",
+              "title": "Text and diff results",
               "level": 3
             },
             {
-              "id": "action-search-palette-panel-growth",
-              "title": "Action-Search Palette & Panel Growth",
+              "id": "action-search-palette-and-panel-growth",
+              "title": "Action-search palette and panel growth",
               "level": 2
             },
             {
               "id": "search-mode",
-              "title": "Search Mode",
+              "title": "Search mode",
               "level": 3
             },
             {
               "id": "scoped-sub-action-palette",
-              "title": "Scoped Sub-Action Palette",
+              "title": "Scoped Sub-Action palette",
               "level": 3
             },
             {
               "id": "key-mode-exceptions",
-              "title": "Key-Mode Exceptions",
+              "title": "Key-Mode exceptions",
               "level": 3
             },
             {
               "id": "panel-growth-anchoring-content-driven-resize",
-              "title": "Panel-Growth Anchoring (content-driven resize)",
+              "title": "Panel-Growth anchoring (content-driven resize)",
               "level": 3
             }
           ]
@@ -1241,12 +1236,12 @@
           "headings": [
             {
               "id": "selection-detection-architecture",
-              "title": "Selection Detection Architecture",
+              "title": "Selection detection architecture",
               "level": 2
             },
             {
               "id": "retrieval-resolver-gate-and-strategies",
-              "title": "Retrieval: Resolver, Gate, and Strategies",
+              "title": "Retrieval: resolver, gate, and strategies",
               "level": 2
             },
             {
@@ -1265,18 +1260,18 @@
               "level": 3
             },
             {
-              "id": "shortcut-clipboard-fallback-synchronous-resolution",
-              "title": "Shortcut Clipboard Fallback & Synchronous Resolution",
+              "id": "shortcut-clipboard-fallback-and-synchronous-resolution",
+              "title": "Shortcut clipboard fallback and synchronous resolution",
               "level": 2
             },
             {
-              "id": "privacy-non-destructive-guarantees",
-              "title": "Privacy & Non-Destructive Guarantees",
+              "id": "privacy-and-non-destructive-guarantees",
+              "title": "Privacy and Non-Destructive guarantees",
               "level": 2
             },
             {
               "id": "inline-action-match-context",
-              "title": "Inline Action Match Context",
+              "title": "Inline action match context",
               "level": 2
             }
           ]
@@ -1339,18 +1334,18 @@
           "sourcePath": "docs/logging.md",
           "headings": [
             {
-              "id": "architecture-overview",
-              "title": "Architecture Overview",
+              "id": "how-a-message-travels",
+              "title": "How a message travels",
               "level": 2
             },
             {
-              "id": "core-protocol-types",
-              "title": "Core Protocol & Types",
+              "id": "core-protocol-and-types",
+              "title": "Core protocol and types",
               "level": 2
             },
             {
-              "id": "the-log-enum-categories",
-              "title": "The Log Enum & Categories",
+              "id": "the-log-enum-and-categories",
+              "title": "The Log enum and categories",
               "level": 2
             },
             {
@@ -1359,13 +1354,13 @@
               "level": 2
             },
             {
-              "id": "viewing-filtering-workflows",
-              "title": "Viewing & Filtering Workflows",
+              "id": "viewing-and-filtering-workflows",
+              "title": "Viewing and filtering workflows",
               "level": 2
             },
             {
               "id": "1-file-logs-librarylogsopenclipopencliplog",
-              "title": "1. File Logs (~/Library/Logs/OpenClip/openclip.log)",
+              "title": "1. File logs (~/Library/Logs/OpenClip/openclip.log)",
               "level": 3
             },
             {
@@ -1375,7 +1370,7 @@
             },
             {
               "id": "3-dump-logs-cli-tool",
-              "title": "3. --dump-logs CLI Tool",
+              "title": "3. --dump-logs CLI tool",
               "level": 3
             },
             {
@@ -1413,52 +1408,52 @@
           "headings": [
             {
               "id": "extension-automatic-updates",
-              "title": "Extension Automatic Updates",
+              "title": "Extension automatic updates",
               "level": 2
             },
             {
               "id": "ai-action-prompting",
-              "title": "AI Action Prompting",
+              "title": "AI action prompting",
               "level": 2
             },
             {
               "id": "manual-update-window-activation",
-              "title": "Manual Update Window Activation",
+              "title": "Manual update window activation",
               "level": 2
             },
             {
               "id": "preferences-search",
-              "title": "Preferences Search",
+              "title": "Preferences search",
               "level": 2
             },
             {
               "id": "settings-migration-userdefaults-settingsstore",
-              "title": "Settings Migration (UserDefaults → SettingsStore)",
+              "title": "Settings migration (UserDefaults → SettingsStore)",
               "level": 2
             },
             {
               "id": "action-seams-already-implemented",
-              "title": "Action Seams Already Implemented",
+              "title": "Action seams already implemented",
               "level": 2
             },
             {
               "id": "extension-js-module-runtime",
-              "title": "Extension JS Module Runtime",
+              "title": "Extension JS module runtime",
               "level": 2
             },
             {
               "id": "presentation-rule-holes",
-              "title": "Presentation / Rule Holes",
+              "title": "Presentation / rule holes",
               "level": 2
             },
             {
-              "id": "action-search-palette-popup-growth",
-              "title": "Action-Search Palette & Popup Growth",
+              "id": "action-search-palette-and-popup-growth",
+              "title": "Action-search palette and popup growth",
               "level": 2
             },
             {
               "id": "ai-providers",
-              "title": "AI Providers",
+              "title": "AI providers",
               "level": 2
             },
             {
@@ -1468,7 +1463,7 @@
             },
             {
               "id": "unused-latent",
-              "title": "Unused / Latent",
+              "title": "Unused / latent",
               "level": 2
             },
             {
@@ -1478,12 +1473,12 @@
             },
             {
               "id": "selection-retrieval",
-              "title": "Selection Retrieval",
+              "title": "Selection retrieval",
               "level": 2
             },
             {
               "id": "test-isolation",
-              "title": "Test Isolation",
+              "title": "Test isolation",
               "level": 2
             },
             {
@@ -1524,22 +1519,22 @@
       "headings": [
         {
           "id": "system-requirements",
-          "title": "System Requirements",
+          "title": "System requirements",
           "level": 2
         },
         {
           "id": "installation-steps",
-          "title": "Installation Steps",
+          "title": "Installation steps",
           "level": 2
         },
         {
-          "id": "granting-accessibility-permissions",
-          "title": "Granting Accessibility Permissions",
+          "id": "granting-accessibility-permission",
+          "title": "Granting Accessibility permission",
           "level": 2
         },
         {
-          "id": "first-launch-onboarding-workflow",
-          "title": "First-Launch Onboarding Workflow",
+          "id": "first-launch",
+          "title": "First launch",
           "level": 2
         }
       ]
@@ -1575,8 +1570,8 @@
           "level": 2
         },
         {
-          "id": "how-action-ordering-works",
-          "title": "How Action Ordering Works",
+          "id": "action-order",
+          "title": "Action order",
           "level": 3
         },
         {
@@ -1591,7 +1586,7 @@
         },
         {
           "id": "custom-actions",
-          "title": "Custom Actions",
+          "title": "Custom actions",
           "level": 2
         },
         {
@@ -1605,34 +1600,44 @@
           "level": 2
         },
         {
-          "id": "customizing-action-titles-icons",
-          "title": "Customizing Action Titles & Icons",
+          "id": "action-titles-and-icons",
+          "title": "Action titles and icons",
           "level": 2
         },
         {
-          "id": "display-overrides-via-actioncustomizationmanager",
-          "title": "Display Overrides via ActionCustomizationManager",
+          "id": "result-delivery-and-clicks",
+          "title": "Result delivery and clicks",
           "level": 3
         },
         {
-          "id": "action-result-delivery-click-behavior",
-          "title": "Action Result Delivery & Click Behavior",
-          "level": 3
-        },
-        {
-          "id": "popup-appearance-theme",
-          "title": "Popup Appearance & Theme",
+          "id": "popup-appearance-and-theme",
+          "title": "Popup appearance and theme",
           "level": 2
         },
         {
           "id": "popup-theme",
-          "title": "Popup Theme",
+          "title": "Popup theme",
           "level": 3
         },
         {
-          "id": "ai-provider-setup",
-          "title": "AI Provider Setup",
+          "id": "actions-per-page",
+          "title": "Actions per page",
           "level": 2
+        },
+        {
+          "id": "ai-provider-setup",
+          "title": "AI provider setup",
+          "level": 2
+        },
+        {
+          "id": "putting-an-ai-preset-on-the-popup-bar",
+          "title": "Putting an AI preset on the popup bar",
+          "level": 3
+        },
+        {
+          "id": "editing-a-preset",
+          "title": "Editing a preset",
+          "level": 3
         },
         {
           "id": "system-prompt",
@@ -1645,19 +1650,9 @@
           "level": 3
         },
         {
-          "id": "refine-an-answer-in-the-result-card",
-          "title": "Refine an answer in the result card",
+          "id": "refining-an-answer-in-the-result-card",
+          "title": "Refining an answer in the result card",
           "level": 3
-        },
-        {
-          "id": "ai-settings-channel",
-          "title": "AI Settings Channel",
-          "level": 3
-        },
-        {
-          "id": "actions-per-page",
-          "title": "Actions per page",
-          "level": 2
         }
       ]
     },
@@ -1672,23 +1667,23 @@
       "sourcePath": "docs/user-guide/app-rules.md",
       "headings": [
         {
-          "id": "json-configuration-format-rulesjson",
-          "title": "JSON Configuration Format (rules.json)",
+          "id": "rule-file-format",
+          "title": "Rule file format",
           "level": 2
         },
         {
-          "id": "policy-properties-reference",
-          "title": "Policy Properties Reference",
+          "id": "properties",
+          "title": "Properties",
           "level": 2
         },
         {
-          "id": "retrieval-mode-values",
-          "title": "retrieval-mode values",
+          "id": "retrieval-modes",
+          "title": "Retrieval modes",
           "level": 3
         },
         {
-          "id": "identifier-matching-shortcuts",
-          "title": "Identifier Matching & Shortcuts",
+          "id": "matching-apps",
+          "title": "Matching apps",
           "level": 2
         },
         {
@@ -1697,18 +1692,18 @@
           "level": 3
         },
         {
-          "id": "wildcard-pattern-matching",
-          "title": "Wildcard Pattern Matching",
+          "id": "wildcards",
+          "title": "Wildcards",
           "level": 3
         },
         {
-          "id": "builtin-group-expansion-aliases",
-          "title": "Builtin Group Expansion Aliases",
+          "id": "group-aliases",
+          "title": "Group aliases",
           "level": 3
         },
         {
-          "id": "rule-evaluation-mechanics",
-          "title": "Rule Evaluation Mechanics",
+          "id": "how-a-rule-is-applied",
+          "title": "How a rule is applied",
           "level": 2
         }
       ]
@@ -1724,33 +1719,28 @@
       "sourcePath": "docs/user-guide/managing-extensions.md",
       "headings": [
         {
-          "id": "extension-store-remote-installation",
-          "title": "Extension Store & Remote Installation",
+          "id": "extension-store",
+          "title": "Extension Store",
           "level": 2
         },
         {
           "id": "how-remote-installation-works",
-          "title": "How Remote Installation Works",
+          "title": "How remote installation works",
           "level": 3
         },
         {
-          "id": "manual-installation-of-extensions-scripts",
-          "title": "Manual Installation of Extensions & Scripts",
+          "id": "installing-by-hand",
+          "title": "Installing by hand",
           "level": 2
         },
         {
-          "id": "installation-file-types",
-          "title": "Installation File Types",
-          "level": 3
-        },
-        {
-          "id": "creating-custom-actions-in-gui",
-          "title": "Creating Custom Actions in GUI",
+          "id": "creating-custom-actions-in-the-app",
+          "title": "Creating custom actions in the app",
           "level": 2
         },
         {
-          "id": "storage-persistence",
-          "title": "Storage & Persistence",
+          "id": "where-custom-actions-are-stored",
+          "title": "Where custom actions are stored",
           "level": 3
         }
       ]
@@ -1766,23 +1756,23 @@
       "sourcePath": "docs/developer-guide/overview.md",
       "headings": [
         {
-          "id": "extension-capabilities",
-          "title": "Extension Capabilities",
+          "id": "ways-to-extend-openclip",
+          "title": "Ways to extend OpenClip",
           "level": 2
         },
         {
-          "id": "action-types-at-a-glance",
-          "title": "Action Types at a Glance",
+          "id": "action-types",
+          "title": "Action types",
           "level": 2
         },
         {
-          "id": "extension-directory-locations",
-          "title": "Extension Directory Locations",
+          "id": "where-extensions-live",
+          "title": "Where extensions live",
           "level": 2
         },
         {
-          "id": "architectural-integration-seam",
-          "title": "Architectural Integration Seam",
+          "id": "how-extensions-plug-in",
+          "title": "How extensions plug in",
           "level": 2
         }
       ]
@@ -2036,7 +2026,7 @@
       "headings": [
         {
           "id": "package-directory-structure",
-          "title": "Package Directory Structure",
+          "title": "Package directory structure",
           "level": 2
         },
         {
@@ -2046,37 +2036,37 @@
         },
         {
           "id": "manifest-json-schema-extensionmetadata",
-          "title": "Manifest JSON Schema (ExtensionMetadata)",
+          "title": "Manifest JSON schema (ExtensionMetadata)",
           "level": 2
         },
         {
           "id": "complete-example-manifestjson",
-          "title": "Complete Example manifest.json",
+          "title": "Complete example manifest.json",
           "level": 3
         },
         {
           "id": "manifest-fields-reference",
-          "title": "Manifest Fields Reference",
+          "title": "Manifest fields reference",
           "level": 2
         },
         {
           "id": "top-level-metadata-extensionmetadata",
-          "title": "Top-Level Metadata (ExtensionMetadata)",
+          "title": "Top-Level metadata (ExtensionMetadata)",
           "level": 3
         },
         {
           "id": "action-object-extensionactionmetadata",
-          "title": "Action Object (ExtensionActionMetadata)",
+          "title": "Action object (ExtensionActionMetadata)",
           "level": 3
         },
         {
-          "id": "extension-output-contract-delivery-resolution",
-          "title": "Extension Output Contract & Delivery Resolution",
+          "id": "extension-output-contract-and-delivery-resolution",
+          "title": "Extension output contract and delivery resolution",
           "level": 3
         },
         {
           "id": "native-file-output-results",
-          "title": "Native File Output Results",
+          "title": "Native file output results",
           "level": 3
         },
         {
@@ -2086,12 +2076,12 @@
         },
         {
           "id": "options-schema-extensionoptionmetadata",
-          "title": "Options Schema (ExtensionOptionMetadata)",
+          "title": "Options schema (ExtensionOptionMetadata)",
           "level": 2
         },
         {
-          "id": "option-storage-retrieval",
-          "title": "Option Storage & Retrieval",
+          "id": "option-storage-and-retrieval",
+          "title": "Option storage and retrieval",
           "level": 3
         }
       ]
@@ -2107,43 +2097,43 @@
       "sourcePath": "docs/developer-guide/snippets.md",
       "headings": [
         {
-          "id": "parser-architecture-design-constraints",
-          "title": "Parser Architecture & Design Constraints",
+          "id": "parser-architecture-and-design-constraints",
+          "title": "Parser architecture and design constraints",
           "level": 2
         },
         {
-          "id": "header-syntax-format",
-          "title": "Header Syntax & Format",
+          "id": "header-syntax-and-format",
+          "title": "Header syntax and format",
           "level": 2
         },
         {
           "id": "example-1-standalone-javascript-snippet-upperjs",
-          "title": "Example 1: Standalone JavaScript Snippet (upper.js)",
+          "title": "Example 1: standalone JavaScript snippet (upper.js)",
           "level": 3
         },
         {
           "id": "example-2-standalone-shell-script-format-sqlsh",
-          "title": "Example 2: Standalone Shell Script (format-sql.sh)",
+          "title": "Example 2: standalone shell script (format-sql.sh)",
           "level": 3
         },
         {
           "id": "example-3-standalone-applescript-snippet-create-noteapplescript",
-          "title": "Example 3: Standalone AppleScript Snippet (create-note.applescript)",
+          "title": "Example 3: standalone AppleScript snippet (create-note.applescript)",
           "level": 3
         },
         {
           "id": "example-4-standalone-url-search-snippet-search-mdnsh",
-          "title": "Example 4: Standalone URL Search Snippet (search-mdn.sh)",
+          "title": "Example 4: standalone URL search snippet (search-mdn.sh)",
           "level": 3
         },
         {
           "id": "header-keys-matrix",
-          "title": "Header Keys Matrix",
+          "title": "Header keys matrix",
           "level": 2
         },
         {
           "id": "parsing-algorithm-details",
-          "title": "Parsing Algorithm Details",
+          "title": "Parsing algorithm details",
           "level": 2
         }
       ]
@@ -2165,22 +2155,22 @@
         },
         {
           "id": "1a-entry-dispatch",
-          "title": "1a. Entry dispatch",
+          "title": "1a. entry dispatch",
           "level": 3
         },
         {
-          "id": "1b-resolution-caching",
-          "title": "1b. Resolution & caching",
+          "id": "1b-resolution-and-caching",
+          "title": "1b. resolution and caching",
           "level": 3
         },
         {
           "id": "1c-containment",
-          "title": "1c. Containment",
+          "title": "1c. containment",
           "level": 3
         },
         {
           "id": "1d-rejected-specifiers",
-          "title": "1d. Rejected specifiers",
+          "title": "1d. rejected specifiers",
           "level": 3
         },
         {
@@ -2190,7 +2180,7 @@
         },
         {
           "id": "2a-build-contract",
-          "title": "2a. Build contract",
+          "title": "2a. build contract",
           "level": 3
         },
         {
@@ -2200,7 +2190,7 @@
         },
         {
           "id": "2c-bundling-third-party-libraries",
-          "title": "2c. Bundling third-party libraries",
+          "title": "2c. bundling third-party libraries",
           "level": 3
         },
         {
@@ -2210,7 +2200,7 @@
         },
         {
           "id": "4-esbuild-shims-for-browser-platform-builds",
-          "title": "4. esbuild shims for browser-platform builds",
+          "title": "4. Esbuild shims for browser-platform builds",
           "level": 2
         },
         {
@@ -2237,12 +2227,12 @@
         },
         {
           "id": "the-openclip-js-object",
-          "title": "The openclip JS Object",
+          "title": "The openclip JS object",
           "level": 2
         },
         {
-          "id": "options-preference-integration",
-          "title": "Options & Preference Integration",
+          "id": "options-and-preference-integration",
+          "title": "Options and preference integration",
           "level": 2
         },
         {
@@ -2257,7 +2247,7 @@
         },
         {
           "id": "async-mode-async-true",
-          "title": "Async Mode (\"async\": true)",
+          "title": "Async mode (\"async\": true)",
           "level": 2
         },
         {
@@ -2266,18 +2256,18 @@
           "level": 3
         },
         {
-          "id": "execution-model-watchdog",
-          "title": "Execution model & watchdog",
+          "id": "execution-model-and-watchdog",
+          "title": "Execution model and watchdog",
           "level": 3
         },
         {
           "id": "result-resolution",
-          "title": "Result Resolution",
+          "title": "Result resolution",
           "level": 2
         },
         {
           "id": "practical-examples",
-          "title": "Practical Examples",
+          "title": "Practical examples",
           "level": 2
         },
         {
@@ -2287,7 +2277,7 @@
         },
         {
           "id": "search-web-opens-a-url",
-          "title": "Search Web (opens a URL)",
+          "title": "Search web (opens a URL)",
           "level": 3
         },
         {
@@ -2297,7 +2287,7 @@
         },
         {
           "id": "display-file-preview-card-image-document",
-          "title": "Display File Preview Card (Image / Document)",
+          "title": "Display file preview card (Image / document)",
           "level": 3
         },
         {
@@ -2319,7 +2309,7 @@
       "headings": [
         {
           "id": "execution-architecture",
-          "title": "Execution Architecture",
+          "title": "Execution architecture",
           "level": 2
         },
         {
@@ -2329,22 +2319,22 @@
         },
         {
           "id": "example-applescript-snippets",
-          "title": "Example AppleScript Snippets",
+          "title": "Example AppleScript snippets",
           "level": 2
         },
         {
           "id": "example-1-create-new-note-in-macos-notes-app",
-          "title": "Example 1: Create New Note in macOS Notes App",
+          "title": "Example 1: create new note in macOS notes app",
           "level": 3
         },
         {
           "id": "example-2-transform-selected-text-to-uppercase",
-          "title": "Example 2: Transform Selected Text to Uppercase",
+          "title": "Example 2: transform selected text to uppercase",
           "level": 3
         },
         {
-          "id": "return-values-side-effects",
-          "title": "Return Values & Side Effects",
+          "id": "return-values-and-side-effects",
+          "title": "Return values and side effects",
           "level": 2
         }
       ]
@@ -2361,27 +2351,27 @@
       "headings": [
         {
           "id": "execution-mechanism",
-          "title": "Execution Mechanism",
+          "title": "Execution mechanism",
           "level": 2
         },
         {
           "id": "supported-placeholders",
-          "title": "Supported Placeholders",
+          "title": "Supported placeholders",
           "level": 2
         },
         {
-          "id": "regex-pattern-gating-visibility-rules",
-          "title": "Regex Pattern Gating & Visibility Rules",
+          "id": "regex-pattern-gating-and-visibility-rules",
+          "title": "Regex pattern gating and visibility rules",
           "level": 2
         },
         {
           "id": "common-regex-examples",
-          "title": "Common Regex Examples",
+          "title": "Common regex examples",
           "level": 3
         },
         {
           "id": "practical-examples",
-          "title": "Practical Examples",
+          "title": "Practical examples",
           "level": 2
         }
       ]
@@ -2398,47 +2388,47 @@
       "headings": [
         {
           "id": "process-execution-lifecycle",
-          "title": "Process Execution Lifecycle",
+          "title": "Process execution lifecycle",
           "level": 2
         },
         {
           "id": "environment-variables-matrix",
-          "title": "Environment Variables Matrix",
+          "title": "Environment variables matrix",
           "level": 2
         },
         {
           "id": "output-processing-json-vs-plain-text",
-          "title": "Output Processing: JSON vs Plain Text",
+          "title": "Output processing: JSON vs plain text",
           "level": 2
         },
         {
           "id": "mode-1-structured-json-output-scriptjsonoutput",
-          "title": "Mode 1: Structured JSON Output (ScriptJSONOutput)",
+          "title": "Mode 1: structured JSON output (ScriptJSONOutput)",
           "level": 3
         },
         {
           "id": "mode-2-plain-text-output-fallback",
-          "title": "Mode 2: Plain Text Output Fallback",
+          "title": "Mode 2: plain text output fallback",
           "level": 3
         },
         {
           "id": "practical-examples",
-          "title": "Practical Examples",
+          "title": "Practical examples",
           "level": 2
         },
         {
           "id": "python-script-generating-a-file-generate_chartpy",
-          "title": "Python Script Generating a File (generate_chart.py)",
+          "title": "Python script generating a file (generate_chart.py)",
           "level": 3
         },
         {
           "id": "python-script-example-clean_markdownpy",
-          "title": "Python Script Example (clean_markdown.py)",
+          "title": "Python script example (clean_markdown.py)",
           "level": 3
         },
         {
           "id": "zsh-shell-script-example-uppercasesh",
-          "title": "Zsh Shell Script Example (uppercase.sh)",
+          "title": "Zsh shell script example (uppercase.sh)",
           "level": 3
         }
       ]
@@ -2502,52 +2492,52 @@
       "headings": [
         {
           "id": "target-split",
-          "title": "Target Split",
+          "title": "Target split",
           "level": 2
         },
         {
           "id": "core-target-constraints",
-          "title": "Core Target Constraints",
+          "title": "Core target constraints",
           "level": 3
         },
         {
-          "id": "core-architectural-subsystems",
-          "title": "Core Architectural Subsystems",
+          "id": "subsystems",
+          "title": "Subsystems",
           "level": 2
         },
         {
-          "id": "1-settings-subsystem-settingsstore",
-          "title": "1. Settings Subsystem — SettingsStore",
+          "id": "1-settings-settingsstore",
+          "title": "1. Settings: SettingsStore",
           "level": 3
         },
         {
           "id": "2-action-presentation-actioncustomizationmanager",
-          "title": "2. Action Presentation — ActionCustomizationManager",
+          "title": "2. Action presentation: ActionCustomizationManager",
           "level": 3
         },
         {
           "id": "3-action-chrome-policy-actionchrome",
-          "title": "3. Action Chrome Policy — ActionChrome",
+          "title": "3. Action chrome policy: ActionChrome",
           "level": 3
         },
         {
           "id": "4-action-factory-defaultactionfactory",
-          "title": "4. Action Factory — DefaultActionFactory",
+          "title": "4. Action factory: DefaultActionFactory",
           "level": 3
         },
         {
           "id": "5-action-result-handler-actionresulthandler",
-          "title": "5. Action Result Handler — ActionResultHandler",
+          "title": "5. Action result handler: ActionResultHandler",
           "level": 3
         },
         {
-          "id": "6-action-coordinator-composition-actioncoordinator",
-          "title": "6. Action Coordinator & Composition — ActionCoordinator",
+          "id": "6-action-coordinator-and-composition-actioncoordinator",
+          "title": "6. Action coordinator and composition: ActionCoordinator",
           "level": 3
         },
         {
-          "id": "key-design-guidelines",
-          "title": "Key Design Guidelines",
+          "id": "design-guidelines",
+          "title": "Design guidelines",
           "level": 2
         }
       ]
@@ -2564,57 +2554,57 @@
       "headings": [
         {
           "id": "architectural-responsibilities",
-          "title": "Architectural Responsibilities",
+          "title": "Architectural responsibilities",
           "level": 2
         },
         {
           "id": "action-registration-mechanics",
-          "title": "Action Registration Mechanics",
+          "title": "Action registration mechanics",
           "level": 2
         },
         {
           "id": "initial-loading-lifecycle",
-          "title": "Initial Loading Lifecycle",
+          "title": "Initial loading lifecycle",
           "level": 3
         },
         {
-          "id": "registration-unregistration",
-          "title": "Registration & Unregistration",
+          "id": "registration-and-unregistration",
+          "title": "Registration and unregistration",
           "level": 3
         },
         {
-          "id": "action-registry-ordering-policy",
-          "title": "Action Registry & Ordering Policy",
+          "id": "action-registry-and-ordering-policy",
+          "title": "Action registry and ordering policy",
           "level": 2
         },
         {
-          "id": "dynamic-ordering-math-custom-groups",
-          "title": "Dynamic Ordering Math & Custom Groups",
+          "id": "dynamic-ordering-math-and-custom-groups",
+          "title": "Dynamic ordering math and custom groups",
           "level": 3
         },
         {
-          "id": "custom-action-groups-lifecycle",
-          "title": "Custom Action Groups & Lifecycle",
+          "id": "custom-action-groups-and-lifecycle",
+          "title": "Custom action groups and lifecycle",
           "level": 2
         },
         {
           "id": "core-domain-models",
-          "title": "Core Domain Models",
+          "title": "Core domain models",
           "level": 3
         },
         {
           "id": "group-membership-rules",
-          "title": "Group Membership Rules",
+          "title": "Group membership rules",
           "level": 3
         },
         {
-          "id": "action-availability-context-resolution",
-          "title": "Action Availability & Context Resolution",
+          "id": "action-availability-and-context-resolution",
+          "title": "Action availability and context resolution",
           "level": 2
         },
         {
           "id": "filtering-pipeline",
-          "title": "Filtering Pipeline",
+          "title": "Filtering pipeline",
           "level": 3
         }
       ]
@@ -2631,7 +2621,7 @@
       "headings": [
         {
           "id": "window-components",
-          "title": "Window Components",
+          "title": "Window components",
           "level": 2
         },
         {
@@ -2645,63 +2635,63 @@
           "level": 3
         },
         {
-          "id": "hover-tracking-preview-isolation",
-          "title": "Hover Tracking & Preview Isolation",
+          "id": "hover-tracking-and-preview-isolation",
+          "title": "Hover tracking and preview isolation",
           "level": 2
         },
         {
           "id": "positioning-math-popuppositioner",
-          "title": "Positioning Math: PopupPositioner",
+          "title": "Positioning math: PopupPositioner",
           "level": 2
         },
         {
           "id": "calculation-rules",
-          "title": "Calculation Rules",
+          "title": "Calculation rules",
           "level": 3
         },
         {
-          "id": "content-mode-native-result-cards-ai-file-outputs",
-          "title": "Content Mode: Native Result Cards (AI & File Outputs)",
+          "id": "content-mode-native-result-cards-ai-and-file-outputs",
+          "title": "Content mode: native result cards (AI and file outputs)",
           "level": 2
         },
         {
-          "id": "content-mode-ai-text-results",
-          "title": "Content Mode (AI & Text Results)",
+          "id": "content-mode-ai-and-text-results",
+          "title": "Content mode (AI and text results)",
           "level": 3
         },
         {
           "id": "file-output-results",
-          "title": "File Output Results",
+          "title": "File output results",
           "level": 3
         },
         {
           "id": "text-and-diff-results",
-          "title": "Text and Diff Results",
+          "title": "Text and diff results",
           "level": 3
         },
         {
-          "id": "action-search-palette-panel-growth",
-          "title": "Action-Search Palette & Panel Growth",
+          "id": "action-search-palette-and-panel-growth",
+          "title": "Action-search palette and panel growth",
           "level": 2
         },
         {
           "id": "search-mode",
-          "title": "Search Mode",
+          "title": "Search mode",
           "level": 3
         },
         {
           "id": "scoped-sub-action-palette",
-          "title": "Scoped Sub-Action Palette",
+          "title": "Scoped Sub-Action palette",
           "level": 3
         },
         {
           "id": "key-mode-exceptions",
-          "title": "Key-Mode Exceptions",
+          "title": "Key-Mode exceptions",
           "level": 3
         },
         {
           "id": "panel-growth-anchoring-content-driven-resize",
-          "title": "Panel-Growth Anchoring (content-driven resize)",
+          "title": "Panel-Growth anchoring (content-driven resize)",
           "level": 3
         }
       ]
@@ -2718,12 +2708,12 @@
       "headings": [
         {
           "id": "selection-detection-architecture",
-          "title": "Selection Detection Architecture",
+          "title": "Selection detection architecture",
           "level": 2
         },
         {
           "id": "retrieval-resolver-gate-and-strategies",
-          "title": "Retrieval: Resolver, Gate, and Strategies",
+          "title": "Retrieval: resolver, gate, and strategies",
           "level": 2
         },
         {
@@ -2742,18 +2732,18 @@
           "level": 3
         },
         {
-          "id": "shortcut-clipboard-fallback-synchronous-resolution",
-          "title": "Shortcut Clipboard Fallback & Synchronous Resolution",
+          "id": "shortcut-clipboard-fallback-and-synchronous-resolution",
+          "title": "Shortcut clipboard fallback and synchronous resolution",
           "level": 2
         },
         {
-          "id": "privacy-non-destructive-guarantees",
-          "title": "Privacy & Non-Destructive Guarantees",
+          "id": "privacy-and-non-destructive-guarantees",
+          "title": "Privacy and Non-Destructive guarantees",
           "level": 2
         },
         {
           "id": "inline-action-match-context",
-          "title": "Inline Action Match Context",
+          "title": "Inline action match context",
           "level": 2
         }
       ]
@@ -2816,18 +2806,18 @@
       "sourcePath": "docs/logging.md",
       "headings": [
         {
-          "id": "architecture-overview",
-          "title": "Architecture Overview",
+          "id": "how-a-message-travels",
+          "title": "How a message travels",
           "level": 2
         },
         {
-          "id": "core-protocol-types",
-          "title": "Core Protocol & Types",
+          "id": "core-protocol-and-types",
+          "title": "Core protocol and types",
           "level": 2
         },
         {
-          "id": "the-log-enum-categories",
-          "title": "The Log Enum & Categories",
+          "id": "the-log-enum-and-categories",
+          "title": "The Log enum and categories",
           "level": 2
         },
         {
@@ -2836,13 +2826,13 @@
           "level": 2
         },
         {
-          "id": "viewing-filtering-workflows",
-          "title": "Viewing & Filtering Workflows",
+          "id": "viewing-and-filtering-workflows",
+          "title": "Viewing and filtering workflows",
           "level": 2
         },
         {
           "id": "1-file-logs-librarylogsopenclipopencliplog",
-          "title": "1. File Logs (~/Library/Logs/OpenClip/openclip.log)",
+          "title": "1. File logs (~/Library/Logs/OpenClip/openclip.log)",
           "level": 3
         },
         {
@@ -2852,7 +2842,7 @@
         },
         {
           "id": "3-dump-logs-cli-tool",
-          "title": "3. --dump-logs CLI Tool",
+          "title": "3. --dump-logs CLI tool",
           "level": 3
         },
         {
@@ -2890,52 +2880,52 @@
       "headings": [
         {
           "id": "extension-automatic-updates",
-          "title": "Extension Automatic Updates",
+          "title": "Extension automatic updates",
           "level": 2
         },
         {
           "id": "ai-action-prompting",
-          "title": "AI Action Prompting",
+          "title": "AI action prompting",
           "level": 2
         },
         {
           "id": "manual-update-window-activation",
-          "title": "Manual Update Window Activation",
+          "title": "Manual update window activation",
           "level": 2
         },
         {
           "id": "preferences-search",
-          "title": "Preferences Search",
+          "title": "Preferences search",
           "level": 2
         },
         {
           "id": "settings-migration-userdefaults-settingsstore",
-          "title": "Settings Migration (UserDefaults → SettingsStore)",
+          "title": "Settings migration (UserDefaults → SettingsStore)",
           "level": 2
         },
         {
           "id": "action-seams-already-implemented",
-          "title": "Action Seams Already Implemented",
+          "title": "Action seams already implemented",
           "level": 2
         },
         {
           "id": "extension-js-module-runtime",
-          "title": "Extension JS Module Runtime",
+          "title": "Extension JS module runtime",
           "level": 2
         },
         {
           "id": "presentation-rule-holes",
-          "title": "Presentation / Rule Holes",
+          "title": "Presentation / rule holes",
           "level": 2
         },
         {
-          "id": "action-search-palette-popup-growth",
-          "title": "Action-Search Palette & Popup Growth",
+          "id": "action-search-palette-and-popup-growth",
+          "title": "Action-search palette and popup growth",
           "level": 2
         },
         {
           "id": "ai-providers",
-          "title": "AI Providers",
+          "title": "AI providers",
           "level": 2
         },
         {
@@ -2945,7 +2935,7 @@
         },
         {
           "id": "unused-latent",
-          "title": "Unused / Latent",
+          "title": "Unused / latent",
           "level": 2
         },
         {
@@ -2955,12 +2945,12 @@
         },
         {
           "id": "selection-retrieval",
-          "title": "Selection Retrieval",
+          "title": "Selection retrieval",
           "level": 2
         },
         {
           "id": "test-isolation",
-          "title": "Test Isolation",
+          "title": "Test isolation",
           "level": 2
         },
         {

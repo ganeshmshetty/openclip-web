@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { ArrowUpRight, Heart, ArrowRight } from 'lucide-react';
+import { ArrowUpRight, ArrowRight } from 'lucide-react';
 
 const productLinks = [
   { href: '/extensions', label: 'Clips Directory' },
@@ -29,18 +29,15 @@ export default function Footer() {
   return (
     <footer className="mt-auto bg-[var(--bg-app)]">
       <div className="section-shell pt-10 sm:pt-12 pb-10">
-        {/* ── Support OpenClip Callout (a plain row, not a card inside the footer) ── */}
-        <div className="mb-10 pb-8 border-b border-[var(--border-subtle)] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-5 sm:gap-6">
-          <div className="flex items-center gap-3.5">
-            <Heart className="w-5 h-5 text-pink-500 fill-pink-500 shrink-0" aria-hidden="true" />
-            <div>
-              <h3 className="text-[15px] sm:text-[16px] font-semibold text-[var(--text-primary)] tracking-tight">
-                Support OpenClip Development
-              </h3>
-              <p className="text-[12.5px] sm:text-[13px] text-[var(--text-secondary)] mt-0.5 max-w-xl leading-relaxed">
-                OpenClip is free and open-source. Help keep it fast, independent, and actively maintained.
-              </p>
-            </div>
+        {/* ── Support callout: a plain row ── */}
+        <div className="mb-10 pb-8 border-b border-[var(--border-subtle)] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 sm:gap-6">
+          <div>
+            <h3 className="text-[15px] sm:text-[16px] font-semibold text-[var(--text-primary)] tracking-tight">
+              Support OpenClip
+            </h3>
+            <p className="text-[13px] text-[var(--text-secondary)] mt-1 max-w-xl leading-relaxed">
+              OpenClip is free and open source. If it saves you time, you can chip in toward its development.
+            </p>
           </div>
           <Link
             href="/support"

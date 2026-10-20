@@ -27,9 +27,9 @@ export function DownloadPill({ className = '' }: PillProps) {
         e.preventDefault();
         downloadLatestDmg();
       }}
-      className={`${PILL_BASE} ${PILL_HEIGHT} px-3.5 sm:px-6 bg-[var(--text-primary)] text-[var(--bg-app)] hover:opacity-90 active:scale-[0.98] font-semibold text-[13px] sm:text-[14.5px] shadow-md ${className}`}
+      className={`group ${PILL_BASE} ${PILL_HEIGHT} px-3.5 sm:px-6 bg-[var(--text-primary)] text-[var(--bg-app)] hover:opacity-90 active:scale-[0.98] font-semibold text-[13px] sm:text-[14.5px] shadow-md ${className}`}
     >
-      <AppleIcon className="w-3.5 h-3.5 sm:w-4 sm:h-4 -mt-0.5 shrink-0" />
+      <AppleIcon className="w-3.5 h-3.5 sm:w-4 sm:h-4 -mt-0.5 shrink-0 transition-transform duration-200 ease-out group-hover:-translate-y-0.5 group-hover:-rotate-12 group-hover:scale-110" />
       <span>Download for Mac</span>
     </a>
   );
