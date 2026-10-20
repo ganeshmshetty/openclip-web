@@ -12,8 +12,17 @@ export interface ExtensionsPageResponse {
   totalCount: number;
 }
 
+/**
+ * The site's own pages resolve `iconURL` against their origin, but this API is also
+ * read by the macOS app, which has no origin to resolve against and needs a full URL.
+ */
+function withAbsoluteIcon(item: ExtensionItem, base: string): ExtensionItem {
+  return item.iconURL?.startsWith('/') ? { ...item, iconURL: `${base}${item.iconURL}` } : item;
+}
+
 export async function GET(request: Request) {
-  const { searchParams } = new URL(request.url);
+  const { searchParams, origin } = new URL(request.url);
+  const base = (process.env.NEXT_PUBLIC_SITE_URL || origin).replace(/\/$/, '');
   const q = (searchParams.get('q') || '').toLowerCase().trim();
   const filter = (searchParams.get('filter') || searchParams.get('sort') || '').toLowerCase().trim();
   // Number() rejects malformed input ("2abc") and non-integers ("1.9") as NaN,
@@ -74,7 +83,14 @@ export async function GET(request: Request) {
   const paginatedExtensions = filtered.slice(startIndex, startIndex + limit);
 
   return NextResponse.json(
-    { featured, new: newShowcase, extensions: paginatedExtensions, page, totalPages, totalCount },
+    {
+      featured: featured.map((e) => withAbsoluteIcon(e, base)),
+      new: newShowcase.map((e) => withAbsoluteIcon(e, base)),
+      extensions: paginatedExtensions.map((e) => withAbsoluteIcon(e, base)),
+      page,
+      totalPages,
+      totalCount,
+    },
     {
       headers: {
         'Access-Control-Allow-Origin': '*',
