@@ -16,8 +16,7 @@ export const EXTENSION_PREVIEW_VIDEOS: Record<string, string> = {
   'com.openclip.shortenlink': mediaURL('extensions/com.openclip.shortenlink.mp4'),
   'com.openclip.qrcode': mediaURL('extensions/com.openclip.qrcode.mp4'),
   'com.openclip.antinote': mediaURL('extensions/com.openclip.antinote.mp4'),
-  // Leafy's extension id is `com.leafy.openclip`; its clip was uploaded as com.openclip.leafy.mp4.
-  'com.leafy.openclip': mediaURL('extensions/com.openclip.leafy.mp4'),
+  'com.openclip.leafy': mediaURL('extensions/com.openclip.leafy.mp4'),
 
   // Add more extension videos here gradually:
   // 'com.openclip.wordcount': 'https://media.getopenclip.app/word-count.mp4',
