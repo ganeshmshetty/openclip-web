@@ -390,7 +390,7 @@ export default function ExtensionsContent({ extensions, featuredIDs }: Props) {
                 Search Results ({searchResults.length})
               </span>
             </div>
-            <div className="grid sm:grid-cols-2 gap-3">
+            <div className="flex flex-col gap-3">
               {searchResults.map((ext, idx) => (
                 <ExtensionCard
                   key={ext.id}
@@ -418,7 +418,7 @@ export default function ExtensionsContent({ extensions, featuredIDs }: Props) {
                 {popularFilterItems.length} total
               </span>
             </div>
-            <div className="grid sm:grid-cols-2 gap-3">
+            <div className="flex flex-col gap-3">
               {popularFilterItems.map((ext, idx) => (
                 <ExtensionCard
                   key={ext.id}
@@ -457,7 +457,7 @@ export default function ExtensionsContent({ extensions, featuredIDs }: Props) {
                 </p>
               </div>
             ) : (
-              <div className="grid sm:grid-cols-2 gap-3">
+              <div className="flex flex-col gap-3">
                 {newFilterItems.map((ext, idx) => (
                   <ExtensionCard
                     key={ext.id}
@@ -521,7 +521,7 @@ export default function ExtensionsContent({ extensions, featuredIDs }: Props) {
                   </span>
                 </div>
 
-                <div className="grid sm:grid-cols-2 gap-3">
+                <div className="flex flex-col gap-3">
                   {newSectionItems.map((ext, idx) => (
                     <ExtensionCard
                       key={`new-${ext.id}`}
@@ -552,7 +552,7 @@ export default function ExtensionsContent({ extensions, featuredIDs }: Props) {
                   </span>
                 </div>
 
-                <div className="grid sm:grid-cols-2 gap-3">
+                <div className="flex flex-col gap-3">
                   {remainingAllSectionItems.map((ext, idx) => (
                     <ExtensionCard
                       key={ext.id}
