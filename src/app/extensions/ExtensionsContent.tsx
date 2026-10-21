@@ -84,132 +84,40 @@ function newSelection(exts: ExtensionItem[]): ExtensionItem[] {
   return windowed.length >= MIN_NEW_COUNT ? windowed : sorted.slice(0, MIN_NEW_COUNT);
 }
 
-interface RowProps {
-  ext: ExtensionItem;
-  triggered?: boolean;
-  onInstall: (ext: ExtensionItem) => void;
-  index: number;
-  isFeatured?: boolean;
-  isRecent?: boolean;
-}
-
-function ExtensionRow({
-  ext,
-  triggered,
-  onInstall,
-  index,
-  isFeatured: isExtFeatured = false,
-  isRecent = false,
-}: RowProps) {
-  const isVersionUpdate = Boolean(ext.version && ext.version !== '1.0.0');
-
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 6 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.18, delay: Math.min(index * 0.015, 0.12), ease: [0.16, 1, 0.3, 1] }}
-      className="group relative bg-[var(--bg-surface)] rounded-2xl px-4 py-3 flex flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-sm"
-    >
-      {/* Left: Icon + Info */}
-      <div className="flex items-center gap-3 min-w-0 flex-1">
-        <ExtensionIcon
-          id={ext.id}
-          name={ext.name}
-          iconURL={ext.iconURL}
-          size={36}
-          className="shrink-0"
-        />
-
-        <div className="min-w-0 flex-1">
-          <div className="flex items-center gap-2 flex-wrap">
-            <Link
-              href={`/extensions/${ext.id}`}
-              className="text-[13.5px] font-semibold text-[var(--text-primary)] hover:text-[var(--accent)] transition-colors truncate leading-tight"
-            >
-              {ext.name}
-            </Link>
-            {isExtFeatured && (
-              <span
-                title="Featured Extension"
-                className="text-[9.5px] font-semibold px-1.5 py-0.5 rounded-full bg-[var(--accent)]/12 text-[var(--accent)] tracking-wide inline-flex items-center gap-1"
-              >
-                <BadgeCheck className="w-3 h-3" />
-                Featured
-              </span>
-            )}
-            {!isExtFeatured && isNewRelease(ext) && (
-              <span className="text-[9.5px] font-semibold px-1.5 py-0.5 rounded-full bg-emerald-500/12 text-emerald-600 dark:text-emerald-400 tracking-wide">
-                New
-              </span>
-            )}
-            {!isExtFeatured && isRecent && isVersionUpdate && (
-              <span className="text-[9.5px] font-semibold px-1.5 py-0.5 rounded-full bg-blue-500/10 text-blue-600 dark:text-blue-400 tracking-wide">
-                Updated
-              </span>
-            )}
-            <span className="text-[11px] text-[var(--text-tertiary)] truncate">
-              by {ext.author}
-            </span>
-          </div>
-
-          <p className="text-[12px] text-[var(--text-secondary)] line-clamp-1 mt-0.5 leading-normal">
-            {ext.description}
-          </p>
-        </div>
-      </div>
-
-      {/* Right: Meta & Actions */}
-      <div className="flex items-center justify-between sm:justify-end gap-3 shrink-0 pt-1 sm:pt-0">
-        <span className="font-mono text-[11px] text-[var(--text-tertiary)] tabular-nums flex items-center gap-1">
-          <Download className="w-3 h-3 opacity-60" />
-          {ext.downloadCount.toLocaleString()}
-        </span>
-
-        <div className="flex items-center gap-1.5">
-          <button
-            onClick={() => onInstall(ext)}
-            className={`store-install inline-flex items-center gap-1.5 rounded-full px-4 h-[30px] text-[12.5px] font-bold tracking-tight cursor-pointer active:opacity-70 transition-opacity ${
-              triggered ? 'is-done' : ''
-            }`}
-          >
-            {triggered && <Check className="w-3.5 h-3.5" />}
-            <span>{triggered ? 'Opening…' : 'Install'}</span>
-          </button>
-
-          <a
-            href={ext.downloadURL}
-            target="_blank"
-            rel="noopener noreferrer"
-            title="Download raw extension file (.openclipext)"
-            aria-label={`Download ${ext.name} package`}
-            download
-            className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-[var(--bg-tertiary)] text-[var(--text-tertiary)] hover:text-[var(--text-primary)] transition-colors"
-          >
-            <Download className="w-3.5 h-3.5" />
-          </a>
-        </div>
-      </div>
-    </motion.div>
-  );
-}
-
-const KNOB_SPRING = { type: 'spring', stiffness: 420, damping: 34 } as const;
-
-const FILTERS: { id: StoreFilter; label: string; icon?: typeof Flame }[] = [
-  { id: 'all', label: 'All' },
-  { id: 'popular', label: 'Popular', icon: Flame },
-  { id: 'new', label: 'New', icon: Clock },
-];
-
-interface FeaturedCardProps {
+interface CardProps {
   ext: ExtensionItem;
   triggered?: boolean;
   onInstall: (ext: ExtensionItem) => void;
   index: number;
   hero?: boolean;
+  isFeatured?: boolean;
+  isRecent?: boolean;
+  showBadges?: boolean;
 }
 
-function FeaturedCard({ ext, triggered, onInstall, index, hero = false }: FeaturedCardProps) {
+// One card used by every list on the store page (Featured, New, All, Popular, New tab, search).
+function ExtensionCard({
+  ext,
+  triggered,
+  onInstall,
+  index,
+  hero = false,
+  isFeatured: isExtFeatured = false,
+  isRecent = false,
+  showBadges = true,
+}: CardProps) {
+  const isVersionUpdate = Boolean(ext.version && ext.version !== '1.0.0');
+  const badgeClass =
+    'hidden md:inline-flex shrink-0 text-[9.5px] font-semibold px-1.5 py-0.5 rounded-full tracking-wide items-center gap-1';
+  // At most one badge (desktop only), by priority: Featured > Updated > New.
+  const badge: 'featured' | 'updated' | 'new' | null = isExtFeatured
+    ? 'featured'
+    : isRecent && isVersionUpdate
+      ? 'updated'
+      : isNewRelease(ext)
+        ? 'new'
+        : null;
+
   return (
     <motion.article
       initial={{ opacity: 0, y: 10 }}
@@ -226,12 +134,26 @@ function FeaturedCard({ ext, triggered, onInstall, index, hero = false }: Featur
           className="shrink-0"
         />
         <div className="min-w-0 flex-1">
-          <Link
-            href={`/extensions/${ext.id}`}
-            className="block text-[15px] font-semibold tracking-tight text-[var(--text-primary)] hover:text-[var(--accent)] transition-colors truncate"
-          >
-            {ext.name}
-          </Link>
+          <div className="flex items-center gap-2 min-w-0">
+            <Link
+              href={`/extensions/${ext.id}`}
+              className="block min-w-0 text-[15px] font-semibold tracking-tight text-[var(--text-primary)] hover:text-[var(--accent)] transition-colors truncate"
+            >
+              {ext.name}
+            </Link>
+            {showBadges && badge === 'featured' && (
+              <span title="Featured Extension" className={`${badgeClass} bg-[var(--accent)]/12 text-[var(--accent)]`}>
+                <BadgeCheck className="w-3 h-3" />
+                Featured
+              </span>
+            )}
+            {showBadges && badge === 'updated' && (
+              <span className={`${badgeClass} bg-blue-500/10 text-blue-600 dark:text-blue-400`}>Updated</span>
+            )}
+            {showBadges && badge === 'new' && (
+              <span className={`${badgeClass} bg-emerald-500/12 text-emerald-600 dark:text-emerald-400`}>New</span>
+            )}
+          </div>
           <p className="mt-0.5 flex items-center gap-2 text-[11.5px] text-[var(--text-tertiary)]">
             <span className="truncate">by {ext.author}</span>
             <span className="inline-flex shrink-0 items-center gap-1 font-mono tabular-nums">
@@ -256,6 +178,15 @@ function FeaturedCard({ ext, triggered, onInstall, index, hero = false }: Featur
     </motion.article>
   );
 }
+
+const KNOB_SPRING = { type: 'spring', stiffness: 420, damping: 34 } as const;
+
+const FILTERS: { id: StoreFilter; label: string; icon?: typeof Flame }[] = [
+  { id: 'all', label: 'All' },
+  { id: 'popular', label: 'Popular', icon: Flame },
+  { id: 'new', label: 'New', icon: Clock },
+];
+
 
 export default function ExtensionsContent({ extensions, featuredIDs }: Props) {
   const [search, setSearch] = useState('');
@@ -459,9 +390,9 @@ export default function ExtensionsContent({ extensions, featuredIDs }: Props) {
                 Search Results ({searchResults.length})
               </span>
             </div>
-            <div className="flex flex-col gap-2">
+            <div className="grid sm:grid-cols-2 gap-3">
               {searchResults.map((ext, idx) => (
-                <ExtensionRow
+                <ExtensionCard
                   key={ext.id}
                   ext={ext}
                   triggered={installedMap[ext.id]}
@@ -487,9 +418,9 @@ export default function ExtensionsContent({ extensions, featuredIDs }: Props) {
                 {popularFilterItems.length} total
               </span>
             </div>
-            <div className="flex flex-col gap-2">
+            <div className="grid sm:grid-cols-2 gap-3">
               {popularFilterItems.map((ext, idx) => (
-                <ExtensionRow
+                <ExtensionCard
                   key={ext.id}
                   ext={ext}
                   triggered={installedMap[ext.id]}
@@ -526,9 +457,9 @@ export default function ExtensionsContent({ extensions, featuredIDs }: Props) {
                 </p>
               </div>
             ) : (
-              <div className="flex flex-col gap-2">
+              <div className="grid sm:grid-cols-2 gap-3">
                 {newFilterItems.map((ext, idx) => (
-                  <ExtensionRow
+                  <ExtensionCard
                     key={ext.id}
                     ext={ext}
                     triggered={installedMap[ext.id]}
@@ -561,13 +492,14 @@ export default function ExtensionsContent({ extensions, featuredIDs }: Props) {
 
                 <div className="grid sm:grid-cols-2 gap-3">
                   {featuredSectionItems.map((ext, idx) => (
-                    <FeaturedCard
+                    <ExtensionCard
                       key={`featured-${ext.id}`}
                       ext={ext}
                       triggered={installedMap[ext.id]}
                       onInstall={handleInstall}
                       index={idx}
                       hero={idx === 0 && featuredSectionItems.length % 2 === 1}
+                      showBadges={false}
                     />
                   ))}
                 </div>
@@ -589,9 +521,9 @@ export default function ExtensionsContent({ extensions, featuredIDs }: Props) {
                   </span>
                 </div>
 
-                <div className="flex flex-col gap-2">
+                <div className="grid sm:grid-cols-2 gap-3">
                   {newSectionItems.map((ext, idx) => (
-                    <ExtensionRow
+                    <ExtensionCard
                       key={`new-${ext.id}`}
                       ext={ext}
                       triggered={installedMap[ext.id]}
@@ -620,9 +552,9 @@ export default function ExtensionsContent({ extensions, featuredIDs }: Props) {
                   </span>
                 </div>
 
-                <div className="flex flex-col gap-2">
+                <div className="grid sm:grid-cols-2 gap-3">
                   {remainingAllSectionItems.map((ext, idx) => (
-                    <ExtensionRow
+                    <ExtensionCard
                       key={ext.id}
                       ext={ext}
                       triggered={installedMap[ext.id]}
