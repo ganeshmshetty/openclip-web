@@ -9,6 +9,7 @@ import { Download, ChevronRight } from 'lucide-react';
 import type { ExtensionItem } from '@/lib/extensions';
 import ExtensionIcon from '../../components/ExtensionIcon';
 import { MarkdownRenderer } from '@/docs/components/MarkdownRenderer';
+import InlineVideo from '@/app/components/InlineVideo';
 import { getExtensionPreviewVideo } from '@/lib/extension-videos';
 
 interface Props {
@@ -120,17 +121,7 @@ export default function ExtensionDetailContent({ extension, relatedExtensions = 
 
           {/* Hero Video Preview (rendered when configured in extension-videos.ts) */}
           {previewVideo && (
-            <div className="mt-8 rounded-2xl overflow-hidden border border-[var(--border-subtle)] bg-[var(--bg-surface)] shadow-md ring-1 ring-inset ring-white/10">
-              <video
-                src={previewVideo}
-                autoPlay
-                loop
-                muted
-                playsInline
-                controls
-                className="w-full h-auto aspect-video object-cover bg-black/5"
-              />
-            </div>
+            <InlineVideo src={previewVideo} title={`${extension.name} demo`} className="mt-8" />
           )}
 
           {/* Extension Documentation (README rendered natively with MarkdownRenderer) */}

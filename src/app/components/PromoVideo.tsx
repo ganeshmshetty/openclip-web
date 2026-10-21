@@ -1,16 +1,13 @@
 'use client';
 
-import { useEffect, useRef, useState, type CSSProperties, type PointerEvent } from 'react';
+import { useEffect, useRef, useState, type PointerEvent } from 'react';
 import { animate, motion, useMotionValue, useSpring, useTransform, useVelocity } from 'motion/react';
-import { Pause, Play, RotateCcw, Volume2, VolumeX } from 'lucide-react';
+import { Pause, Play } from 'lucide-react';
 import styles from './PromoVideo.module.css';
 import VideoGlassLens from './VideoGlassLens';
+import VideoControls from './VideoControls';
 
 const PROMO_VIDEO_URL = 'https://getopenclip.app/OpenClip-promo-compressed.mp4';
-
-function timestamp(seconds: number) {
-  return `${Math.floor(seconds / 60)}:${Math.floor(seconds % 60).toString().padStart(2, '0')}`;
-}
 
 export default function PromoVideo() {
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -115,7 +112,6 @@ export default function PromoVideo() {
     video.muted = !video.muted;
   };
 
-  const progress = duration > 0 ? (currentTime / duration) * 100 : 0;
   const iconClass = 'h-4 w-4 shrink-0';
 
   return (
@@ -161,35 +157,21 @@ export default function PromoVideo() {
             </>
           ) : (
             <>
-              <div className={styles.topControls} role="group" aria-label="Video controls">
-                <button type="button" className={`glass-surface video-glass ${styles.iconButton}`} onClick={togglePlayback} aria-label={playing ? 'Pause video' : 'Play video'}>
-                  {playing ? <Pause className={iconClass} /> : currentTime >= duration && duration > 0 ? <RotateCcw className={iconClass} /> : <Play className={iconClass} />}
-                </button>
-                <button type="button" className={`glass-surface video-glass ${styles.iconButton}`} onClick={toggleMute} aria-label={muted ? 'Unmute video' : 'Mute video'}>
-                  {muted ? <VolumeX className={iconClass} /> : <Volume2 className={iconClass} />}
-                </button>
-              </div>
-              <div className={styles.timeline}>
-                <input
-                  type="range"
-                  aria-label="Video progress"
-                  aria-valuetext={`${timestamp(currentTime)} of ${timestamp(duration)}`}
-                  min={0}
-                  max={duration || 1}
-                  step={0.1}
-                  value={currentTime}
-                  disabled={!duration}
-                  className={styles.slider}
-                  style={{ '--fill': `${progress}%` } as CSSProperties}
-                  onChange={(event) => {
-                    const video = videoRef.current;
-                    if (!video || !duration) return;
-                    const time = Number(event.target.value);
-                    video.currentTime = time;
-                    setCurrentTime(time);
-                  }}
-                />
-              </div>
+              <VideoControls
+                videoRef={videoRef}
+                playing={playing}
+                currentTime={currentTime}
+                duration={duration}
+                onTogglePlayback={togglePlayback}
+                onSeek={(time) => {
+                  const video = videoRef.current;
+                  if (!video || !duration) return;
+                  video.currentTime = time;
+                  setCurrentTime(time);
+                }}
+                muted={muted}
+                onToggleMute={toggleMute}
+              />
             </>
           )}
         </div>
