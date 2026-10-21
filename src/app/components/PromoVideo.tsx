@@ -1,12 +1,13 @@
 'use client';
 
 import { useEffect, useRef, useState, type PointerEvent } from 'react';
-import { animate, motion, useMotionValue, useSpring, useTransform, useVelocity } from 'motion/react';
-import { Pause, Play } from 'lucide-react';
+import { motion, useMotionValue, useSpring } from 'motion/react';
+import { Pause, Play, Volume2 } from 'lucide-react';
 import styles from './PromoVideo.module.css';
 import VideoGlassLens from './VideoGlassLens';
 import VideoControls from './VideoControls';
 
+const FOLLOW_RANGE = 70;
 const PROMO_VIDEO_URL = 'https://getopenclip.app/OpenClip-promo-compressed.mp4';
 
 export default function PromoVideo() {
@@ -14,6 +15,10 @@ export default function PromoVideo() {
   const playButtonRef = useRef<HTMLButtonElement>(null);
   const toggleRef = useRef<HTMLButtonElement>(null);
   const still = useMotionValue(0);
+  const pointerX = useMotionValue(0);
+  const pointerY = useMotionValue(0);
+  const followX = useSpring(pointerX, { stiffness: 180, damping: 20, mass: 0.7 });
+  const followY = useSpring(pointerY, { stiffness: 180, damping: 20, mass: 0.7 });
   const startedRef = useRef(false);
   const [started, setStarted] = useState(false);
   const [playing, setPlaying] = useState(false);
@@ -21,24 +26,7 @@ export default function PromoVideo() {
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
   const [failed, setFailed] = useState(false);
-  const pointerX = useMotionValue(0);
-  const pointerY = useMotionValue(0);
-  const float = useMotionValue(0);
-  const followX = useSpring(pointerX, { stiffness: 180, damping: 20, mass: 0.7 });
-  const springY = useSpring(pointerY, { stiffness: 180, damping: 20, mass: 0.7 });
-  const followY = useTransform([springY, float], ([spring, drift]: number[]) => spring + drift);
-  const velocity = useVelocity(followX);
-  const tilt = useTransform(velocity, [-800, 0, 800], [-6, 0, 6]);
-  const rotate = useSpring(tilt, { stiffness: 200, damping: 12, mass: 0.5 });
 
-
-  useEffect(() => {
-    if (started) return;
-    const motion = window.matchMedia('(prefers-reduced-motion: reduce)');
-    if (motion.matches) return;
-    const controls = animate(float, [0, -3, 0, 3, 0], { duration: 4.5, ease: 'easeInOut', repeat: Infinity });
-    return () => controls.stop();
-  }, [float, started]);
 
   useEffect(() => {
     const video = videoRef.current;
@@ -91,13 +79,10 @@ export default function PromoVideo() {
 
   const followPointer = (event: PointerEvent<HTMLDivElement>) => {
     if (event.pointerType !== 'mouse' || startedRef.current || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-    const button = playButtonRef.current;
-    if (!button || button.matches(':focus-visible')) return;
     const rect = event.currentTarget.getBoundingClientRect();
-    const limitX = Math.max(0, (rect.width - button.offsetWidth) / 2 - 20);
-    const limitY = Math.max(0, (rect.height - button.offsetHeight) / 2 - 20);
-    pointerX.set(Math.max(-limitX, Math.min(limitX, (event.clientX - rect.left - rect.width / 2) * 0.7)));
-    pointerY.set(Math.max(-limitY, Math.min(limitY, (event.clientY - rect.top - rect.height / 2) * 0.7)));
+    const fraction = (event.clientX - rect.left) / rect.width;
+    pointerX.set(Math.max(0, Math.min(1, fraction)) * FOLLOW_RANGE);
+    pointerY.set(Math.max(0, Math.min(6, (event.clientY - rect.top) * 0.03)));
   };
 
   const resetPointer = () => {
@@ -145,10 +130,10 @@ export default function PromoVideo() {
           />
           {!started ? (
             <>
-              <motion.button ref={playButtonRef} type="button" onClick={play} onFocus={resetPointer} style={{ x: followX, y: followY, rotate }} className={`glass-surface video-glass ${styles.playButton}`}>
-                <VideoGlassLens videoRef={videoRef} buttonRef={playButtonRef} x={followX} y={followY} rotate={rotate} />
-                <Play className="h-[15px] w-[15px] fill-current" aria-hidden="true" />
-                <span>Play with sound</span>
+              <motion.button ref={playButtonRef} type="button" onClick={play} onFocus={resetPointer} style={{ x: followX, y: followY }} className={`glass-surface video-glass ${styles.playButton}`}>
+                <VideoGlassLens videoRef={videoRef} buttonRef={playButtonRef} x={followX} y={followY} rotate={still} />
+                <Volume2 className="h-[14px] w-[14px]" aria-hidden="true" />
+                <span>play with sound</span>
               </motion.button>
               <button ref={toggleRef} type="button" onClick={togglePlayback} className={`glass-surface video-glass ${styles.previewToggle} ${styles.iconButton}`} aria-label={playing ? 'Pause preview' : 'Resume preview'}>
                 <VideoGlassLens videoRef={videoRef} buttonRef={toggleRef} x={still} y={still} rotate={still} />

@@ -21,27 +21,27 @@ type Row = {
 const ROWS: Row[] = [
   {
     id: 'ai',
-    title: 'AI writing, inline.',
-    body: 'Fix grammar, summarize, or translate. The result streams into the card in place, not a browser tab.',
+    title: 'fix your writing right where you are.',
+    body: 'grammar, summaries, translations. the answer shows up in place, so you never end up in a browser tab.',
     mp4: '/gifs/ai-actions.mp4',
     alt: 'OpenClip AI actions rewriting selected text',
   },
   {
     id: 'palette',
     visual: 'palette',
-    title: 'Every action, one keystroke away.',
-    body: 'Search every action, extension, and calculation from anywhere on your Mac.',
+    title: 'everything is one shortcut away.',
+    body: 'hit the shortcut, type a few letters, and find any action, extension, or quick calculation.',
     mp4: '/gifs/command-palette.mp4',
     alt: 'OpenClip universal command palette',
   },
   {
     id: 'extensions',
     visual: 'store',
-    title: 'An extension for everything.',
-    body: 'Browse 100+ official extensions in the Clip Store, or create your own in JS, AppleScript, and Shell.',
+    title: 'there\'s an extension for most things.',
+    body: 'there are 100+ in the Clip Store. if yours is missing, write it in JS, AppleScript, or shell.',
     mp4: '/gifs/in-app-extensions.mp4',
     alt: 'OpenClip in-app extensions',
-    link: { text: 'Explore the Clip Store', href: '/extensions' },
+    link: { text: 'have a look at the Clip Store', href: '/extensions' },
   },
 ];
 

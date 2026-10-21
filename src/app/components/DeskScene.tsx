@@ -6,23 +6,18 @@ import { mediaURL } from '@/lib/media';
 type Clip = { name: string; label: string; src: string };
 type Slot = { className: string; width: number; drift: number };
 
-// Add a clip to this list and it takes the next free slot around the hero.
+// Three clips, same size, staggered heights. Add a clip and it takes the next free slot.
 const CLIPS: Clip[] = [
-  { name: 'calculate', label: 'Inline math', src: mediaURL('calculate.mp4') },
-  { name: 'word-completion', label: 'Spell check', src: mediaURL('word-completion.mp4') },
-  { name: 'render-mermaid', label: 'Render Mermaid', src: mediaURL('extensions/com.openclip.render-mermaid.mp4') },
-  { name: 'shortenlink', label: 'Shorten Link', src: mediaURL('extensions/com.openclip.shortenlink.mp4') },
-  { name: 'qrcode', label: 'QR Code', src: mediaURL('extensions/com.openclip.qrcode.mp4') },
+  { name: 'calculate', label: 'inline math', src: mediaURL('calculate.mp4') },
+  { name: 'word-completion', label: 'spell check', src: mediaURL('word-completion.mp4') },
+  { name: 'qrcode', label: 'qr codes', src: mediaURL('extensions/com.openclip.qrcode.mp4') },
 ];
 
 // Percent positions so the scene scales with the viewport.
 const SLOTS: Slot[] = [
-  { className: 'left-[3%] top-[10%] origin-top-left', width: 230, drift: 0.07 },
-  { className: 'right-[3.5%] top-[9%] origin-top-right', width: 215, drift: -0.05 },
-  { className: 'right-[6%] top-[57%] origin-top-right', width: 235, drift: 0.04 },
-  { className: 'left-[6.5%] top-[58%] origin-top-left', width: 200, drift: -0.08 },
-  { className: 'left-[19%] top-[34%] origin-top-left', width: 170, drift: 0.03 },
-  { className: 'right-[21%] top-[40%] origin-top-right', width: 170, drift: -0.04 },
+  { className: 'left-[3.5%] top-[2%] origin-top-left', width: 220, drift: 0.06 },
+  { className: 'right-[3.5%] top-[24%] origin-top-right', width: 220, drift: -0.05 },
+  { className: 'left-[10%] top-[56%] origin-top-left', width: 220, drift: 0.04 },
 ];
 
 function useLazyPlay(ref: React.RefObject<HTMLVideoElement | null>) {

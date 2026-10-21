@@ -271,7 +271,7 @@ export default function HomeContent() {
       <Navbar />
 
       <main className="flex-1">
-        <section className="home-hero relative pb-8 sm:pb-10 lg:min-h-[600px]">
+        <section className="home-hero relative pb-6 sm:pb-8">
           <DeskScene />
           <div className="section-shell pointer-events-none relative z-10 text-center [&_a]:pointer-events-auto [&_button]:pointer-events-auto">
             <h1
@@ -282,9 +282,9 @@ export default function HomeContent() {
             </h1>
 
             <p
-              className="mx-auto mt-3 max-w-xl text-[17px] font-normal leading-[1.55] text-[var(--text-secondary)] sm:mt-4 sm:text-[19px]"
+              className="mx-auto mt-3 max-w-[34rem] text-balance text-[17px] font-normal leading-[1.55] text-[var(--text-secondary)] sm:mt-4 sm:text-[19px]"
             >
-              Select text. Take action.
+              select some text and see what you can do with it. free and open source.
             </p>
 
             <div className="mt-7 flex flex-col items-center" data-nosnippet="true">

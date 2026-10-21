@@ -73,6 +73,7 @@ export default function SelectingRibbon({ path, viewBox, preserveAspectRatio, te
           chars.push(span);
         }
       }
+      if (!chars.length || !label.getNumberOfChars()) return;
       const starts = chars.map((_, i) => (i === 0 ? 0 : label.getSubStringLength(0, i)));
       const levels = new Float32Array(chars.length);
 
