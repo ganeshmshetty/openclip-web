@@ -108,7 +108,15 @@ function ExtensionCard({
 }: CardProps) {
   const isVersionUpdate = Boolean(ext.version && ext.version !== '1.0.0');
   const badgeClass =
-    'shrink-0 text-[9.5px] font-semibold px-1.5 py-0.5 rounded-full tracking-wide inline-flex items-center gap-1';
+    'hidden md:inline-flex shrink-0 text-[9.5px] font-semibold px-1.5 py-0.5 rounded-full tracking-wide items-center gap-1';
+  // At most one badge (desktop only), by priority: Featured > Updated > New.
+  const badge: 'featured' | 'updated' | 'new' | null = isExtFeatured
+    ? 'featured'
+    : isRecent && isVersionUpdate
+      ? 'updated'
+      : isNewRelease(ext)
+        ? 'new'
+        : null;
 
   return (
     <motion.article
@@ -133,17 +141,17 @@ function ExtensionCard({
             >
               {ext.name}
             </Link>
-            {showBadges && isExtFeatured && (
+            {showBadges && badge === 'featured' && (
               <span title="Featured Extension" className={`${badgeClass} bg-[var(--accent)]/12 text-[var(--accent)]`}>
                 <BadgeCheck className="w-3 h-3" />
                 Featured
               </span>
             )}
-            {showBadges && !isExtFeatured && isNewRelease(ext) && (
-              <span className={`${badgeClass} bg-emerald-500/12 text-emerald-600 dark:text-emerald-400`}>New</span>
-            )}
-            {showBadges && !isExtFeatured && !isNewRelease(ext) && isRecent && isVersionUpdate && (
+            {showBadges && badge === 'updated' && (
               <span className={`${badgeClass} bg-blue-500/10 text-blue-600 dark:text-blue-400`}>Updated</span>
+            )}
+            {showBadges && badge === 'new' && (
+              <span className={`${badgeClass} bg-emerald-500/12 text-emerald-600 dark:text-emerald-400`}>New</span>
             )}
           </div>
           <p className="mt-0.5 flex items-center gap-2 text-[11.5px] text-[var(--text-tertiary)]">
