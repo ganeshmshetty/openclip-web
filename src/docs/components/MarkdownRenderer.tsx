@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import InlineVideo from '@/app/components/InlineVideo';
 import { marked, Tokens, Token } from 'marked';
 import { CodeBlock, Callout, DocTable, InlineCode } from './DocComponents';
 import dynamic from 'next/dynamic';
@@ -193,17 +194,7 @@ function renderInlineTokens(tokens?: Token[]): React.ReactNode {
         const isVideo = /\.(mp4|webm|mov)(\?.*)?$/i.test(token.href);
         if (isVideo) {
           return (
-            <video
-              key={index}
-              src={token.href}
-              title={token.title || token.text}
-              autoPlay
-              loop
-              muted
-              playsInline
-              controls
-              className="rounded-2xl border border-[var(--border-subtle)] my-5 max-w-full w-full h-auto shadow-sm aspect-video object-cover bg-black/5"
-            />
+            <InlineVideo key={index} src={token.href} title={token.title || token.text} className="my-5" />
           );
         }
         return (
