@@ -6,9 +6,11 @@ import { Pause, Play, Volume2 } from 'lucide-react';
 import styles from './PromoVideo.module.css';
 import VideoGlassLens from './VideoGlassLens';
 import VideoControls from './VideoControls';
+import { mediaURL } from '@/lib/media';
 
 const FOLLOW_RANGE = 70;
-const PROMO_VIDEO_URL = 'https://getopenclip.app/OpenClip-promo-compressed.mp4';
+// Full promo on R2. The old OpenClip-promo-compressed.mp4 no longer exists (404).
+const PROMO_VIDEO_URL = mediaURL('openclip-promo.mp4');
 
 export default function PromoVideo() {
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -117,7 +119,11 @@ export default function PromoVideo() {
             onPlay={() => setPlaying(true)}
             onPause={() => setPlaying(false)}
             onEnded={() => setPlaying(false)}
-            onError={() => setFailed(true)}
+            onError={(event) => {
+              // Only a real load/decode failure counts; an abort from swapping sources is not one.
+              const error = event.currentTarget.error;
+              if (error && error.code !== error.MEDIA_ERR_ABORTED) setFailed(true);
+            }}
             onLoadedMetadata={(event) => {
               if (startedRef.current) setDuration(event.currentTarget.duration);
             }}
