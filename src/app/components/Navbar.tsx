@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useState, useEffect } from 'react';
-import { Menu, X } from 'lucide-react';
+import { Menu, X, ArrowDown } from 'lucide-react';
 import { motion } from 'motion/react';
 import ThemeToggle from './ThemeToggle';
 import { downloadLatestDmg, getLatestDmgUrl } from '@/lib/downloadClient';
@@ -154,18 +154,36 @@ export default function Navbar() {
           </div>
 
           {/* ── Island 3 · Primary action ── */}
-          <a
-            href="/download"
-            onClick={(e) => {
-              e.preventDefault();
-              downloadLatestDmg();
-            }}
-            className="nav-cta self-stretch my-[3px] px-4 sm:px-5"
-            aria-label="Download for Mac"
-          >
-            <AppleIcon className="w-3.5 h-3.5 shrink-0" />
-            <span className="hidden sm:inline">Download</span>
-          </a>
+          {/* Desktop: blue liquid-glass pill */}
+          <div className="hidden sm:flex items-stretch">
+            <a
+              href="/download"
+              onClick={(e) => {
+                e.preventDefault();
+                downloadLatestDmg();
+              }}
+              className="nav-cta self-stretch my-[3px] pl-4 pr-5"
+              aria-label="Download for Mac"
+            >
+              <AppleIcon className="w-[18px] h-[18px] shrink-0 -mt-0.5" />
+              <span>Download</span>
+            </a>
+          </div>
+          {/* Mobile: neutral liquid-glass "Get" */}
+          <div className="flex sm:hidden items-stretch">
+            <a
+              href="/download"
+              onClick={(e) => {
+                e.preventDefault();
+                downloadLatestDmg();
+              }}
+              className="nav-cta-glass self-stretch px-3.5"
+              aria-label="Download for Mac"
+            >
+              <ArrowDown className="w-3.5 h-3.5 shrink-0" strokeWidth={2.5} />
+              <span>Get</span>
+            </a>
+          </div>
         </div>
 
         {/* ── Mobile menu ── */}
