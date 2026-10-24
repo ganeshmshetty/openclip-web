@@ -37,8 +37,8 @@ export default function TurnTextGraphic({ className = '', title = 'Turn text int
         <rect width="1024" height="407" filter={`url(#${grain})`} />
 
         {/* Toolbar */}
-        <rect x="455" y="150" width="508" height="64" rx="20" fill="#ecebf1" stroke={navy} strokeWidth="2" />
-        <rect x="528" y="158" width="96" height="48" rx="7" fill="#b3bcf4" />
+        <rect x="455" y="150" width="508" height="64" rx="26" fill="#ecebf1" stroke={navy} strokeWidth="2" />
+        <rect x="528" y="158" width="96" height="48" rx="9" fill="#b3bcf4" />
 
         {/* Search (toolbar: search, Copy, Cut, Paste, AI, ⌘) */}
         <g fill="none" stroke={navy} strokeWidth="2.4" strokeLinecap="round">
