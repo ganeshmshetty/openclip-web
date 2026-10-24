@@ -37,33 +37,33 @@ export default function TurnTextGraphic({ className = '', title = 'Turn text int
         <rect width="1024" height="407" filter={`url(#${grain})`} />
 
         {/* Toolbar */}
-        <rect x="455" y="150" width="508" height="64" rx="26" fill="#ecebf1" stroke={navy} strokeWidth="2" />
-        <rect x="528" y="158" width="96" height="48" rx="9" fill="#b3bcf4" />
+        <rect x="323.5" y="150" width="543.0" height="64" rx="26" fill="#ecebf1" stroke={navy} strokeWidth="2" />
+        <rect x="440.9" y="158" width="93" height="48" rx="9" fill="#b3bcf4" />
 
         {/* Search (toolbar: search, Copy, Cut, Paste, AI, ⌘) */}
         <g fill="none" stroke={navy} strokeWidth="2.4" strokeLinecap="round">
-          <circle cx="491" cy="180" r="9" />
-          <line x1="498" y1="187" x2="506" y2="195" />
+          <circle cx="387.7" cy="180" r="9" />
+          <line x1="394.7" y1="187" x2="402.7" y2="195" />
         </g>
 
         <g fill={navy} fontSize="21" style={{ textRendering: "geometricPrecision" }} fontWeight="600" textAnchor="middle">
-          <text x="576" y="191">Copy</text>
-          <text x="668" y="191">Cut</text>
-          <text x="762" y="191">Paste</text>
+          <text x="487.4" y="191">Copy</text>
+          <text x="587.8" y="191">Cut</text>
+          <text x="670.0" y="191">Paste</text>
         </g>
 
         {/* AI sparkle */}
         <path
-          d="M856 171 Q857.54 180.46 867 182 Q857.54 183.54 856 193 Q854.46 183.54 845 182 Q854.46 180.46 856 171 Z"
+          d="M745.3 171 Q746.8 180.5 756.3 182 Q746.8 183.5 745.3 193 Q743.8 183.5 734.3 182 Q743.8 180.5 745.3 171 Z"
           fill={navy}
         />
 
         {/* Command */}
-        <path transform="translate(927 182)" d="M-3 -3 V-6 A3 3 0 1 0 -6 -3 H6 A3 3 0 1 0 3 -6 V6 A3 3 0 1 0 6 3 H-6 A3 3 0 1 0 -3 6 Z" fill="none" stroke={navy} strokeWidth="2.2" strokeLinejoin="round" />
+        <path transform="translate(802.4 182)" d="M-3 -3 V-6 A3 3 0 1 0 -6 -3 H6 A3 3 0 1 0 3 -6 V6 A3 3 0 1 0 6 3 H-6 A3 3 0 1 0 -3 6 Z" fill="none" stroke={navy} strokeWidth="2.2" strokeLinejoin="round" />
 
         {/* Pointer over Copy */}
         <path
-          d="M600 196 L600 220 L605.5 214.5 L609.5 223.5 L613 222 L609 213 L616.5 213 Z"
+          d="M512.9 196 L512.9 220 L518.4 214.5 L522.4 223.5 L525.9 222 L521.9 213 L529.4 213 Z"
           fill={navy}
           stroke="#ffffff"
           strokeWidth="1.6"
