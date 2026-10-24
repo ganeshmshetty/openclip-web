@@ -53,7 +53,7 @@ export default function Footer() {
           <div className="space-y-3.5">
             <div className="flex items-center gap-2.5">
               <img
-                src="/icons/openclip-icon.png"
+                src="/icons/openclip-icon.svg"
                 alt="OpenClip"
                 className="w-7 h-7 rounded-[7px] shadow-sm"
                 width={28}

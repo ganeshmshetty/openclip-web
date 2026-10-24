@@ -24,7 +24,7 @@ const nextConfig: NextConfig = {
         ],
       },
       // These stable filenames can be replaced in place, so they must expire.
-      ...["/gifs/:path*", "/textures/:path*", "/glass/:path*", "/store-icon.png"].map((source) => ({
+      ...["/gifs/:path*", "/glass/:path*"].map((source) => ({
         source,
         headers: [
           { key: "Cache-Control", value: "public, max-age=86400, stale-while-revalidate=604800" },

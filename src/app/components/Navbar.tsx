@@ -78,7 +78,7 @@ export default function Navbar() {
               aria-label="OpenClip home"
             >
               <img
-                src="/icons/openclip-icon.png"
+                src="/icons/openclip-icon.svg"
                 alt=""
                 className="w-[18px] h-[18px] rounded-[5px] shrink-0"
                 width={18}
