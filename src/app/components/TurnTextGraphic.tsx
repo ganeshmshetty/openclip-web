@@ -37,7 +37,7 @@ export default function TurnTextGraphic({ className = '', title = 'Turn text int
         <rect width="1024" height="407" filter={`url(#${grain})`} />
 
         {/* Toolbar */}
-        <rect x="323.5" y="150" width="543.0" height="64" rx="26" fill="#ecebf1" stroke={navy} strokeWidth="2" />
+        <rect x="347.5" y="150" width="495.0" height="64" rx="26" fill="#ecebf1" stroke={navy} strokeWidth="2" />
         <rect x="440.9" y="158" width="93" height="48" rx="9" fill="#b3bcf4" />
 
         {/* Search (toolbar: search, Copy, Cut, Paste, AI, ⌘) */}
@@ -48,7 +48,7 @@ export default function TurnTextGraphic({ className = '', title = 'Turn text int
 
         <g fill={navy} fontSize="21" style={{ textRendering: "geometricPrecision" }} fontWeight="600" textAnchor="middle">
           <text x="487.4" y="191">Copy</text>
-          <text x="587.8" y="191">Cut</text>
+          <text x="586.3" y="191">Cut</text>
           <text x="670.0" y="191">Paste</text>
         </g>
 
