@@ -54,14 +54,12 @@ export default function TurnTextGraphic({ className = '', title = 'Turn text int
 
         {/* AI sparkle */}
         <path
-          d="M851 166 C853 177 856 180 867 182 C856 184 853 187 851 198 C849 187 846 184 835 182 C846 180 849 177 851 166 Z"
+          d="M856 171 Q857.54 180.46 867 182 Q857.54 183.54 856 193 Q854.46 183.54 845 182 Q854.46 180.46 856 171 Z"
           fill={navy}
         />
 
         {/* Command */}
-        <text x="923" y="192" fill={navy} fontSize="26" fontWeight="500" textAnchor="middle">
-          ⌘
-        </text>
+        <path transform="translate(927 182)" d="M-3 -3 V-6 A3 3 0 1 0 -6 -3 H6 A3 3 0 1 0 3 -6 V6 A3 3 0 1 0 6 3 H-6 A3 3 0 1 0 -3 6 Z" fill="none" stroke={navy} strokeWidth="2.2" strokeLinejoin="round" />
 
         {/* Pointer over Copy */}
         <path
