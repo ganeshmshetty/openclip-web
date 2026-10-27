@@ -7,7 +7,7 @@ import { render } from 'pele';
 import { diagramHash, DIAGRAM_LANGUAGE } from '@/docs/diagram-hash';
 
 // Revalidate instead of rendering per request; see ../page.tsx.
-export const revalidate = 300;
+export const revalidate = 86400;
 
 interface Props {
   params: Promise<{ id: string }>;
