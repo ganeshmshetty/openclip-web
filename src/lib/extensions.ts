@@ -94,7 +94,7 @@ export async function loadFeatured(): Promise<string[]> {
   try {
     const res = await fetch(FEATURED_URL, {
       headers: githubHeaders(),
-      next: { revalidate: 300 },
+      next: { revalidate: 86400 },
     });
     if (!res.ok) {
       console.warn('Featured fetch failed:', res.status);
@@ -145,7 +145,7 @@ async function loadStats(): Promise<Record<string, number> | null> {
   try {
     const res = await fetch(STATS_URL, {
       headers: githubHeaders(),
-      next: { revalidate: 300 },
+      next: { revalidate: 86400 },
     });
     if (!res.ok) return cachedStats;
     const data = (await res.json()) as { downloads?: Record<string, number> };
@@ -166,7 +166,7 @@ export async function getCatalog(): Promise<ExtensionItem[]> {
   try {
     const res = await fetch(CATALOG_URL, {
       headers: githubHeaders(),
-      next: { revalidate: 300 },
+      next: { revalidate: 86400 },
     });
     if (!res.ok) {
       console.warn('Catalog fetch failed:', res.status);
