@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { mediaURL } from '@/lib/media';
 
 type Clip = { name: string; label: string; src: string; glyph: React.ReactNode };
@@ -40,7 +40,7 @@ function useLazyPlay(ref: React.RefObject<HTMLVideoElement | null>) {
   }, [ref]);
 }
 
-function ClipWindow({ clip, slot, index }: { clip: Clip; slot: Slot; index: number }) {
+function ClipWindow({ clip, slot, index, open, onTap }: { clip: Clip; slot: Slot; index: number; open: boolean; onTap: () => void }) {
   const ref = useRef<HTMLVideoElement>(null);
   useLazyPlay(ref);
 
@@ -48,7 +48,10 @@ function ClipWindow({ clip, slot, index }: { clip: Clip; slot: Slot; index: numb
     <figure
       tabIndex={0}
       aria-label={`${clip.label} demo`}
-      className={`desk-window absolute ${slot.className}`}
+      data-desk-card=""
+      aria-expanded={open}
+      onClick={onTap}
+      className={`desk-window absolute ${slot.className}${open ? ' is-open' : ''}`}
       style={{
         width: slot.width,
         animationDelay: `${0.1 + index * 0.08}s`,
@@ -77,6 +80,25 @@ function ClipWindow({ clip, slot, index }: { clip: Clip; slot: Slot; index: numb
  */
 export default function DeskScene() {
   const rootRef = useRef<HTMLDivElement>(null);
+  // Touch screens have no hover, so a tap zooms a card instead (one at a time).
+  const [openIndex, setOpenIndex] = useState<number | null>(null);
+  const isTouch = () => window.matchMedia('(hover: none), (pointer: coarse)').matches;
+
+  useEffect(() => {
+    if (openIndex === null) return;
+    const onDown = (e: PointerEvent) => {
+      if (!(e.target as Element).closest?.('[data-desk-card]')) setOpenIndex(null);
+    };
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setOpenIndex(null);
+    };
+    document.addEventListener('pointerdown', onDown);
+    document.addEventListener('keydown', onKey);
+    return () => {
+      document.removeEventListener('pointerdown', onDown);
+      document.removeEventListener('keydown', onKey);
+    };
+  }, [openIndex]);
 
   useEffect(() => {
     const root = rootRef.current;
@@ -102,7 +124,16 @@ export default function DeskScene() {
       <div className="desk-grid pointer-events-none absolute inset-0 hidden lg:block" aria-hidden="true" />
       <div ref={rootRef} className="absolute inset-0 hidden lg:block">
         {CLIPS.slice(0, SLOTS.length).map((clip, index) => (
-          <ClipWindow key={clip.name} clip={clip} slot={SLOTS[index]} index={index} />
+          <ClipWindow
+            key={clip.name}
+            clip={clip}
+            slot={SLOTS[index]}
+            index={index}
+            open={openIndex === index}
+            onTap={() => {
+              if (isTouch()) setOpenIndex((cur) => (cur === index ? null : index));
+            }}
+          />
         ))}
       </div>
     </>

@@ -1443,3 +1443,21 @@ body {
 :is(.dark, [data-theme="dark"]) .desk-card .desk-frame { filter: brightness(0.82); transition: filter 0.22s ease; }
 :is(.dark, [data-theme="dark"]) .desk-window:hover .desk-frame,
 :is(.dark, [data-theme="dark"]) .desk-window:focus-visible .desk-frame { filter: none; }
+
+/* Touch screens at lg+: no hover, so cards sit fully lit and a tap (.is-open)
+   zooms one. Sticky :hover from a tap is neutralised so only .is-open zooms. */
+@media (hover: none), (pointer: coarse) {
+  .desk-window { cursor: pointer; -webkit-tap-highlight-color: transparent; }
+  .desk-card,
+  :is(.dark, [data-theme="dark"]) .desk-card { opacity: 1; }
+  :is(.dark, [data-theme="dark"]) .desk-card .desk-frame { filter: none; }
+  .desk-card::before { opacity: 0.85; }
+  .desk-window:hover:not(.is-open) { z-index: 1; transform: none; }
+  .desk-window:hover:not(.is-open) .desk-card::after { background-position: calc(120% - var(--desk-scroll, 0) * 0.04%) 0, 0 0; }
+  .desk-window.is-open { z-index: 20; transform: scale(1.6) translateY(-3px); }
+  .desk-window.is-open .desk-card::before { opacity: 1; }
+  .desk-window.is-open .desk-card::after { background-position: -20% 0, 0 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .desk-window.is-open { transform: none; }
+}
