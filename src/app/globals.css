@@ -1431,3 +1431,15 @@ body {
 :is(.dark, [data-theme="dark"]) .sticky-install {
   box-shadow: 0 10px 30px -8px rgba(0, 0, 0, 0.7), 0 0 0 0.5px rgba(255, 255, 255, 0.1);
 }
+
+/* dark tuning: brighter idle state + visible bloom on the black desk */
+:is(.dark, [data-theme="dark"]) .desk-card { opacity: 0.8; }
+:is(.dark, [data-theme="dark"]) .desk-card::before {
+  background: radial-gradient(closest-side, color-mix(in srgb, var(--accent) 70%, transparent), transparent);
+  opacity: 0.6;
+}
+:is(.dark, [data-theme="dark"]) .desk-window:hover .desk-card::before,
+:is(.dark, [data-theme="dark"]) .desk-window:focus-visible .desk-card::before { opacity: 1; }
+:is(.dark, [data-theme="dark"]) .desk-card .desk-frame { filter: brightness(0.82); transition: filter 0.22s ease; }
+:is(.dark, [data-theme="dark"]) .desk-window:hover .desk-frame,
+:is(.dark, [data-theme="dark"]) .desk-window:focus-visible .desk-frame { filter: none; }
