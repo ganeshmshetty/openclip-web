@@ -65,9 +65,6 @@ function ClipWindow({ clip, slot, index, open, onTap }: { clip: Clip; slot: Slot
         <figcaption className="desk-caption">
           <span className="desk-glyph">{clip.glyph}</span>
           <span className="desk-label">{clip.label}</span>
-          <span className="desk-live" aria-hidden="true">
-            <i />
-          </span>
         </figcaption>
       </div>
     </figure>
