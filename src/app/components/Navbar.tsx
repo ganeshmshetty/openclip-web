@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useState, useEffect } from 'react';
-import { Menu, X, ArrowDown } from 'lucide-react';
+import { Menu, X, ArrowDown, Star } from 'lucide-react';
 import { motion } from 'motion/react';
 import ThemeToggle from './ThemeToggle';
 import { downloadLatestDmg, getLatestDmgUrl } from '@/lib/downloadClient';
@@ -52,11 +52,54 @@ const NAV_LINKS = [
   { href: '/docs', label: 'Docs' },
 ];
 
+function formatStars(n: number) {
+  if (n >= 1000) return `${(n / 1000).toFixed(n >= 10000 ? 0 : 1).replace(/\.0$/, '')}k`;
+  return String(n);
+}
+
+const STARS_KEY = 'openclip:stars';
+let starsMemo: number | null = null;
+
+function useGithubStars() {
+  const [stars, setStars] = useState<number | null>(starsMemo);
+  useEffect(() => {
+    if (starsMemo !== null) return;
+    try {
+      const raw = sessionStorage.getItem(STARS_KEY);
+      if (raw) {
+        const { v, t } = JSON.parse(raw);
+        if (typeof v === 'number' && Date.now() - t < 3600_000) {
+          starsMemo = v;
+          queueMicrotask(() => setStars(v));
+          return;
+        }
+      }
+    } catch {}
+    let alive = true;
+    fetch('/api/v1/stars')
+      .then((r) => (r.ok ? r.json() : null))
+      .then((d) => {
+        if (!alive || !d || typeof d.stars !== 'number' || d.stars <= 0) return;
+        starsMemo = d.stars;
+        setStars(d.stars);
+        try {
+          sessionStorage.setItem(STARS_KEY, JSON.stringify({ v: d.stars, t: Date.now() }));
+        } catch {}
+      })
+      .catch(() => {});
+    return () => {
+      alive = false;
+    };
+  }, []);
+  return stars;
+}
+
 const KNOB_SPRING = { type: 'spring', stiffness: 420, damping: 34 } as const;
 
 export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const pathname = usePathname();
+  const stars = useGithubStars();
 
   useEffect(() => {
     getLatestDmgUrl().catch(() => {});
@@ -135,11 +178,17 @@ export default function Navbar() {
               href="https://github.com/ganeshmshetty/openclip"
               target="_blank"
               rel="noopener noreferrer"
-              className="nav-chip self-stretch my-[3px] w-9"
-              title="OpenClip on GitHub"
-              aria-label="OpenClip on GitHub"
+              className={`nav-chip self-stretch my-[3px] ${stars !== null ? 'gap-1.5 px-2.5' : 'w-9'}`}
+              title="Star OpenClip on GitHub"
+              aria-label={stars !== null ? `OpenClip on GitHub, ${stars} stars` : 'OpenClip on GitHub'}
             >
               <GithubIcon className="w-[15px] h-[15px] shrink-0" />
+              {stars !== null && (
+                <span className="inline-flex items-center gap-1 text-[12px] font-medium tabular-nums">
+                  <Star className="w-3 h-3 text-amber-400 fill-amber-400 shrink-0" aria-hidden="true" />
+                  <span>{formatStars(stars)}</span>
+                </span>
+              )}
             </a>
             <a
               href="https://discord.gg/acYYdzM7jR"
@@ -216,6 +265,13 @@ export default function Navbar() {
                 aria-label="OpenClip on GitHub"
               >
                 <GithubIcon className="w-4 h-4 shrink-0" />
+                <span className="ml-2.5">GitHub</span>
+                {stars !== null && (
+                  <span className="ml-auto inline-flex items-center gap-1 text-[12px] tabular-nums opacity-85">
+                    <Star className="w-3 h-3 text-amber-400 fill-amber-400 shrink-0" aria-hidden="true" />
+                    {formatStars(stars)}
+                  </span>
+                )}
               </a>
               <a
                 href="https://discord.gg/acYYdzM7jR"
