@@ -64,7 +64,6 @@ function ClipWindow({ clip, slot, index }: { clip: Clip; slot: Slot; index: numb
           <span className="desk-label">{clip.label}</span>
           <span className="desk-live" aria-hidden="true">
             <i />
-            {String(index + 1).padStart(2, '0')}
           </span>
         </figcaption>
       </div>
