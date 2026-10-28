@@ -1213,16 +1213,88 @@ body {
   mask-image: linear-gradient(to bottom, #000 55%, transparent);
 }
 
-.desk-frame {
-  overflow: hidden;
-  border-radius: 8px;
-  background: var(--bg-surface);
-  box-shadow: 0 12px 32px -10px rgba(0, 0, 0, 0.3);
-  opacity: 0.5;
-  transition: opacity 0.22s ease;
+/* Desk cards: the clips sit inset in a small slab of the site's glass. A faint
+   accent bloom behind each card gives the glass something to bend on the
+   otherwise black desk; grain + hairline + specular rim do the rest. */
+.desk-card {
+  --pad: 7px;
+  --r: 16px;
+  position: relative;
+  isolation: isolate;
+  padding: var(--pad) var(--pad) 0;
+  border-radius: var(--r);
+  background:
+    linear-gradient(160deg, rgba(255, 255, 255, 0.55) 0%, rgba(255, 255, 255, 0.18) 42%, rgba(255, 255, 255, 0.3) 100%);
+  backdrop-filter: blur(14px) saturate(170%);
+  -webkit-backdrop-filter: blur(14px) saturate(170%);
+  box-shadow:
+    0 0 0 0.5px rgba(0, 0, 0, 0.1),
+    0 1px 1px rgba(0, 0, 0, 0.05),
+    0 16px 36px -14px rgba(0, 0, 0, 0.28),
+    inset 0 1px 0 rgba(255, 255, 255, 0.95),
+    inset 0 -1px 1px rgba(255, 255, 255, 0.45),
+    inset 0 -10px 18px -12px rgba(255, 255, 255, 0.6);
+  opacity: 0.62;
+  transition: opacity 0.22s ease, box-shadow 0.3s ease;
 }
-:is(.dark, [data-theme="dark"]) .desk-frame {
-  box-shadow: 0 12px 32px -10px rgba(0, 0, 0, 0.8);
+:is(.dark, [data-theme="dark"]) .desk-card {
+  background:
+    linear-gradient(160deg, rgba(255, 255, 255, 0.13) 0%, rgba(255, 255, 255, 0.03) 45%, rgba(255, 255, 255, 0.07) 100%),
+    rgba(24, 24, 28, 0.35);
+  box-shadow:
+    0 0 0 0.5px rgba(255, 255, 255, 0.16),
+    0 1px 1px rgba(0, 0, 0, 0.35),
+    0 18px 40px -12px rgba(0, 0, 0, 0.7),
+    inset 0 1px 0 rgba(255, 255, 255, 0.22),
+    inset 0 -1px 1px rgba(255, 255, 255, 0.07),
+    inset 0 -10px 18px -12px rgba(255, 255, 255, 0.12);
+}
+/* accent bloom behind the card */
+.desk-card::before {
+  content: "";
+  position: absolute;
+  inset: 18% 8% -6%;
+  z-index: -1;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, color-mix(in srgb, var(--accent) 45%, transparent), transparent);
+  filter: blur(22px);
+  opacity: 0.75;
+  transform: translateY(calc(var(--desk-scroll, 0) * -0.03px));
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+/* grain + specular sweep, one layer */
+.desk-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  background:
+    linear-gradient(115deg, transparent 35%, rgba(255, 255, 255, 0.28) 48%, transparent 60%) no-repeat,
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.5'/%3E%3C/svg%3E");
+  background-size: 250% 100%, 120px 120px;
+  background-position: calc(120% - var(--desk-scroll, 0) * 0.04%) 0, 0 0;
+  mix-blend-mode: overlay;
+  opacity: 0.35;
+  transition: background-position 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.desk-frame {
+  position: relative;
+  overflow: hidden;
+  border-radius: calc(var(--r) - var(--pad));
+  background: var(--bg-surface);
+  box-shadow: 0 0 0 0.5px rgba(0, 0, 0, 0.18), 0 2px 6px -2px rgba(0, 0, 0, 0.3);
+}
+/* 1px inner hairline over the video */
+.desk-frame::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.14), inset 0 1px 0 rgba(255, 255, 255, 0.22);
+  pointer-events: none;
 }
 
 .desk-window {
@@ -1236,21 +1308,60 @@ body {
 .desk-window:hover,
 .desk-window:focus-visible {
   z-index: 20;
-  transform: scale(1.6);
+  transform: scale(1.6) translateY(-3px);
 }
-.desk-window:hover .desk-frame,
-.desk-window:focus-visible .desk-frame {
-  opacity: 1;
+.desk-window:hover .desk-card,
+.desk-window:focus-visible .desk-card { opacity: 1; }
+.desk-window:hover .desk-card::before,
+.desk-window:focus-visible .desk-card::before { opacity: 0.9; }
+.desk-window:hover .desk-card::after,
+.desk-window:focus-visible .desk-card::after { background-position: -20% 0, 0 0; }
+.desk-window:focus-visible .desk-card {
+  outline: 1.5px solid var(--accent);
+  outline-offset: 3px;
 }
+
 .desk-caption {
-  margin-top: 10px;
-  text-align: center;
-  font-size: 12.5px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  height: 30px;
+  padding: 0 4px 0 3px;
+  font-size: 11.5px;
   font-weight: 500;
-  color: #000;
+  letter-spacing: 0.01em;
+  color: var(--text-primary);
 }
-:is(.dark, [data-theme="dark"]) .desk-caption {
-  color: #fff;
+.desk-glyph {
+  display: grid;
+  place-items: center;
+  width: 18px;
+  height: 18px;
+  border-radius: 6px;
+  color: var(--accent);
+  background: var(--accent-soft);
+  box-shadow: inset 0 0 0 0.5px var(--accent-border, rgba(41, 151, 255, 0.3)), inset 0 1px 0 rgba(255, 255, 255, 0.35);
+}
+.desk-label { flex: 1; text-transform: lowercase; }
+.desk-live {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 9.5px;
+  color: var(--text-tertiary);
+  font-variant-numeric: tabular-nums;
+}
+.desk-live i {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 6px var(--accent);
+  animation: desk-pulse 2.4s ease-in-out infinite;
+}
+@keyframes desk-pulse {
+  50% { opacity: 0.35; box-shadow: 0 0 0 transparent; }
 }
 @keyframes desk-in {
   from { opacity: 0; transform: translateY(14px) scale(0.96); }
@@ -1259,6 +1370,8 @@ body {
 @media (prefers-reduced-motion: reduce) {
   .desk-window { animation: none; transition: none; }
   .desk-window:hover, .desk-window:focus-visible { transform: none; }
+  .desk-live i { animation: none; }
+  .desk-card::after, .desk-card::before { transition: none; transform: none; }
 }
 
 /* ── Text ribbons: quiet grey, with a phrase "selected" in the accent ── */
