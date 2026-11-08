@@ -6,6 +6,9 @@ export const size = { width: 1200, height: 630 };
 export const contentType = 'image/png';
 export const alt = 'OpenClip — Floating Action Bar for macOS';
 
+// See opengraph-image.tsx: build-time only, the icon comes from disk.
+export const dynamic = 'force-static';
+
 export default function TwitterImage() {
   let iconBase64 = '';
   try {

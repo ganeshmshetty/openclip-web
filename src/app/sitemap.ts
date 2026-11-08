@@ -3,9 +3,8 @@ import { allDocs } from '@/docs/registry';
 import { getCatalog } from '@/lib/extensions';
 import { siteUrl } from '@/lib/site';
 
-// Generated on demand so the extension catalog stays fresh; the in-memory
-// catalog cache in src/lib/extensions.ts keeps this cheap.
-export const dynamic = 'force-dynamic';
+// Prerendered at build time: the catalog snapshot in the deploy is the source of
+// truth, so a crawler hit costs nothing and no origin fetch is needed.
 
 const FEATURED_EXTENSION_IDS = new Set([
   'com.openclip.cleanemdashes',

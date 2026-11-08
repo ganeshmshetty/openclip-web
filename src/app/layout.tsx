@@ -3,7 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "./components/ThemeProvider";
 import LiquidGlassDefs from "./components/LiquidGlassDefs";
-import { Analytics } from "@vercel/analytics/react";
+import Script from "next/script";
 import { siteUrl } from "@/lib/site";
 
 const inter = Inter({
@@ -172,7 +172,16 @@ export default function RootLayout({
         <ThemeProvider>
           {children}
         </ThemeProvider>
-        <Analytics />
+        {process.env.NEXT_PUBLIC_CF_ANALYTICS_TOKEN ? (
+          <Script
+            defer
+            strategy="afterInteractive"
+            src="https://static.cloudflareinsights.com/beacon.min.js"
+            data-cf-beacon={JSON.stringify({
+              token: process.env.NEXT_PUBLIC_CF_ANALYTICS_TOKEN,
+            })}
+          />
+        ) : null}
       </body>
     </html>
   );

@@ -6,6 +6,10 @@ export const size = { width: 1200, height: 630 };
 export const contentType = 'image/png';
 export const alt = 'OpenClip — Floating Action Bar for macOS';
 
+// Rendered at build time: the icon is read from disk, which does not exist in the
+// Workers runtime, and the PNG never changes between deploys.
+export const dynamic = 'force-static';
+
 export default function OpenGraphImage() {
   let iconBase64 = '';
   try {
