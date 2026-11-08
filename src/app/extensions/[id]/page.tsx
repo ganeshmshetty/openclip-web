@@ -6,8 +6,7 @@ import ExtensionDetailContent from './ExtensionDetailContent';
 import { render } from 'pele';
 import { diagramHash, DIAGRAM_LANGUAGE } from '@/docs/diagram-hash';
 
-// Revalidate instead of rendering per request; see ../page.tsx.
-export const revalidate = 86400;
+// Prerendered at build time; see ../page.tsx.
 
 interface Props {
   params: Promise<{ id: string }>;

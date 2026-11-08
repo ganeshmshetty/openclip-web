@@ -2,10 +2,8 @@ import type { Metadata } from 'next';
 import { getCatalog, loadFeatured } from '@/lib/extensions';
 import ExtensionsContent from './ExtensionsContent';
 
-// Revalidate instead of rendering per request: the catalog changes rarely, and a
-// cold dynamic render has to reach GitHub before it can emit a byte. Five minutes
-// matches the changelog; the API route stays the live source.
-export const revalidate = 86400;
+// Prerendered at build time. The catalog is baked into the deploy, so a page view
+// costs one cache read and never reaches GitHub.
 
 export const metadata: Metadata = {
   title: 'The Clip Store',

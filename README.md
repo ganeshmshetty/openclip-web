@@ -1,36 +1,61 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# OpenClip website
 
-## Getting Started
+Marketing site and docs portal for OpenClip, built with Next.js (App Router). Deployed to
+**Cloudflare Workers** through the [OpenNext adapter](https://opennext.js.org/cloudflare).
 
-First, run the development server:
+## Commands
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+bun dev            # http://localhost:3000
+bun run lint
+bun run build      # next build; also runs the predev/prebuild sync scripts
+bun run preview    # build + serve in the Workers runtime (workerd) on :8787
+bun run deploy     # build + deploy to Cloudflare
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+`bun run preview` is the one that matters before shipping: it runs the same `workerd` runtime
+production uses, where `node:fs`, `node:path` and the Node.js globals behave differently from
+`next dev`.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Deployment
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Config lives in `wrangler.jsonc` (Worker, static assets, compatibility flags) and
+`open-next.config.ts` (caching). Details:
 
-## Learn More
+- **Every page is prerendered at build time.** `open-next.config.ts` uses the read-only
+  Static Assets incremental cache, so nothing is written at runtime and `revalidate` exports are
+  not supported by it — a page is as fresh as the last deploy. Do not add `export const revalidate`
+  to a page; it will be served stale then re-rendered on every request.
+- **Assets before the Worker.** Public files and `/_next/static` are matched by Workers Static
+  Assets (`run_worker_first: false`) and are not billed. Prerendered HTML and API routes do run
+  the Worker.
+- **Static-asset headers** belong in `public/_headers`, not `next.config.ts` — `headers()` never
+  applies to files served by the asset layer.
+- `wrangler deploy` must be run with the cache populated; `bun run deploy` does that for you.
 
-To learn more about Next.js, take a look at the following resources:
+### Environment
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+| Name | Where | Purpose |
+| :--- | :--- | :--- |
+| `NEXT_PUBLIC_SITE_URL` | build env | Canonical origin. Falls back to `https://www.getopenclip.app`. |
+| `NEXT_PUBLIC_CF_ANALYTICS_TOKEN` | build env | Cloudflare Web Analytics beacon. Omitted when unset. |
+| `GITHUB_TOKEN` | Worker secret | Raises GitHub rate limits for the stars/download routes. |
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+`NEXT_PUBLIC_*` values are inlined at build time. `GITHUB_TOKEN` is a runtime secret:
 
-## Deploy on Vercel
+```bash
+bunx wrangler secret put GITHUB_TOKEN
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### First deploy / domain cutover
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+1. `bun run deploy` to get a `*.workers.dev` URL; smoke-test the routes below.
+2. Add the zone in Cloudflare, then attach `www.getopenclip.app` as a Worker **custom domain**
+   and redirect the apex to `www`.
+3. Verify `/`, `/extensions/<id>`, `/docs/getting-started`, `/api/v1/extensions`, `/download`
+   (307 to the GitHub release), `/opengraph-image` and `/sitemap.xml`.
+4. Keep the old deployment reachable until DNS has fully propagated, then remove it.
+
+The site is inside the free tier for bandwidth and asset requests; Workers **Paid** ($5/month) is
+recommended for the 30 s CPU ceiling rather than the 10 ms free ceiling, which server-rendered
+routes can exceed.

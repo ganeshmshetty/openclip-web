@@ -1,0 +1,21 @@
+# Headers for files served by Workers Static Assets. These never reach the Worker,
+# so next.config.ts `headers()` does not apply to them.
+
+/_next/static/*
+  Cache-Control: public, max-age=31536000, immutable
+
+/icons/extensions/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# Stable filenames that get replaced in place, so they must expire.
+/gifs/*
+  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
+
+/textures/*
+  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
+
+/glass/*
+  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
+
+/store-icon.png
+  Cache-Control: public, max-age=86400, stale-while-revalidate=604800

@@ -14,8 +14,6 @@ const REPO = 'ganeshmshetty/openclip-extensions';
 // Ids are dotted reverse-DNS strings; anything else is rejected before it reaches the URL.
 const ID_PATTERN = /^[a-z0-9](?:[a-z0-9._-]*[a-z0-9])?$/i;
 
-export const revalidate = 3600;
-
 export async function GET(_request: Request, { params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
 
@@ -26,7 +24,7 @@ export async function GET(_request: Request, { params }: { params: Promise<{ id:
   const upstream = `https://cdn.jsdelivr.net/gh/${REPO}@main/published/icons/${id.toLowerCase()}.svg`;
 
   try {
-    const res = await fetch(upstream, { next: { revalidate: 3600 } });
+    const res = await fetch(upstream);
     if (!res.ok) return new NextResponse('Icon not found', { status: 404 });
 
     const svg = await res.text();

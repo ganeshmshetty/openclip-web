@@ -13,3 +13,9 @@ next-env.d.ts
 *.pem
 *.key
 .revalidate-secret
+
+# Cloudflare Workers
+.open-next/
+.wrangler/
+cloudflare-env.d.ts
+.dev.vars

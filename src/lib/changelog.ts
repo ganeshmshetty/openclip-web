@@ -193,26 +193,23 @@ export function parseChangelogContent(content: string): ChangelogData {
   };
 }
 
-function getLocalChangelog(): ChangelogData | null {
-  const localFile = path.join(process.cwd(), 'CHANGELOG.md');
-  if (fs.existsSync(localFile)) {
-    try {
-      const content = fs.readFileSync(localFile, 'utf-8');
-      if (content.trim()) {
-        return parseChangelogContent(content);
-      }
-    } catch {}
-  }
-
+function readIfPresent(file: string): string | null {
   try {
-    const parentFile = path.resolve(process.cwd(), '../CHANGELOG.md');
-    if (fs.existsSync(parentFile)) {
-      const content = fs.readFileSync(parentFile, 'utf-8');
-      if (content.trim()) {
-        return parseChangelogContent(content);
-      }
-    }
-  } catch {}
+    return fs.existsSync(file) ? fs.readFileSync(file, 'utf-8') : null;
+  } catch {
+    // The Workers runtime has no filesystem, so callers fall back to the GitHub source.
+    return null;
+  }
+}
+
+function getLocalChangelog(): ChangelogData | null {
+  const content =
+    readIfPresent(path.join(process.cwd(), 'CHANGELOG.md')) ??
+    readIfPresent(path.resolve(process.cwd(), '../CHANGELOG.md'));
+
+  if (content?.trim()) {
+    return parseChangelogContent(content);
+  }
 
   return null;
 }
@@ -228,7 +225,6 @@ export async function getChangelog(): Promise<ChangelogData> {
     const headers: HeadersInit = GITHUB_TOKEN ? { Authorization: `Bearer ${GITHUB_TOKEN}` } : {};
     const res = await fetch(GITHUB_CHANGELOG_URL, {
       headers,
-      next: { revalidate: 86400, tags: ['changelog'] },
     });
 
     if (res.ok) {

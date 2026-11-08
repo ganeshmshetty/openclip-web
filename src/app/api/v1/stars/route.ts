@@ -33,7 +33,6 @@ export async function GET() {
 
     const res = await fetch(GITHUB_API_URL, {
       headers,
-      next: { revalidate: 3600 },
     });
 
     if (res.ok) {
