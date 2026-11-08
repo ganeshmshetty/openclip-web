@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { getCatalog, loadFeatured } from '@/lib/extensions';
+import { getCatalog, loadFeatured, toListingItem } from '@/lib/extensions';
 import ExtensionsContent from './ExtensionsContent';
 
 // Prerendered at build time. The catalog is baked into the deploy, so a page view
@@ -21,9 +21,14 @@ export const metadata: Metadata = {
 };
 
 export default async function ExtensionsPage() {
-  const [extensions, featuredIDs] = await Promise.all([
+  const [catalog, featuredIDs] = await Promise.all([
     getCatalog(),
     loadFeatured(),
   ]);
-  return <ExtensionsContent extensions={extensions} featuredIDs={featuredIDs} />;
+  return (
+    <ExtensionsContent
+      extensions={catalog.map(toListingItem)}
+      featuredIDs={featuredIDs}
+    />
+  );
 }

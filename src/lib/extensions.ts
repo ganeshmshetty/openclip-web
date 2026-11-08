@@ -155,6 +155,43 @@ async function loadStats(): Promise<Record<string, number> | null> {
   }
 }
 
+/**
+ * The store listing renders only identity, author, icons and counts. Building the
+ * object explicitly matters: spreading the full item and blanking the heavy fields
+ * still serializes those keys as `$undefined`, which alone cost ~90 KB. The README
+ * and manifest detail stay on the detail page.
+ */
+export type ExtensionListItem = Pick<
+  ExtensionItem,
+  | 'id'
+  | 'name'
+  | 'description'
+  | 'author'
+  | 'version'
+  | 'downloadCount'
+  | 'downloadURL'
+  | 'icon'
+  | 'iconURL'
+  | 'addedAt'
+  | 'publishedAt'
+>;
+
+export function toListingItem(item: ExtensionItem): ExtensionListItem {
+  return {
+    id: item.id,
+    name: item.name,
+    description: item.description,
+    author: item.author,
+    version: item.version,
+    downloadCount: item.downloadCount,
+    downloadURL: item.downloadURL,
+    icon: item.icon,
+    iconURL: item.iconURL,
+    addedAt: item.addedAt,
+    publishedAt: item.publishedAt,
+  };
+}
+
 export async function getCatalog(): Promise<ExtensionItem[]> {
   const now = Date.now();
   if (cachedCatalog && now - cachedCatalogAt < CATALOG_TTL_MS) {
