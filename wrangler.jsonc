@@ -21,6 +21,7 @@
       "service": "openclip-web",
     },
   ],
+  "routes": [{ "pattern": "www.getopenclip.app", "custom_domain": true }],
   "observability": {
     "enabled": true,
   },
