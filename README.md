@@ -40,12 +40,24 @@ Config lives in `wrangler.jsonc` (Worker, static assets, compatibility flags) an
 | `NEXT_PUBLIC_SITE_URL` | build env | Canonical origin. Falls back to `https://www.getopenclip.app`. |
 | `NEXT_PUBLIC_CF_ANALYTICS_TOKEN` | build env | Cloudflare Web Analytics beacon. Omitted when unset. |
 | `GITHUB_TOKEN` | Worker secret | Raises GitHub rate limits for the stars/download routes. |
+| `REVALIDATE_SECRET` | Worker secret | Bearer token for `POST /api/revalidate`, called by the extensions repo. |
+| `DEPLOY_HOOK_URL` | Worker secret | Workers Builds deploy hook that `/api/revalidate` triggers. |
 
-`NEXT_PUBLIC_*` values are inlined at build time. `GITHUB_TOKEN` is a runtime secret:
+`NEXT_PUBLIC_*` values are inlined at build time; the rest are runtime secrets:
 
 ```bash
 bunx wrangler secret put GITHUB_TOKEN
+bunx wrangler secret put REVALIDATE_SECRET
+bunx wrangler secret put DEPLOY_HOOK_URL
 ```
+
+### Publishing a catalog change
+
+There is no ISR to revalidate in place — pages are frozen at build time. The extensions repo
+already calls `POST /api/revalidate` with `Authorization: Bearer <REVALIDATE_SECRET>`; that route
+now fires the Workers Builds **deploy hook** (Workers → Settings → Build → Deploy hooks), so a
+catalog publish produces one rebuild instead of thousands of background revalidations. Without
+`DEPLOY_HOOK_URL` the route returns `501` and the site only refreshes on the next push.
 
 ### First deploy / domain cutover
 

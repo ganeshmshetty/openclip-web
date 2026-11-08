@@ -1,11 +1,15 @@
 import { timingSafeEqual } from 'node:crypto';
-import { revalidatePath, revalidateTag } from 'next/cache';
 import { NextResponse, type NextRequest } from 'next/server';
 
 /**
- * On-demand revalidation, called by the openclip-extensions repo's
- * `revalidate-site` workflow after the published catalog changes.
- * Requires `Authorization: Bearer <REVALIDATE_SECRET>`.
+ * On-demand freshness, called by the openclip-extensions repo's `revalidate-site`
+ * workflow after the published catalog changes. Requires
+ * `Authorization: Bearer <REVALIDATE_SECRET>`.
+ *
+ * Pages are prerendered once per deploy and served from a read-only cache, so there
+ * is nothing to revalidate in place: a catalog change rebuilds the site by hitting
+ * the Worker's Deploy Hook. The response keeps the original contract so the caller
+ * does not change.
  */
 export const dynamic = 'force-dynamic';
 
@@ -22,9 +26,29 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ revalidated: false, error: 'Unauthorized' }, { status: 401 });
   }
 
-  revalidateTag('extensions', { expire: 0 });
-  revalidatePath('/extensions');
-  revalidatePath('/extensions/[id]', 'page');
+  const hook = process.env.DEPLOY_HOOK_URL;
+  if (!hook) {
+    return NextResponse.json(
+      { revalidated: false, error: 'DEPLOY_HOOK_URL is not configured' },
+      { status: 501 }
+    );
+  }
+
+  try {
+    const res = await fetch(hook, { method: 'POST' });
+    if (!res.ok) {
+      return NextResponse.json(
+        { revalidated: false, error: `Deploy hook returned ${res.status}` },
+        { status: 502 }
+      );
+    }
+  } catch (err) {
+    console.error('Deploy hook request failed:', err);
+    return NextResponse.json(
+      { revalidated: false, error: 'Deploy hook request failed' },
+      { status: 502 }
+    );
+  }
 
   return NextResponse.json({ revalidated: true, now: Date.now() });
 }
