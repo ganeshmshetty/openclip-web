@@ -25,4 +25,4 @@ Marketing site + docs portal for OpenClip (a macOS app; the rest of the repo is 
 - Theme via CSS variables in `src/app/globals.css` (`:root` = light, `[data-theme="dark"]` = dark). Use `var(--bg-*)`, `var(--text-*)`, `var(--accent)`, `var(--border-*)` — never hardcode colors. Theme persists under `openclip-theme` in localStorage; the inline script in `layout.tsx` `<head>` prevents flash.
 - Reuse the Apple-style component classes in `globals.css` (`nav-pill`, `glass-card`, `mac-window`, `btn-primary`, …) and arbitrary-value Tailwind (`text-[13px]`). Shared UI lives in `src/app/components/`.
 - Marketing copy guidance lives in `.agents/product-marketing.md` (voice, positioning, words to use/avoid).
-- SEO lives in `layout.tsx` (metadata + JSON-LD), `sitemap.ts`, `robots.ts` (disallows `/api/`). Base URL = `NEXT_PUBLIC_SITE_URL` env, falls back to `https://getopenclip.app`.
+- SEO lives in `layout.tsx` (metadata + JSON-LD), `sitemap.ts`, `robots.ts` (disallows `/api/`). Base URL = `NEXT_PUBLIC_SITE_URL` env, falls back to `https://www.getopenclip.app`.

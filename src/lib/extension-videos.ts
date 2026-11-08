@@ -19,8 +19,8 @@ export const EXTENSION_PREVIEW_VIDEOS: Record<string, string> = {
   'com.openclip.leafy': mediaURL('extensions/com.openclip.leafy.mp4'),
 
   // Add more extension videos here gradually:
-  // 'com.openclip.wordcount': 'https://media.getopenclip.app/word-count.mp4',
-  // 'com.openclip.copy-as-markdown': 'https://media.getopenclip.app/copy-markdown.mp4',
+  // 'com.openclip.wordcount': 'https://assets.getopenclip.app/word-count.mp4',
+  // 'com.openclip.copy-as-markdown': 'https://assets.getopenclip.app/copy-markdown.mp4',
 };
 
 /**
