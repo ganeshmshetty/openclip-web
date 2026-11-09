@@ -4,6 +4,51 @@ All notable user-facing changes to OpenClip.
 
 ---
 
+## v1.9.2 - 2026-10-30
+
+### Improvements
+- **Contextual actions in search**: matching contextual actions appear before other available actions, with a small gap separating the two groups.
+- **Lower idle overhead**: extension monitoring no longer polls the extensions directory while idle.
+- **Faster search shortcut**: the palette opens using the current cached selection, clipboard, or an empty context without waiting for a fresh selection read. The source indicator is now read-only; switching between selection and clipboard in the palette is no longer available.
+
+### Fixes & Stability
+- **Brave Origin support**: Search and URL actions now open in Brave Origin (and Origin Beta) when that's where you selected the text, instead of your default browser ([#180](https://github.com/ganeshmshetty/openclip/issues/180)).
+- **Group settings**: disabling a group also disables its child actions while preserving their individual settings.
+- **Sub-bar navigation**: moving toward an open sub-bar no longer immediately switches to an adjacent group ([#194](https://github.com/ganeshmshetty/openclip/issues/194)).
+- **Search input safety**: pending selection reads are cancelled before the palette takes focus, preventing a late copy from reaching its search field.
+
+---
+
+## v1.9.1 - 2026-10-24
+
+### Fixes & Stability
+- **Capture Text keeps the source app in place**: drawing a region no longer activates OpenClip, so full-screen windows and Safari Picture in Picture stay put. Escape still cancels.
+- **Capture Text reading order**: recognized text keeps Vision's line order across columns, and fragments on the same line join with a space.
+- **Clearer capture feedback**: failures name their cause, a **Recognizing text…** spinner shows progress, and a **Paused** toast explains when an app rule blocks the shortcut.
+- **Hover panels recover across Spaces**: tooltips and sub-bars left on another Space reappear instead of staying hidden until restart.
+- **Show in card on every click**: right-click and ⇧-click on a text result now show the card when **Show in card** is your preference, instead of copying.
+- **Custom URL schemes open through the right app**: only http(s) links go to the source browser, so actions such as `goodlinks://` no longer trigger the browser's "allow this website to open…" prompt ([#177](https://github.com/ganeshmshetty/openclip/pull/177)).
+- **AI Tools ordering**: AI Tools now shows your arranged actions on hover and in its search, including presets you moved in, moved out or reordered on the Actions page ([#175](https://github.com/ganeshmshetty/openclip/issues/175)).
+
+---
+
+## v1.9.0 - 2026-10-20
+
+- **Action sounds**: play a sound when any action finishes. Choose Click, Drop, Tink, Pop or your own file, and silence individual actions.
+- **AI follow-ups as chat**, with undo and redo (⌘Z / ⇧⌘Z).
+- **Per-action AI provider and model**, with self-updating cloud model lists.
+- **Editable AI system prompt**, and a new AI tab in Settings ([#161](https://github.com/ganeshmshetty/openclip/pull/161)).
+- **Smarter selections**: rich text is preserved, extensions can require detected content, and several selected links open at once.
+- **oMLX preset** for local LLM servers.
+- **Screen Recording permission** in Settings and a restyled onboarding.
+- Fixed selection missing in Chrome, Ghostty and Electron apps.
+- Fixed AI settings being lost across dev and release builds, and saved prompts being renamed when re-run.
+
+### Contributors
+- 🎉 First-time contributor: thanks to @entttom for making the AI system prompt editable ([#161](https://github.com/ganeshmshetty/openclip/pull/161))!
+
+---
+
 ## v1.8.2 - 2026-10-12
 
 ### Features & Improvements

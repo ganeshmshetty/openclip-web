@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-28T06:44:21.814Z",
+  "generatedAt": "2026-11-09T16:17:19.434Z",
   "categories": [
     {
       "id": "user-guide",
@@ -318,6 +318,11 @@
               "level": 2
             },
             {
+              "id": "3b-inline-typed-inline-values-and-displayonly-1100",
+              "title": "3b-inline. Typed inline values and displayOnly (1.10.0)",
+              "level": 3
+            },
+            {
               "id": "3a-url",
               "title": "3a. url",
               "level": 3
@@ -570,8 +575,18 @@
               "level": 3
             },
             {
+              "id": "contextual-promotion",
+              "title": "Contextual promotion",
+              "level": 3
+            },
+            {
               "id": "extension-output-contract-and-delivery-resolution",
               "title": "Extension output contract and delivery resolution",
+              "level": 3
+            },
+            {
+              "id": "typed-inline-results",
+              "title": "Typed inline results",
               "level": 3
             },
             {
@@ -1260,8 +1275,8 @@
               "level": 3
             },
             {
-              "id": "shortcut-clipboard-fallback-and-synchronous-resolution",
-              "title": "Shortcut clipboard fallback and synchronous resolution",
+              "id": "shortcut-presentation",
+              "title": "Shortcut presentation",
               "level": 2
             },
             {
@@ -1407,8 +1422,18 @@
           "sourcePath": "docs/architecture/known-debt.md",
           "headings": [
             {
+              "id": "extension-hot-reload",
+              "title": "Extension hot reload",
+              "level": 2
+            },
+            {
               "id": "extension-automatic-updates",
               "title": "Extension automatic updates",
+              "level": 2
+            },
+            {
+              "id": "extension-uninstall",
+              "title": "Extension uninstall",
               "level": 2
             },
             {
@@ -1444,6 +1469,11 @@
             {
               "id": "presentation-rule-holes",
               "title": "Presentation / rule holes",
+              "level": 2
+            },
+            {
+              "id": "typed-inline-results",
+              "title": "Typed inline results",
               "level": 2
             },
             {
@@ -1808,6 +1838,11 @@
           "level": 2
         },
         {
+          "id": "3b-inline-typed-inline-values-and-displayonly-1100",
+          "title": "3b-inline. Typed inline values and displayOnly (1.10.0)",
+          "level": 3
+        },
+        {
           "id": "3a-url",
           "title": "3a. url",
           "level": 3
@@ -2060,8 +2095,18 @@
           "level": 3
         },
         {
+          "id": "contextual-promotion",
+          "title": "Contextual promotion",
+          "level": 3
+        },
+        {
           "id": "extension-output-contract-and-delivery-resolution",
           "title": "Extension output contract and delivery resolution",
+          "level": 3
+        },
+        {
+          "id": "typed-inline-results",
+          "title": "Typed inline results",
           "level": 3
         },
         {
@@ -2732,8 +2777,8 @@
           "level": 3
         },
         {
-          "id": "shortcut-clipboard-fallback-and-synchronous-resolution",
-          "title": "Shortcut clipboard fallback and synchronous resolution",
+          "id": "shortcut-presentation",
+          "title": "Shortcut presentation",
           "level": 2
         },
         {
@@ -2879,8 +2924,18 @@
       "sourcePath": "docs/architecture/known-debt.md",
       "headings": [
         {
+          "id": "extension-hot-reload",
+          "title": "Extension hot reload",
+          "level": 2
+        },
+        {
           "id": "extension-automatic-updates",
           "title": "Extension automatic updates",
+          "level": 2
+        },
+        {
+          "id": "extension-uninstall",
+          "title": "Extension uninstall",
           "level": 2
         },
         {
@@ -2916,6 +2971,11 @@
         {
           "id": "presentation-rule-holes",
           "title": "Presentation / rule holes",
+          "level": 2
+        },
+        {
+          "id": "typed-inline-results",
+          "title": "Typed inline results",
           "level": 2
         },
         {
