@@ -19,7 +19,8 @@
     "lint": "eslint",
     "render-diagrams": "bun run scripts/render-diagrams.ts",
     "build-docs-meta": "bun run scripts/build-docs-meta.ts",
-    "analyze": "ANALYZE=true bun run build"
+    "analyze": "ANALYZE=true bun run build",
+    "smoke": "node scripts/smoke.mjs"
   },
   "dependencies": {
     "@opennextjs/cloudflare": "^1.20.16",

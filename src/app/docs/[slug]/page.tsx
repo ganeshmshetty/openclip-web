@@ -12,6 +12,10 @@ export function generateStaticParams() {
   return allDocs.map((doc) => ({ slug: doc.slug }));
 }
 
+// Docs ship with the deploy, so unknown slugs are a static 404 rather than an
+// on-demand render (which would try to write to the read-only cache on every hit).
+export const dynamicParams = false;
+
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const doc = getDocById(slug);

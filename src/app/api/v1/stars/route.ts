@@ -33,6 +33,7 @@ export async function GET() {
 
     const res = await fetch(GITHUB_API_URL, {
       headers,
+      signal: AbortSignal.timeout(5000),
     });
 
     if (res.ok) {

@@ -13,7 +13,7 @@ const productLinks = [
 
 const developerLinks = [
   { href: '/docs/manifest-spec', label: 'Manifest Spec' },
-  { href: '/docs/js-api-reference', label: 'JS Runtime API' },
+  { href: '/docs/javascript', label: 'JS Runtime API' },
   { href: '/docs/getting-started', label: 'Quick Start' },
   { href: 'https://github.com/ganeshmshetty/openclip-extensions', label: 'Extensions Catalog', external: true },
 ];

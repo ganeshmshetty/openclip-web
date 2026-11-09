@@ -225,6 +225,7 @@ export async function getChangelog(): Promise<ChangelogData> {
     const headers: HeadersInit = GITHUB_TOKEN ? { Authorization: `Bearer ${GITHUB_TOKEN}` } : {};
     const res = await fetch(GITHUB_CHANGELOG_URL, {
       headers,
+      signal: AbortSignal.timeout(8000),
     });
 
     if (res.ok) {

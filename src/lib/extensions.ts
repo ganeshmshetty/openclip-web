@@ -94,6 +94,7 @@ export async function loadFeatured(): Promise<string[]> {
   try {
     const res = await fetch(FEATURED_URL, {
       headers: githubHeaders(),
+      signal: AbortSignal.timeout(5000),
     });
     if (!res.ok) {
       console.warn('Featured fetch failed:', res.status);
@@ -144,6 +145,7 @@ async function loadStats(): Promise<Record<string, number> | null> {
   try {
     const res = await fetch(STATS_URL, {
       headers: githubHeaders(),
+      signal: AbortSignal.timeout(5000),
     });
     if (!res.ok) return cachedStats;
     const data = (await res.json()) as { downloads?: Record<string, number> };
@@ -201,6 +203,7 @@ export async function getCatalog(): Promise<ExtensionItem[]> {
   try {
     const res = await fetch(CATALOG_URL, {
       headers: githubHeaders(),
+      signal: AbortSignal.timeout(5000),
     });
     if (!res.ok) {
       console.warn('Catalog fetch failed:', res.status);
@@ -431,6 +434,7 @@ async function fetchRemoteReadme(pkgName: string): Promise<string | null> {
   try {
     const res = await fetch(url, {
       headers: githubHeaders(),
+      signal: AbortSignal.timeout(8000),
     });
     if (res.ok) {
       const text = await res.text();
@@ -449,6 +453,7 @@ async function fetchRemoteManifest(pkgName: string): Promise<any | null> {
   try {
     const res = await fetch(url, {
       headers: githubHeaders(),
+      signal: AbortSignal.timeout(8000),
     });
     if (res.ok) {
       return await res.json();
@@ -617,5 +622,19 @@ export function getSyncedExtensionIds(): string[] {
   for (const entry of Object.values(syncedMap)) {
     if (entry?.id) ids.add(entry.id);
   }
+  return [...ids];
+}
+
+/**
+ * Every extension detail page the build should prerender.
+ *
+ * The sitemap is built from the live catalog, so page generation must use the same
+ * source — otherwise sitemap URLs that are missing from the committed snapshot fall
+ * through to on-demand rendering. The snapshot stays in the set as an offline fallback.
+ */
+export async function getBuildExtensionIds(): Promise<string[]> {
+  const ids = new Set(getSyncedExtensionIds());
+  const catalog = await getCatalog();
+  for (const entry of catalog) ids.add(entry.id);
   return [...ids];
 }

@@ -3,8 +3,8 @@ import { allDocs } from '@/docs/registry';
 import { getCatalog } from '@/lib/extensions';
 import { siteUrl } from '@/lib/site';
 
-// Prerendered at build time: the catalog snapshot in the deploy is the source of
-// truth, so a crawler hit costs nothing and no origin fetch is needed.
+// Prerendered at build time from the same catalog used by the extension detail
+// pages, so every URL listed here is served as a static asset after deploy.
 
 const FEATURED_EXTENSION_IDS = new Set([
   'com.openclip.cleanemdashes',

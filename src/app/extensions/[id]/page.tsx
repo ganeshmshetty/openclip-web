@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import { getExtensionById, getCatalog, getSyncedExtensionIds, type ExtensionItem } from '@/lib/extensions';
+import { getExtensionById, getCatalog, getBuildExtensionIds, type ExtensionItem } from '@/lib/extensions';
 import { siteUrl } from '@/lib/site';
 import ExtensionDetailContent from './ExtensionDetailContent';
 import { render } from 'pele';
@@ -12,11 +12,16 @@ interface Props {
   params: Promise<{ id: string }>;
 }
 
-/** Prerender every extension in the build-time snapshot so crawler traffic never
- *  triggers a cold server render. */
-export function generateStaticParams() {
-  return getSyncedExtensionIds().map((id) => ({ id }));
+/** Prerender every extension in the build-time catalog (the same source as the
+ *  sitemap) so crawler traffic never triggers a cold server render. */
+export async function generateStaticParams() {
+  return (await getBuildExtensionIds()).map((id) => ({ id }));
 }
+
+// No on-demand HTML rendering: every published extension is baked at build time
+// and the revalidate deploy hook rebuilds after a catalog change. Unknown ids are
+// a static 404, so a scanner or a stale deep link can never trigger Worker SSR.
+export const dynamicParams = false;
 
 function getRelatedExtensions(current: ExtensionItem, all: ExtensionItem[]): ExtensionItem[] {
   const words = new Set(

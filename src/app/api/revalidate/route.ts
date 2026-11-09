@@ -35,7 +35,7 @@ export async function POST(request: NextRequest) {
   }
 
   try {
-    const res = await fetch(hook, { method: 'POST' });
+    const res = await fetch(hook, { method: 'POST', signal: AbortSignal.timeout(10_000) });
     if (!res.ok) {
       return NextResponse.json(
         { revalidated: false, error: `Deploy hook returned ${res.status}` },
