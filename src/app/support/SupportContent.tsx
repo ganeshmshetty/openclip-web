@@ -184,7 +184,7 @@ export default function SupportContent() {
           Extensions
         </Link>
         <span className="opacity-30">•</span>
-        <Link href="/docs" className="hover:text-[var(--text-secondary)] transition-colors">
+        <Link href="/docs/getting-started" className="hover:text-[var(--text-secondary)] transition-colors">
           Docs
         </Link>
       </footer>

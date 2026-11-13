@@ -1,7 +1,8 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "openclip-web",
-  "main": ".open-next/worker.js",
+  // Wraps .open-next/worker.js; see worker.ts.
+  "main": "worker.ts",
   "compatibility_date": "2026-11-01",
   "compatibility_flags": [
     // Node.js API surface, required by the Next.js server runtime.
@@ -12,7 +13,8 @@
   "assets": {
     "directory": ".open-next/assets",
     "binding": "ASSETS",
-    // Static assets are matched before the Worker runs, so they are not billed.
+    // Static assets (and public/_redirects) are matched before the Worker runs, so
+    // they use no Worker CPU.
     "run_worker_first": false,
   },
   "services": [
@@ -25,4 +27,11 @@
   "observability": {
     "enabled": true,
   },
+  // Workers Cache: Cloudflare answers repeat requests from cache before the Worker
+  // runs, honouring each response's Cache-Control. Keys are path + query and the
+  // Worker version, so every deploy starts from a fresh cache. Note: on the Free plan
+  // cache hits (including static assets) count toward the 100k requests/day.
+  "cache": { "enabled": true },
+  // Lets Workers Builds create preview deployments for pull requests.
+  "previews": {},
 }
