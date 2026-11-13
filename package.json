@@ -6,12 +6,13 @@
   "scripts": {
     "predev": "bun run scripts/convert-gifs.ts && bun run scripts/sync-docs.ts && bun run scripts/build-docs-meta.ts && bun run scripts/sync-extensions.ts && bun run scripts/sync-changelog.ts && bun run scripts/sync-stars.ts && bun run scripts/render-diagrams.ts",
     "dev": "next dev",
-    "prebuild": "bun run scripts/convert-gifs.ts && bun run scripts/sync-docs.ts && bun run scripts/build-docs-meta.ts && bun run scripts/sync-extensions.ts && bun run scripts/sync-changelog.ts && bun run scripts/sync-stars.ts && bun run scripts/render-diagrams.ts",
+    "prebuild:next": "bun run scripts/convert-gifs.ts && bun run scripts/sync-docs.ts && bun run scripts/build-docs-meta.ts && bun run scripts/sync-extensions.ts && bun run scripts/sync-changelog.ts && bun run scripts/sync-stars.ts && bun run scripts/render-diagrams.ts",
     "sync-docs": "bun run scripts/sync-docs.ts",
     "sync-extensions": "bun run scripts/sync-extensions.ts",
     "sync-changelog": "bun run scripts/sync-changelog.ts",
     "sync-stars": "bun run scripts/sync-stars.ts",
-    "build": "next build --webpack",
+    "build": "opennextjs-cloudflare build",
+    "build:next": "next build --webpack",
     "start": "next start",
     "preview": "opennextjs-cloudflare build && opennextjs-cloudflare preview",
     "deploy": "opennextjs-cloudflare build && opennextjs-cloudflare deploy",
@@ -20,7 +21,7 @@
     "lint": "eslint",
     "render-diagrams": "bun run scripts/render-diagrams.ts",
     "build-docs-meta": "bun run scripts/build-docs-meta.ts",
-    "analyze": "ANALYZE=true bun run build",
+    "analyze": "ANALYZE=true bun run build:next",
     "smoke": "node scripts/smoke.mjs"
   },
   "dependencies": {

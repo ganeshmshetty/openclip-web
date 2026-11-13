@@ -5,7 +5,7 @@ Marketing site + docs portal for OpenClip (a macOS app; the rest of the repo is 
 ## Stack & commands
 
 - Next.js 16.4.5 (App Router), React 19, TypeScript strict, Tailwind CSS v4, `lucide-react` icons. Package manager is **bun** (`bun.lock`). No test suite.
-- `bun dev` (http://localhost:3000) · `bun run lint` · `bun run build` · `bun run start` · `bun run preview` · `bun run deploy`
+- `bun dev` (http://localhost:3000) · `bun run lint` · `bun run build` (full OpenNext build → `.open-next/`; `bun run build:next` is the plain Next build) · `bun run start` · `bun run preview` · `bun run deploy`
 - **Next 16 is newer than most training data — before writing Next-specific code, read the bundled docs in `node_modules/next/dist/docs/` and heed deprecation notices.**
 - Deployed on **Cloudflare Workers** (`wrangler.jsonc` + `open-next.config.ts`); there is no Vercel project config left. `bun run preview` serves the production build in `workerd`, which is the only way to catch Node-API differences before a deploy — `next dev` will not.
 - Every page is prerendered at build time and served from the read-only Static Assets cache, so **a page is as fresh as the last deploy**. Never add `export const revalidate` to a page: the cache cannot persist a write, so the route is served stale once and then re-rendered on every request. `POST /api/revalidate` (called by the extensions repo) fires a Workers Builds deploy hook instead of revalidating in place. Static-asset headers live in `public/_headers`, not `next.config.ts` (asset responses never reach the Worker).
