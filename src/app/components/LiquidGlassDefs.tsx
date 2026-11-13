@@ -9,6 +9,16 @@
  * Rendered once at the root of the document; `.glass-surface` references it by
  * id. The filter region is padded to 160% because refraction samples content
  * from just outside the element's own box.
+ *
+ * The map is a small PNG, not an SVG. Chromium re-rasterizes an SVG `feImage`
+ * at the element's full size and ships it across processes every time the
+ * glass repaints, so hovering a navbar chip made the backdrop blink for a
+ * frame. A raster is decoded once and only scaled.
+ *
+ * Map layout: red is the horizontal shift, green the vertical one, 128 means
+ * "no shift". Red ramps 0→128 over the first 3.5% of the width and 128→255
+ * over the last 3.5%; green does the same over the top and bottom 22% of the
+ * height. The centre stays at 128, so only the rim refracts.
  */
 export default function LiquidGlassDefs() {
   return (
@@ -29,7 +39,7 @@ export default function LiquidGlassDefs() {
           colorInterpolationFilters="sRGB"
         >
           <feImage
-            href="/glass/displacement-map.svg"
+            href="/glass/displacement-map.png"
             x="0"
             y="0"
             width="100%"
