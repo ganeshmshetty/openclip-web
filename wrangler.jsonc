@@ -32,6 +32,9 @@
   // Worker version, so every deploy starts from a fresh cache. Note: on the Free plan
   // cache hits (including static assets) count toward the 100k requests/day.
   "cache": { "enabled": true },
-  // Lets Workers Builds create preview deployments for pull requests.
+  // Lets Workers Builds create preview deployments for pull requests, reachable at
+  // <preview>-openclip-web.<subdomain>.workers.dev. Production stays off workers.dev.
   "previews": {},
+  "workers_dev": false,
+  "preview_urls": true,
 }
