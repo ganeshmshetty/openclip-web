@@ -1,0 +1,5 @@
+# Static redirects, applied by Workers Static Assets before the Worker runs, so
+# they cost no Worker CPU. Keep in sync with `redirects()` in next.config.ts
+# (which only serves `next dev`).
+/docs /docs/getting-started 301
+/help /docs/getting-started 301

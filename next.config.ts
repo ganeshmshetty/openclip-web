@@ -31,13 +31,12 @@ const nextConfig: NextConfig = {
       },
     ];
   },
+  // Production serves these from public/_redirects (Static Assets, no Worker CPU).
+  // They are repeated here so `next dev` behaves the same.
   async redirects() {
     return [
-      {
-        source: "/help",
-        destination: "/docs",
-        permanent: true,
-      },
+      { source: "/docs", destination: "/docs/getting-started", permanent: true },
+      { source: "/help", destination: "/docs/getting-started", permanent: true },
     ];
   },
 };

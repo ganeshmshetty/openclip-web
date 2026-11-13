@@ -1,5 +1,6 @@
 import fs from 'node:fs';
 import path from 'node:path';
+import { EDGE_CACHE_5_MIN } from './edge-cache';
 
 export interface ReleaseItem {
   raw: string;
@@ -224,6 +225,7 @@ export async function getChangelog(): Promise<ChangelogData> {
   try {
     const headers: HeadersInit = GITHUB_TOKEN ? { Authorization: `Bearer ${GITHUB_TOKEN}` } : {};
     const res = await fetch(GITHUB_CHANGELOG_URL, {
+      ...EDGE_CACHE_5_MIN,
       headers,
       signal: AbortSignal.timeout(8000),
     });

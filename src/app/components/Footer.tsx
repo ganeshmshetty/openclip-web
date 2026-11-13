@@ -4,7 +4,7 @@ import { ArrowUpRight, ArrowRight } from 'lucide-react';
 const productLinks = [
   { href: '/extensions', label: 'Clips Directory' },
   { href: '/compare/popclip', label: 'PopClip Alternative' },
-  { href: '/docs', label: 'Documentation' },
+  { href: '/docs/getting-started', label: 'Documentation' },
   { href: '/changelog', label: 'Changelog' },
   { href: '/support', label: 'Support OpenClip' },
   { href: 'https://github.com/ganeshmshetty/openclip/releases', label: 'Releases', external: true },

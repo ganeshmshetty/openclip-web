@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+import { EDGE_CACHE_5_MIN } from '@/lib/edge-cache';
 
 /**
  * Same-origin icon proxy for extensions that have no static icon yet.
@@ -24,7 +25,7 @@ export async function GET(_request: Request, { params }: { params: Promise<{ id:
   const upstream = `https://cdn.jsdelivr.net/gh/${REPO}@main/published/icons/${id.toLowerCase()}.svg`;
 
   try {
-    const res = await fetch(upstream, { signal: AbortSignal.timeout(8000) });
+    const res = await fetch(upstream, { ...EDGE_CACHE_5_MIN, signal: AbortSignal.timeout(8000) });
     if (!res.ok) return new NextResponse('Icon not found', { status: 404 });
 
     const svg = await res.text();

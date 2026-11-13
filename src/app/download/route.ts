@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { EDGE_CACHE_5_MIN } from '@/lib/edge-cache';
 
 const REPO = 'ganeshmshetty/openclip';
 const GITHUB_RELEASE_API_URL = `https://api.github.com/repos/${REPO}/releases/latest`;
@@ -37,7 +38,9 @@ export async function GET(request: NextRequest) {
     }
 
     const res = await fetch(GITHUB_RELEASE_API_URL, {
+      ...EDGE_CACHE_5_MIN,
       headers,
+      signal: AbortSignal.timeout(5000),
     });
 
     if (res.ok) {

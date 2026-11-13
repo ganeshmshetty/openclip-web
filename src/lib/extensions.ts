@@ -72,6 +72,7 @@ export interface ExtensionItem {
 import extensionsPayload from '@/docs/data/extensionsData.json';
 import iconHashes from './extension-icon-hashes.json';
 import { CURATED_FEATURED_IDS } from './featured-extensions';
+import { EDGE_CACHE_5_MIN } from './edge-cache';
 
 export { CURATED_FEATURED_IDS } from './featured-extensions';
 
@@ -93,6 +94,7 @@ export async function loadFeatured(): Promise<string[]> {
   }
   try {
     const res = await fetch(FEATURED_URL, {
+      ...EDGE_CACHE_5_MIN,
       headers: githubHeaders(),
       signal: AbortSignal.timeout(5000),
     });
@@ -133,7 +135,9 @@ function githubHeaders(): HeadersInit {
 const STATS_TTL_MS = 2 * 60 * 1000;
 let cachedStats: Record<string, number> | null = null;
 let cachedStatsAt = 0;
-const CATALOG_TTL_MS = 60 * 1000;
+// The catalog only changes when the extensions repo publishes, which also rebuilds
+// the site through the deploy hook, so a few minutes of staleness is fine.
+const CATALOG_TTL_MS = 5 * 60 * 1000;
 let cachedCatalog: ExtensionItem[] | null = null;
 let cachedCatalogAt = 0;
 
@@ -144,6 +148,7 @@ async function loadStats(): Promise<Record<string, number> | null> {
   }
   try {
     const res = await fetch(STATS_URL, {
+      ...EDGE_CACHE_5_MIN,
       headers: githubHeaders(),
       signal: AbortSignal.timeout(5000),
     });
@@ -194,20 +199,38 @@ export function toListingItem(item: ExtensionItem): ExtensionListItem {
   };
 }
 
+/**
+ * `complete` is false when GitHub failed and there was no earlier good snapshot to
+ * fall back on, so `catalog` is empty or has zeroed download counts. Callers that
+ * share responses (the extensions API, the Worker's Cache API layer) must not cache
+ * those, or the fallback outlives GitHub's recovery.
+ */
+export interface CatalogResult {
+  catalog: ExtensionItem[];
+  complete: boolean;
+}
+
 export async function getCatalog(): Promise<ExtensionItem[]> {
+  return (await getCatalogResult()).catalog;
+}
+
+export async function getCatalogResult(): Promise<CatalogResult> {
   const now = Date.now();
   if (cachedCatalog && now - cachedCatalogAt < CATALOG_TTL_MS) {
-    return cachedCatalog;
+    return { catalog: cachedCatalog, complete: true };
   }
+  const fallback = (): CatalogResult =>
+    cachedCatalog ? { catalog: cachedCatalog, complete: true } : { catalog: [], complete: false };
 
   try {
     const res = await fetch(CATALOG_URL, {
+      ...EDGE_CACHE_5_MIN,
       headers: githubHeaders(),
       signal: AbortSignal.timeout(5000),
     });
     if (!res.ok) {
       console.warn('Catalog fetch failed:', res.status);
-      return cachedCatalog ?? [];
+      return fallback();
     }
 
     const data = (await res.json()) as {
@@ -247,15 +270,17 @@ export async function getCatalog(): Promise<ExtensionItem[]> {
       // renders empty. Either way, don't cache zeroed counts here — the next request
       // retries stats.
       console.warn('Stats unavailable; serving catalog without counts');
-      return cachedCatalog ?? merged;
+      return cachedCatalog
+        ? { catalog: cachedCatalog, complete: true }
+        : { catalog: merged, complete: false };
     }
 
     cachedCatalog = merged;
     cachedCatalogAt = Date.now();
-    return merged;
+    return { catalog: merged, complete: true };
   } catch (err) {
     console.error('Failed to load catalog:', err);
-    return cachedCatalog ?? [];
+    return fallback();
   }
 }
 

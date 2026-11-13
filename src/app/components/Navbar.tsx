@@ -7,6 +7,7 @@ import { Menu, X, ArrowDown, Star } from 'lucide-react';
 import { motion } from 'motion/react';
 import ThemeToggle from './ThemeToggle';
 import { downloadLatestDmg, getLatestDmgUrl } from '@/lib/downloadClient';
+import githubStars from '@/lib/github-stars.json';
 
 function GithubIcon({ className = 'w-3.5 h-3.5' }: { className?: string }) {
   return (
@@ -49,7 +50,7 @@ function AppleIcon({ className = 'w-3.5 h-3.5' }: { className?: string }) {
 const NAV_LINKS = [
   { href: '/', label: 'Overview' },
   { href: '/extensions', label: 'Clips' },
-  { href: '/docs', label: 'Docs' },
+  { href: '/docs/getting-started', label: 'Docs' },
 ];
 
 function formatStars(n: number) {
@@ -57,49 +58,17 @@ function formatStars(n: number) {
   return String(n);
 }
 
-const STARS_KEY = 'openclip:stars';
-let starsMemo: number | null = null;
-
-function useGithubStars() {
-  const [stars, setStars] = useState<number | null>(starsMemo);
-  useEffect(() => {
-    if (starsMemo !== null) return;
-    try {
-      const raw = sessionStorage.getItem(STARS_KEY);
-      if (raw) {
-        const { v, t } = JSON.parse(raw);
-        if (typeof v === 'number' && Date.now() - t < 3600_000) {
-          starsMemo = v;
-          queueMicrotask(() => setStars(v));
-          return;
-        }
-      }
-    } catch {}
-    let alive = true;
-    fetch('/api/v1/stars')
-      .then((r) => (r.ok ? r.json() : null))
-      .then((d) => {
-        if (!alive || !d || typeof d.stars !== 'number' || d.stars <= 0) return;
-        starsMemo = d.stars;
-        setStars(d.stars);
-        try {
-          sessionStorage.setItem(STARS_KEY, JSON.stringify({ v: d.stars, t: Date.now() }));
-        } catch {}
-      })
-      .catch(() => {});
-    return () => {
-      alive = false;
-    };
-  }, []);
-  return stars;
-}
+// Star count baked in at build time by scripts/sync-stars.ts (falls back to the last
+// committed value), so no page load has to call the Worker for it.
+const BUILD_STARS: number | null =
+  typeof githubStars.stars === 'number' && githubStars.stars > 0 ? githubStars.stars : null;
 
 const KNOB_SPRING = { type: 'spring', stiffness: 420, damping: 34 } as const;
 
 export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const pathname = usePathname();
-  const stars = useGithubStars();
+  const stars = BUILD_STARS;
 
   useEffect(() => {
     getLatestDmgUrl().catch(() => {});
@@ -107,7 +76,8 @@ export default function Navbar() {
 
   const shell = 'nav-shell glass-surface flex items-stretch px-1 h-[44px]';
   const isActiveHref = (href: string) =>
-    pathname === href || (href === '/docs' && pathname === '/developers');
+    pathname === href ||
+    (href.startsWith('/docs/') && (pathname.startsWith('/docs/') || pathname === '/developers'));
 
   return (
     <header className="site-navbar sticky top-4 z-[100] px-4 sm:px-6">
