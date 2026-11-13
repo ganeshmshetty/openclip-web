@@ -47,7 +47,10 @@ const worker = {
     }
 
     const fresh = await next.fetch(request, env, ctx);
-    if (fresh.status !== 200) return fresh;
+    // Only share real answers: the route marks a GitHub fallback `no-store`.
+    if (fresh.status !== 200 || /no-store/i.test(fresh.headers.get('Cache-Control') ?? '')) {
+      return fresh;
+    }
 
     const res = new Response(fresh.body, fresh);
     res.headers.set('X-OpenClip-Cache', 'MISS');

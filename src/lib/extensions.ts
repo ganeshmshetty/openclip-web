@@ -199,11 +199,28 @@ export function toListingItem(item: ExtensionItem): ExtensionListItem {
   };
 }
 
+/**
+ * `complete` is false when GitHub failed and there was no earlier good snapshot to
+ * fall back on, so `catalog` is empty or has zeroed download counts. Callers that
+ * share responses (the extensions API, the Worker's Cache API layer) must not cache
+ * those, or the fallback outlives GitHub's recovery.
+ */
+export interface CatalogResult {
+  catalog: ExtensionItem[];
+  complete: boolean;
+}
+
 export async function getCatalog(): Promise<ExtensionItem[]> {
+  return (await getCatalogResult()).catalog;
+}
+
+export async function getCatalogResult(): Promise<CatalogResult> {
   const now = Date.now();
   if (cachedCatalog && now - cachedCatalogAt < CATALOG_TTL_MS) {
-    return cachedCatalog;
+    return { catalog: cachedCatalog, complete: true };
   }
+  const fallback = (): CatalogResult =>
+    cachedCatalog ? { catalog: cachedCatalog, complete: true } : { catalog: [], complete: false };
 
   try {
     const res = await fetch(CATALOG_URL, {
@@ -213,7 +230,7 @@ export async function getCatalog(): Promise<ExtensionItem[]> {
     });
     if (!res.ok) {
       console.warn('Catalog fetch failed:', res.status);
-      return cachedCatalog ?? [];
+      return fallback();
     }
 
     const data = (await res.json()) as {
@@ -253,15 +270,17 @@ export async function getCatalog(): Promise<ExtensionItem[]> {
       // renders empty. Either way, don't cache zeroed counts here — the next request
       // retries stats.
       console.warn('Stats unavailable; serving catalog without counts');
-      return cachedCatalog ?? merged;
+      return cachedCatalog
+        ? { catalog: cachedCatalog, complete: true }
+        : { catalog: merged, complete: false };
     }
 
     cachedCatalog = merged;
     cachedCatalogAt = Date.now();
-    return merged;
+    return { catalog: merged, complete: true };
   } catch (err) {
     console.error('Failed to load catalog:', err);
-    return cachedCatalog ?? [];
+    return fallback();
   }
 }
 

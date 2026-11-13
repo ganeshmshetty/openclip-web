@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { getCatalog, loadFeatured, ExtensionItem } from '@/lib/extensions';
+import { getCatalogResult, loadFeatured, ExtensionItem } from '@/lib/extensions';
 import { siteUrl } from '@/lib/site';
 
 export type { ExtensionItem } from '@/lib/extensions';
@@ -32,7 +32,7 @@ export async function GET(request: Request) {
   const page = Number.isInteger(rawPage) ? Math.max(1, rawPage) : 1;
   const limit = Number.isInteger(rawLimit) ? Math.min(500, Math.max(1, rawLimit)) : 12;
 
-  const catalog = await getCatalog();
+  const { catalog, complete } = await getCatalogResult();
   const byId = new Map(catalog.map((e) => [e.id.toLowerCase(), e]));
 
   // 1. Featured items driven by published/featured.json
@@ -92,10 +92,15 @@ export async function GET(request: Request) {
       totalCount,
     },
     {
-      headers: {
-        'Cache-Control': 'public, max-age=60',
-        'CDN-Cache-Control': 'public, max-age=60, stale-while-revalidate=300',
-      },
+      // A fallback (GitHub down, no earlier snapshot) must not be shared: no-store keeps
+      // it out of Workers Cache and the Worker's Cache API layer, so the next request
+      // retries GitHub.
+      headers: complete
+        ? {
+            'Cache-Control': 'public, max-age=60',
+            'CDN-Cache-Control': 'public, max-age=60, stale-while-revalidate=300',
+          }
+        : { 'Cache-Control': 'no-store', 'CDN-Cache-Control': 'no-store' },
     }
   );
 }
