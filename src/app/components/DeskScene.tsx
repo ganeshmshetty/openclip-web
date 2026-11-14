@@ -2,8 +2,9 @@
 
 import { useEffect, useRef, useState } from 'react';
 import { mediaURL } from '@/lib/media';
+import QrDeskVisual from './QrDeskVisual';
 
-type Clip = { name: string; label: string; src: string; glyph: React.ReactNode };
+type Clip = { name: string; label: string; src?: string; visual?: React.ReactNode; glyph: React.ReactNode };
 
 const G = { width: 11, height: 11, viewBox: '0 0 16 16', fill: 'none', stroke: 'currentColor', strokeWidth: 1.6, strokeLinecap: 'round' as const, strokeLinejoin: 'round' as const, 'aria-hidden': true };
 const GLYPHS = {
@@ -17,7 +18,7 @@ type Slot = { className: string; width: number; drift: number };
 const CLIPS: Clip[] = [
   { name: 'calculate', label: 'inline math', src: mediaURL('calculate.mp4'), glyph: GLYPHS.math },
   { name: 'word-completion', label: 'spell check', src: mediaURL('word-completion.mp4'), glyph: GLYPHS.spell },
-  { name: 'qrcode', label: 'qr codes', src: mediaURL('extensions/com.openclip.qrcode.mp4'), glyph: GLYPHS.qr },
+  { name: 'qrcode', label: 'qr codes', visual: <QrDeskVisual />, glyph: GLYPHS.qr },
 ];
 
 // Percent positions so the scene scales with the viewport.
@@ -60,7 +61,9 @@ function ClipWindow({ clip, slot, index, open, onTap }: { clip: Clip; slot: Slot
     >
       <div className="desk-card">
         <div className="desk-frame">
-          <video ref={ref} src={clip.src} muted loop playsInline preload="metadata" className="block aspect-[16/10] w-full object-cover" />
+          {clip.visual ?? (
+            <video ref={ref} src={clip.src} muted loop playsInline preload="metadata" className="block aspect-[16/10] w-full object-cover" />
+          )}
         </div>
         <figcaption className="desk-caption">
           <span className="desk-glyph">{clip.glyph}</span>
