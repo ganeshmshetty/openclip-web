@@ -1438,6 +1438,118 @@ body {
   box-shadow: inset 0 0 0 0.5px var(--accent-border, rgba(41, 151, 255, 0.3)), inset 0 1px 0 rgba(255, 255, 255, 0.35);
 }
 .desk-label { flex: 1; text-transform: lowercase; }
+
+/* Quieter solid desk tile — hairline + soft shadow, less glass. Applied to
+   every desk card so the three clips stay consistent. */
+.desk-card-plain {
+  background: var(--bg-surface);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  box-shadow:
+    0 0 0 0.5px var(--border-subtle),
+    0 1px 2px rgba(0, 0, 0, 0.06),
+    0 14px 32px -12px rgba(0, 0, 0, 0.22);
+}
+:is(.dark, [data-theme="dark"]) .desk-card-plain {
+  background: var(--bg-elevated);
+  box-shadow:
+    0 0 0 0.5px rgba(255, 255, 255, 0.1),
+    0 1px 2px rgba(0, 0, 0, 0.4),
+    0 16px 36px -12px rgba(0, 0, 0, 0.65);
+}
+.desk-card-plain::after { opacity: 0.12; }
+
+/* In-place QR: a selected line, the action bar, a floating result. */
+.qr-visual {
+  position: relative;
+  aspect-ratio: 16 / 10;
+  width: 100%;
+  overflow: hidden;
+  background: var(--bg-app);
+}
+.qr-visual-page {
+  padding: 11px 12px 10px;
+  font-size: 10.5px;
+  font-weight: 450;
+  letter-spacing: -0.01em;
+  line-height: 1.5;
+  color: var(--text-secondary);
+}
+.qr-visual-page p { margin: 0; }
+.qr-visual-muted { color: var(--text-tertiary); }
+.qr-visual-sel {
+  display: inline;
+  padding: 1px 3px 2px;
+  border-radius: 3px;
+  color: var(--text-primary);
+  background: color-mix(in srgb, var(--accent) 22%, transparent);
+}
+.qr-mini-bar {
+  display: inline-flex;
+  align-items: center;
+  gap: 1px;
+  height: 18px;
+  margin: 5px 0 4px;
+  padding: 0 3px 0 6px;
+  border-radius: 999px;
+  font-size: 8px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--text-secondary);
+  background: color-mix(in srgb, var(--bg-elevated) 92%, transparent);
+  box-shadow:
+    0 0 0 0.5px var(--border-subtle),
+    0 2px 8px rgba(0, 0, 0, 0.14),
+    inset 0 1px 0 rgba(255, 255, 255, 0.5);
+}
+:is(.dark, [data-theme="dark"]) .qr-mini-bar {
+  background: color-mix(in srgb, var(--bg-elevated) 80%, #000 20%);
+  box-shadow:
+    0 0 0 0.5px rgba(255, 255, 255, 0.12),
+    0 3px 10px rgba(0, 0, 0, 0.5),
+    inset 0 1px 0 rgba(255, 255, 255, 0.14);
+}
+.qr-mini-bar > span { padding: 0 4px; }
+.qr-mini-bar-rule {
+  width: 1px;
+  height: 9px;
+  margin: 0 2px;
+  background: var(--border-strong);
+  opacity: 0.7;
+}
+.qr-mini-bar-active {
+  display: grid;
+  place-items: center;
+  width: 16px;
+  height: 14px;
+  border-radius: 999px;
+  color: #fff;
+  background: var(--accent);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.28);
+}
+.qr-visual-pop {
+  position: absolute;
+  right: 9px;
+  bottom: 8px;
+  display: grid;
+  place-items: center;
+  width: 66px;
+  height: 66px;
+  padding: 5px;
+  border-radius: 12px;
+  color: #111;
+  background: #fff;
+  box-shadow:
+    0 0 0 0.5px rgba(0, 0, 0, 0.08),
+    0 10px 24px -6px rgba(0, 0, 0, 0.4);
+}
+:is(.dark, [data-theme="dark"]) .qr-visual-pop {
+  box-shadow:
+    0 0 0 0.5px rgba(255, 255, 255, 0.12),
+    0 12px 28px -6px rgba(0, 0, 0, 0.75);
+}
+.qr-visual-mark { width: 100%; height: 100%; display: block; }
+
 @keyframes desk-in {
   from { opacity: 0; transform: translateY(14px) scale(0.96); }
 }
