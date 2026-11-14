@@ -1520,6 +1520,21 @@ body {
     0 8px 20px rgba(0, 0, 0, 0.4);
 }
 
+
+/* icon-a: no tile — just a muted glyph beside the label. */
+.desk-v-fade .desk-caption {
+  gap: 5px;
+  padding: 0 11px 0 9px;
+}
+.desk-v-fade .desk-glyph {
+  width: 13px;
+  height: 13px;
+  border-radius: 0;
+  background: none;
+  box-shadow: none;
+  color: var(--text-secondary);
+}
+
 /* ── Text ribbons: quiet grey, with a phrase "selected" in the accent ── */
 .text-ribbon text { fill: var(--text-tertiary); opacity: 0.6; }
 .text-ribbon .ribbon-char {
