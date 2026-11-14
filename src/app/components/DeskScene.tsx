@@ -51,7 +51,7 @@ function ClipWindow({ clip, slot, index, open, onTap }: { clip: Clip; slot: Slot
       data-desk-card=""
       aria-expanded={open}
       onClick={onTap}
-      className={`desk-window absolute ${slot.className}${open ? ' is-open' : ''}`}
+      className={`desk-window desk-v-fade absolute ${slot.className}${open ? ' is-open' : ''}`}
       style={{
         width: slot.width,
         animationDelay: `${0.1 + index * 0.08}s`,
