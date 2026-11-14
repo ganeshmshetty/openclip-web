@@ -231,6 +231,8 @@ body {
 @media (min-width: 1024px) {
   .home-hero {
     padding-top: clamp(5.5rem, 12svh, 7.5rem);
+    overflow: visible;
+    z-index: 2;
   }
 
   .home-hero-title {
@@ -1451,11 +1453,17 @@ body {
 /* v1: borderless preview, soft edge fade, floating label tag. */
 .desk-window.desk-v-fade:hover,
 .desk-window.desk-v-fade:focus-visible {
-  transform: scale(1.12) translateY(-6px);
+  z-index: 30;
+  transform: scale(1.28) translateY(-8px);
 }
 @media (hover: none), (pointer: coarse) {
-  .desk-window.desk-v-fade:hover:not(.is-open) { transform: none; }
-  .desk-window.desk-v-fade.is-open { transform: scale(1.12) translateY(-6px); }
+  .desk-window.desk-v-fade:hover:not(.is-open) { z-index: 1; transform: none; }
+  .desk-window.desk-v-fade.is-open { z-index: 30; transform: scale(1.28) translateY(-8px); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .desk-window.desk-v-fade:hover,
+  .desk-window.desk-v-fade:focus-visible,
+  .desk-window.desk-v-fade.is-open { transform: none; }
 }
 .desk-v-fade .desk-card {
   --r: 18px;
