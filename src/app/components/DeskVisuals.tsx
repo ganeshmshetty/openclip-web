@@ -18,39 +18,42 @@ function QrMark({ className = '' }: { className?: string }) {
   );
 }
 
-function MiniBar() {
+function Arrow() {
   return (
-    <div className="qr-mini-bar" aria-hidden="true">
-      <span>Copy</span>
-      <span>Cut</span>
-      <span>Paste</span>
-      <i className="qr-mini-bar-rule" />
-      <span className="qr-mini-bar-active">
-        <svg viewBox="0 0 16 16" width="11" height="11" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
-          <rect x="2.5" y="2.5" width="4" height="4" rx="0.8" />
-          <rect x="9.5" y="2.5" width="4" height="4" rx="0.8" />
-          <rect x="2.5" y="9.5" width="4" height="4" rx="0.8" />
-          <path d="M9.5 9.5h1.5v1.5M13.5 9.5v4h-4" />
-        </svg>
-      </span>
+    <svg className="desk-visual-arrow" viewBox="0 0 12 8" aria-hidden="true">
+      <path d="M6 1v6M2.5 4.5 6 7l3.5-2.5" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
+export function MathDeskVisual() {
+  return (
+    <div className="desk-visual">
+      <span className="desk-visual-in">12 × 8 + 3</span>
+      <Arrow />
+      <span className="desk-visual-out">99</span>
     </div>
   );
 }
 
-/**
- * Hero desk preview for the QR clip: selected text, the action bar, then
- * the generated code. No window chrome — just the product moment.
- */
-export default function QrDeskVisual() {
+export function SpellDeskVisual() {
   return (
-    <div className="qr-visual qr-visual-v1">
-      <p className="qr-visual-line">
-        <span className="qr-visual-sel">getopenclip.app</span>
-      </p>
-      <MiniBar />
-      <div className="qr-visual-tile">
-        <QrMark className="qr-visual-mark" />
-      </div>
+    <div className="desk-visual">
+      <span className="desk-visual-in desk-visual-misspell">recieve</span>
+      <Arrow />
+      <span className="desk-visual-out">receive</span>
+    </div>
+  );
+}
+
+export function QrDeskVisual() {
+  return (
+    <div className="desk-visual">
+      <span className="desk-visual-in desk-visual-sel">getopenclip.app</span>
+      <Arrow />
+      <span className="desk-visual-qr">
+        <QrMark />
+      </span>
     </div>
   );
 }
