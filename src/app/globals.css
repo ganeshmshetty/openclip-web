@@ -50,6 +50,24 @@
   --shadow-lg: 0 12px 32px rgba(0, 0, 0, 0.08);
   --shadow-popup: 0 12px 32px rgba(0, 0, 0, 0.12), 0 0 0 1px rgba(0, 0, 0, 0.08);
 
+  /* Shared chip / knob / control tokens. Dark values are a plain invert of
+     these light ones (same visual weight, no extra filled-grey treatment). */
+  --nav-chip-hover-bg: rgba(0, 0, 0, 0.045);
+  --nav-chip-press-bg: rgba(0, 0, 0, 0.08);
+  --nav-knob-fill: var(--bg-elevated);
+  --nav-knob-sheen: rgba(255, 255, 255, 0.85);
+  --nav-knob-shadow:
+    0 0 0 0.5px rgba(0, 0, 0, 0.06),
+    0 1px 2px rgba(0, 0, 0, 0.14),
+    0 4px 10px rgba(0, 0, 0, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.95),
+    inset 0 -1px 1px rgba(0, 0, 0, 0.06),
+    inset 0 0 8px rgba(255, 255, 255, 0.5);
+  --store-control-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.06),
+    0 0 0 0.5px rgba(0, 0, 0, 0.05),
+    inset 0 1px 0 rgba(255, 255, 255, 0.6);
+
   /* Pele diagram theme. These read the tokens above, so the pre-rendered mermaid
      SVGs (scripts/render-diagrams.ts) adapt to light/dark without a second render. */
   --pele-bg: transparent;
@@ -89,6 +107,24 @@
   --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.6);
   --shadow-lg: 0 20px 48px rgba(0, 0, 0, 0.8);
   --shadow-popup: 0 16px 40px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(255, 255, 255, 0.12);
+
+  /* Plain invert of the light chip/knob: same contrast as the white raised
+     pill, not a mid-grey filled slab. */
+  --nav-chip-hover-bg: rgba(255, 255, 255, 0.045);
+  --nav-chip-press-bg: rgba(255, 255, 255, 0.08);
+  --nav-knob-fill: var(--bg-elevated);
+  --nav-knob-sheen: rgba(255, 255, 255, 0.10);
+  --nav-knob-shadow:
+    0 0 0 0.5px rgba(255, 255, 255, 0.06),
+    0 1px 2px rgba(0, 0, 0, 0.5),
+    0 4px 10px rgba(0, 0, 0, 0.28),
+    inset 0 1px 0 rgba(255, 255, 255, 0.12),
+    inset 0 -1px 1px rgba(0, 0, 0, 0.25),
+    inset 0 0 8px rgba(255, 255, 255, 0.04);
+  --store-control-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.4),
+    0 0 0 0.5px rgba(255, 255, 255, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.07);
 
   color-scheme: dark;
 }
@@ -484,17 +520,10 @@ body {
 }
 .nav-chip:hover {
   color: var(--text-primary);
-  background: rgba(0, 0, 0, 0.045);
-}
-:is(.dark, [data-theme="dark"]) .nav-chip:hover {
-  color: var(--text-primary);
-  background: rgba(255, 255, 255, 0.09);
+  background: var(--nav-chip-hover-bg);
 }
 .nav-chip:active {
-  background: rgba(0, 0, 0, 0.08);
-}
-:is(.dark, [data-theme="dark"]) .nav-chip:active {
-  background: rgba(255, 255, 255, 0.14);
+  background: var(--nav-chip-press-bg);
 }
 .nav-chip-active {
   color: var(--text-primary);
@@ -503,39 +532,28 @@ body {
 .nav-chip-active:hover {
   background: transparent;
 }
-:is(.dark, [data-theme="dark"]) .nav-chip-active:hover {
-  background: transparent;
-}
 
 /* The active item's segmented-control knob. Travels between items via
-   motion's layoutId, so it slides rather than blinking. */
+   motion's layoutId, so it slides rather than blinking. Light and dark
+   share the same tokens, so dark is a plain invert of the white pill. */
 .nav-knob {
   position: absolute;
   inset: 0;
   border-radius: 999px;
   background:
-    radial-gradient(120% 140% at 30% 0%, rgba(255, 255, 255, 0.85), rgba(255, 255, 255, 0) 55%),
-    var(--bg-elevated);
-  box-shadow:
-    0 0 0 0.5px rgba(0, 0, 0, 0.06),
-    0 1px 2px rgba(0, 0, 0, 0.14),
-    0 4px 10px rgba(0, 0, 0, 0.08),
-    inset 0 1px 0 rgba(255, 255, 255, 0.95),
-    inset 0 -1px 1px rgba(0, 0, 0, 0.06),
-    inset 0 0 8px rgba(255, 255, 255, 0.5);
+    radial-gradient(120% 140% at 30% 0%, var(--nav-knob-sheen), transparent 55%),
+    var(--nav-knob-fill);
+  box-shadow: var(--nav-knob-shadow);
   pointer-events: none;
 }
-:is(.dark, [data-theme="dark"]) .nav-knob {
-  background:
-    radial-gradient(120% 140% at 30% 0%, rgba(255, 255, 255, 0.22), rgba(255, 255, 255, 0) 55%),
-    #3a3a3e;
-  box-shadow:
-    0 0 0 0.5px rgba(255, 255, 255, 0.12),
-    0 1px 2px rgba(0, 0, 0, 0.5),
-    0 4px 10px rgba(0, 0, 0, 0.35),
-    inset 0 1px 0 rgba(255, 255, 255, 0.3),
-    inset 0 -1px 1px rgba(0, 0, 0, 0.3),
-    inset 0 0 8px rgba(255, 255, 255, 0.08);
+
+/* Mobile menu (and any active chip without a sliding knob) uses the same fill. */
+.nav-chip-active-fill {
+  background: var(--nav-knob-fill);
+  box-shadow: 0 0 0 0.5px color-mix(in srgb, var(--text-primary) 8%, transparent);
+}
+.nav-chip-active-fill:hover {
+  background: var(--nav-knob-fill);
 }
 
 /* The knob reads as a lens: the active label is magnified slightly, as if
@@ -1230,11 +1248,7 @@ body {
    and just reads as a grey smudge. */
 .store-control {
   background: var(--bg-surface);
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06), 0 0 0 0.5px rgba(0, 0, 0, 0.05), inset 0 1px 0 rgba(255, 255, 255, 0.6);
-}
-:is(.dark, [data-theme="dark"]) .store-control {
-  inset: auto;
-  box-shadow: 0 0 0 0.5px rgba(255, 255, 255, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.07);
+  box-shadow: var(--store-control-shadow);
 }
 .store-install {
   /* same blue-tinted liquid glass as the navbar .nav-cta, a touch subtler,

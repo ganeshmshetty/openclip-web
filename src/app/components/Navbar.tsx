@@ -219,7 +219,7 @@ export default function Navbar() {
                   key={href}
                   href={href}
                   className={`nav-chip self-stretch !justify-start px-3.5 py-2.5 !rounded-2xl !text-[13.5px] ${
-                    isActiveHref(href) ? 'nav-chip-active bg-[var(--bg-tertiary)]' : ''
+                    isActiveHref(href) ? 'nav-chip-active nav-chip-active-fill' : ''
                   }`}
                   onClick={() => setMobileOpen(false)}
                 >
