@@ -49,9 +49,10 @@ function ClipWindow({ clip, slot, index, open, onTap }: { clip: Clip; slot: Slot
       tabIndex={0}
       aria-label={`${clip.label} demo`}
       data-desk-card=""
+      data-clip={clip.name}
       aria-expanded={open}
       onClick={onTap}
-      className={`desk-window absolute ${slot.className}${open ? ' is-open' : ''}`}
+      className={`desk-window desk-v-crop absolute ${slot.className}${open ? ' is-open' : ''}`}
       style={{
         width: slot.width,
         animationDelay: `${0.1 + index * 0.08}s`,

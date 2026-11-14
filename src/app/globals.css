@@ -1448,6 +1448,92 @@ body {
   .desk-card::after, .desk-card::before { transition: none; transform: none; }
 }
 
+
+/* v3: tight crop of the interesting region, minimal pill-labelled frame.
+   Videos stay the same; we zoom past the macOS titlebar onto the selection
+   and toolbar. */
+.desk-window.desk-v-crop:hover,
+.desk-window.desk-v-crop:focus-visible {
+  transform: scale(1.12) translateY(-6px);
+}
+@media (hover: none), (pointer: coarse) {
+  .desk-window.desk-v-crop:hover:not(.is-open) { transform: none; }
+  .desk-window.desk-v-crop.is-open { transform: scale(1.12) translateY(-6px); }
+}
+.desk-v-crop .desk-card {
+  --r: 12px;
+  --pad: 0px;
+  padding: 0 0 12px;
+  background: none;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  box-shadow: none;
+  opacity: 1;
+  border-radius: 0;
+  filter:
+    drop-shadow(0 1px 1px rgba(0, 0, 0, 0.04))
+    drop-shadow(0 12px 24px rgba(0, 0, 0, 0.16));
+}
+:is(.dark, [data-theme="dark"]) .desk-v-crop .desk-card {
+  background: none;
+  box-shadow: none;
+  opacity: 1;
+  filter:
+    drop-shadow(0 1px 1px rgba(0, 0, 0, 0.4))
+    drop-shadow(0 16px 30px rgba(0, 0, 0, 0.5));
+}
+.desk-v-crop .desk-card::after { display: none; }
+.desk-v-crop .desk-card::before {
+  inset: 22% 12% 8%;
+  opacity: 0.35;
+}
+.desk-v-crop .desk-frame {
+  border-radius: 12px;
+  background: var(--bg-surface);
+  box-shadow: 0 0 0 0.5px var(--border-strong);
+  overflow: hidden;
+}
+.desk-v-crop .desk-frame::after { display: none; }
+.desk-v-crop .desk-frame video {
+  transform: scale(1.36);
+  transform-origin: 42% 64%;
+}
+.desk-v-crop[data-clip="word-completion"] .desk-frame video {
+  transform-origin: 42% 62%;
+}
+.desk-v-crop[data-clip="qrcode"] .desk-frame video {
+  object-position: 10% 42%;
+  transform: scale(1.12);
+  transform-origin: 18% 52%;
+}
+:is(.dark, [data-theme="dark"]) .desk-v-crop .desk-frame {
+  filter: brightness(0.9);
+  transition: filter 0.22s ease;
+}
+.desk-v-crop:hover .desk-frame,
+.desk-v-crop:focus-visible .desk-frame,
+.desk-v-crop.is-open .desk-frame { filter: none; }
+.desk-v-crop .desk-caption {
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  transform: translateX(-50%);
+  display: inline-flex;
+  width: max-content;
+  height: 22px;
+  margin: 0;
+  padding: 0 9px 0 5px;
+  border-radius: 999px;
+  background: var(--bg-surface);
+  box-shadow:
+    0 0 0 0.5px var(--border-strong),
+    0 4px 12px rgba(0, 0, 0, 0.1);
+  font-size: 11px;
+}
+:is(.dark, [data-theme="dark"]) .desk-v-crop .desk-caption {
+  background: var(--bg-elevated);
+}
+
 /* ── Text ribbons: quiet grey, with a phrase "selected" in the accent ── */
 .text-ribbon text { fill: var(--text-tertiary); opacity: 0.6; }
 .text-ribbon .ribbon-char {
