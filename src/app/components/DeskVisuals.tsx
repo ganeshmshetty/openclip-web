@@ -17,20 +17,31 @@ function QrMark({ className = '' }: { className?: string }) {
     </svg>
   );
 }
-
-/**
- * Poster-style QR preview: the generated code is the artifact, with the
- * selected URL as a small chip. No window chrome, no toolbar clutter.
- */
-export default function QrDeskVisual() {
+export function MathDeskVisual() {
   return (
-    <div className="qr-visual qr-visual-v2">
-      <div className="qr-visual-tile">
-        <QrMark className="qr-visual-mark" />
-      </div>
-      <p className="qr-visual-line">
-        <span className="qr-visual-sel">getopenclip.app</span>
-      </p>
+    <div className="desk-visual">
+      <span className="desk-visual-out">99</span>
+      <span className="desk-visual-in">12 × 8 + 3</span>
+    </div>
+  );
+}
+
+export function SpellDeskVisual() {
+  return (
+    <div className="desk-visual">
+      <span className="desk-visual-out">receive</span>
+      <span className="desk-visual-in desk-visual-misspell">recieve</span>
+    </div>
+  );
+}
+
+export function QrDeskVisual() {
+  return (
+    <div className="desk-visual">
+      <span className="desk-visual-qr">
+        <QrMark />
+      </span>
+      <span className="desk-visual-in desk-visual-sel">getopenclip.app</span>
     </div>
   );
 }

@@ -925,7 +925,7 @@ body {
   display: inline-flex;
   align-items: center;
   gap: 0.375rem;
-  font-size: 11.5px;
+  font-size: 12.5px;
   font-weight: 600;
   color: var(--accent);
   background-color: var(--accent-soft);
@@ -1422,7 +1422,7 @@ body {
   gap: 6px;
   height: 30px;
   padding: 0 4px 0 3px;
-  font-size: 11.5px;
+  font-size: 12.5px;
   font-weight: 500;
   letter-spacing: 0.01em;
   color: var(--text-primary);
@@ -1467,40 +1467,53 @@ body {
   box-shadow: 0 0 0 0.5px rgba(255, 255, 255, 0.12), 0 6px 16px rgba(0, 0, 0, 0.4);
 }
 
-/* Poster QR: the code is the artifact, selected URL sits under it. */
-.qr-visual {
+/* Poster desk previews: the result is the artifact, the input sits under it as a chip. */
+.desk-visual {
   aspect-ratio: 16 / 10;
   width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 8px;
-  padding: 14px 12px 36px;
+  gap: 7px;
+  padding: 10px 12px 42px;
   background:
-    radial-gradient(70% 80% at 50% 42%, color-mix(in srgb, var(--accent) 18%, transparent), transparent 72%),
+    radial-gradient(70% 80% at 50% 40%, color-mix(in srgb, var(--accent) 18%, transparent), transparent 72%),
     var(--bg-app);
 }
-.qr-visual-line {
-  margin: 0;
-  font-size: 10.5px;
+.desk-visual-out {
+  font-size: 34px;
+  font-weight: 600;
+  letter-spacing: -0.05em;
+  line-height: 1;
+  color: var(--text-primary);
+  font-variant-numeric: tabular-nums;
+}
+.desk-visual-in {
+  font-size: 12.5px;
   font-weight: 500;
   letter-spacing: -0.01em;
-  line-height: 1;
-}
-.qr-visual-sel {
-  display: inline-block;
-  padding: 1px 6px 2px;
+  line-height: 1.1;
+  color: var(--text-secondary);
+  font-variant-numeric: tabular-nums;
+  padding: 2px 8px 3px;
   border-radius: 999px;
-  color: var(--text-primary);
   background: color-mix(in srgb, var(--bg-surface) 80%, transparent);
   box-shadow: 0 0 0 0.5px var(--border-subtle);
 }
-.qr-visual-tile {
+.desk-visual-sel {
+  color: var(--text-primary);
+}
+.desk-visual-misspell {
+  text-decoration: line-through;
+  text-decoration-thickness: 1px;
+  color: var(--text-secondary);
+}
+.desk-visual-qr {
   display: grid;
   place-items: center;
-  width: 92px;
-  height: 92px;
+  width: 74px;
+  height: 74px;
   padding: 7px;
   border-radius: 16px;
   color: #111;
@@ -1509,12 +1522,12 @@ body {
     0 0 0 0.5px rgba(0, 0, 0, 0.08),
     0 10px 24px -8px rgba(0, 0, 0, 0.4);
 }
-:is(.dark, [data-theme="dark"]) .qr-visual-tile {
+:is(.dark, [data-theme="dark"]) .desk-visual-qr {
   box-shadow:
     0 0 0 0.5px rgba(255, 255, 255, 0.1),
     0 12px 28px -8px rgba(0, 0, 0, 0.75);
 }
-.qr-visual-mark { width: 100%; height: 100%; display: block; }
+.desk-visual-qr svg { width: 100%; height: 100%; display: block; }
 
 @keyframes desk-in {
   from { opacity: 0; transform: translateY(14px) scale(0.96); }
