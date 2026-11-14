@@ -17,44 +17,31 @@ function QrMark({ className = '' }: { className?: string }) {
     </svg>
   );
 }
-
-function MiniBar() {
+export function MathDeskVisual() {
   return (
-    <div className="qr-mini-bar" aria-hidden="true">
-      <span>Copy</span>
-      <span>Cut</span>
-      <span>Paste</span>
-      <i className="qr-mini-bar-rule" />
-      <span className="qr-mini-bar-active">
-        <svg viewBox="0 0 16 16" width="11" height="11" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
-          <rect x="2.5" y="2.5" width="4" height="4" rx="0.8" />
-          <rect x="9.5" y="2.5" width="4" height="4" rx="0.8" />
-          <rect x="2.5" y="9.5" width="4" height="4" rx="0.8" />
-          <path d="M9.5 9.5h1.5v1.5M13.5 9.5v4h-4" />
-        </svg>
-      </span>
+    <div className="desk-visual">
+      <span className="desk-visual-in">12 × 8 + 3</span>
+      <span className="desk-visual-pop">99</span>
     </div>
   );
 }
 
-/**
- * In-place QR preview: a line of text is selected, the action bar sits on
- * it, and the generated code pops in as a floating result. No window chrome.
- */
-export default function QrDeskVisual() {
+export function SpellDeskVisual() {
   return (
-    <div className="qr-visual qr-visual-v3">
-      <div className="qr-visual-page">
-        <p>drop this in the slides</p>
-        <MiniBar />
-        <p>
-          <span className="qr-visual-sel">getopenclip.app</span>
-        </p>
-        <p className="qr-visual-muted">see you thursday</p>
-      </div>
-      <div className="qr-visual-pop">
-        <QrMark className="qr-visual-mark" />
-      </div>
+    <div className="desk-visual">
+      <span className="desk-visual-in desk-visual-misspell">recieve</span>
+      <span className="desk-visual-pop">receive</span>
+    </div>
+  );
+}
+
+export function QrDeskVisual() {
+  return (
+    <div className="desk-visual">
+      <span className="desk-visual-in desk-visual-sel">getopenclip.app</span>
+      <span className="desk-visual-pop desk-visual-qr">
+        <QrMark />
+      </span>
     </div>
   );
 }

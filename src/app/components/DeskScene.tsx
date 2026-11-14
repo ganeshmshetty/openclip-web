@@ -1,8 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
-import { mediaURL } from '@/lib/media';
-import QrDeskVisual from './QrDeskVisual';
+import { MathDeskVisual, SpellDeskVisual, QrDeskVisual } from './DeskVisuals';
 
 type Clip = { name: string; label: string; src?: string; visual?: React.ReactNode; glyph: React.ReactNode };
 
@@ -16,8 +15,8 @@ type Slot = { className: string; width: number; drift: number };
 
 // Three clips, same size, staggered heights. Add a clip and it takes the next free slot.
 const CLIPS: Clip[] = [
-  { name: 'calculate', label: 'inline math', src: mediaURL('calculate.mp4'), glyph: GLYPHS.math },
-  { name: 'word-completion', label: 'spell check', src: mediaURL('word-completion.mp4'), glyph: GLYPHS.spell },
+  { name: 'calculate', label: 'inline math', visual: <MathDeskVisual />, glyph: GLYPHS.math },
+  { name: 'word-completion', label: 'spell check', visual: <SpellDeskVisual />, glyph: GLYPHS.spell },
   { name: 'qrcode', label: 'qr codes', visual: <QrDeskVisual />, glyph: GLYPHS.qr },
 ];
 
