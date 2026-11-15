@@ -69,7 +69,7 @@ export default function Footer() {
             </p>
 
             <p className="text-[12.5px] text-[var(--text-secondary)] leading-relaxed max-w-xs">
-              A floating action bar for macOS. Highlight any text to copy, calculate, transform, or run custom scripts.
+              a free, open-source PopClip alternative for macOS. select text, then copy, calculate, transform or script it.
             </p>
 
             <div className="pt-2 text-[12px] text-[var(--text-tertiary)] flex items-center gap-1.5">

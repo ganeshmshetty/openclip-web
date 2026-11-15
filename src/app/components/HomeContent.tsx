@@ -284,7 +284,7 @@ export default function HomeContent() {
             <p
               className="mx-auto mt-3 max-w-[34rem] text-balance text-[17px] font-normal leading-[1.55] text-[var(--text-secondary)] sm:mt-4 sm:text-[19px]"
             >
-              select some text and see what you can do with it. free and open source.
+              select text. get things done. free and open source.
             </p>
 
             <div className="mt-7 flex flex-col items-center" data-nosnippet="true">
@@ -314,9 +314,9 @@ export default function HomeContent() {
         <section className="section-shell py-16 sm:py-24">
           <div className="grid gap-y-8 sm:grid-cols-12 sm:gap-x-12">
             <div className="sm:col-span-5">
-              <h2 className="section-title">Before you install.</h2>
+              <h2 className="section-title">before you install.</h2>
               <p className="section-sub mt-3">
-                Privacy, permissions, and what OpenClip does with the text you select.
+                what OpenClip reads, what it keeps, and what it costs (nothing).
               </p>
 
               <div className="mt-6 flex flex-col items-start gap-2.5 text-[13px] font-semibold text-[var(--accent)]">
@@ -338,9 +338,9 @@ export default function HomeContent() {
         {/* ── Testimonials — real comments, linked to source ── */}
         <section className="section-shell py-16 sm:py-24">
           <div className="mb-10 text-center">
-            <h2 className="section-title">In their own words.</h2>
+            <h2 className="section-title">people who switched.</h2>
             <p className="section-sub mx-auto mt-3 max-w-md">
-              From Reddit threads and supporter notes. Unedited, and linked to the originals.
+              real posts from Reddit and supporters, unedited and linked.
             </p>
           </div>
 
