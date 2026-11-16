@@ -1,37 +1,40 @@
 # OpenClip website
 
-Marketing site and docs portal for OpenClip, built with Next.js (App Router). Deployed to
-**Cloudflare Workers** through the [OpenNext adapter](https://opennext.js.org/cloudflare).
+Marketing site and docs portal for OpenClip, built with Next.js (App Router) as a **static
+export** and served by **Cloudflare Workers Static Assets**. A small `worker.ts` handles the few
+routes that need code at request time.
 
 ## Commands
 
 ```bash
-bun dev            # http://localhost:3000
+bun dev            # http://localhost:3000 (pages only; no /api/*, /download, _redirects)
 bun run lint
-bun run build      # next build; also runs the predev/prebuild sync scripts
-bun run preview    # build + serve in the Workers runtime (workerd) on :8787
-bun run deploy     # build + deploy to Cloudflare
+bun run build      # prebuild sync scripts + next build -> out/
+bun run preview    # build + wrangler dev on :8787 (static files + worker.ts, like production)
+bun run deploy     # build + wrangler deploy
 ```
 
-`bun run preview` is the one that matters before shipping: it runs the same `workerd` runtime
-production uses, where `node:fs`, `node:path` and the Node.js globals behave differently from
-`next dev`.
+`bun run preview` is the one that matters before shipping: it serves `out/` exactly as
+production does, with `public/_headers`, `public/_redirects` and the Worker routes.
 
 ## Deployment
 
-Config lives in `wrangler.jsonc` (Worker, static assets, compatibility flags) and
-`open-next.config.ts` (caching). Details:
+Config lives in `wrangler.jsonc`. Workers Builds runs **`bun run build`** and then
+**`npx wrangler deploy`** (previews: `npx wrangler versions upload`). Details:
 
-- **Every page is prerendered at build time.** `open-next.config.ts` uses the read-only
-  Static Assets incremental cache, so nothing is written at runtime and `revalidate` exports are
-  not supported by it — a page is as fresh as the last deploy. Do not add `export const revalidate`
-  to a page; it will be served stale then re-rendered on every request.
-- **Assets before the Worker.** Public files and `/_next/static` are matched by Workers Static
-  Assets (`run_worker_first: false`) and are not billed. Prerendered HTML and API routes do run
-  the Worker.
-- **Static-asset headers** belong in `public/_headers`, not `next.config.ts` — `headers()` never
-  applies to files served by the asset layer.
-- `wrangler deploy` must be run with the cache populated; `bun run deploy` does that for you.
+- **Every page is a file.** `next.config.ts` sets `output: "export"`, so `next build` writes HTML,
+  the RSC `.txt` payloads used for client-side navigation, the OG images, the sitemap and
+  `/api/v1/stars` into `out/`. Static Assets serves them without running the Worker. A page is as
+  fresh as the last deploy, and anything that needs a request at runtime fails the build.
+- **Only these routes run code** (`run_worker_first` in `wrangler.jsonc`, handlers in
+  `src/worker/`): `GET /api/v1/extensions` (prebuilt JSON from `scripts/build-extensions-api.ts`,
+  or search over the baked catalog), `GET /api/v1/icon/:id`, `GET /download` (latest release, which
+  is published from another repo and can't be baked) and `POST /api/revalidate`. None of them load
+  Next.js. Unknown paths get `out/404.html` with a 404 from Static Assets.
+- **Headers and redirects** belong in `public/_headers` and `public/_redirects`; a static export
+  does not support `headers()`/`redirects()` in `next.config.ts`.
+- **Builds fail if GitHub can't serve the extensions catalog or stats**, rather than shipping an
+  empty store or zeroed download counts.
 
 ### Environment
 
@@ -39,7 +42,7 @@ Config lives in `wrangler.jsonc` (Worker, static assets, compatibility flags) an
 | :--- | :--- | :--- |
 | `NEXT_PUBLIC_SITE_URL` | build env | Canonical origin. Falls back to `https://www.getopenclip.app`. |
 | `NEXT_PUBLIC_CF_ANALYTICS_TOKEN` | build env | Cloudflare Web Analytics beacon. Omitted when unset. |
-| `GITHUB_TOKEN` | Worker secret | Raises GitHub rate limits for the stars/download routes. |
+| `GITHUB_TOKEN` | Worker secret + build env | Raises GitHub rate limits for `/download` and the build-time fetches. Must be valid if set. |
 | `REVALIDATE_SECRET` | Worker secret | Bearer token for `POST /api/revalidate`, called by the extensions repo. |
 | `DEPLOY_HOOK_URL` | Worker secret | Workers Builds deploy hook that `/api/revalidate` triggers. |
 
@@ -68,6 +71,5 @@ catalog publish produces one rebuild instead of thousands of background revalida
    (307 to the GitHub release), `/opengraph-image` and `/sitemap.xml`.
 4. Keep the old deployment reachable until DNS has fully propagated, then remove it.
 
-The site is inside the free tier for bandwidth and asset requests; Workers **Paid** ($5/month) is
-recommended for the 30 s CPU ceiling rather than the 10 ms free ceiling, which server-rendered
-routes can exceed.
+The site is inside the free tier: static files cost no Worker invocations, and the Worker routes
+use a few milliseconds of CPU at most (no Next.js server).

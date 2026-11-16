@@ -1,5 +1,8 @@
 import type { MetadataRoute } from 'next';
 
+// Static export: generated once at build time.
+export const dynamic = 'force-static';
+
 export default function manifest(): MetadataRoute.Manifest {
   return {
     name: 'OpenClip — Floating Action Bar for macOS',

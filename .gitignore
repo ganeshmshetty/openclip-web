@@ -19,3 +19,6 @@ next-env.d.ts
 .wrangler/
 cloudflare-env.d.ts
 .dev.vars
+
+# Baked by scripts/build-extensions-api.ts on every build
+public/_api/

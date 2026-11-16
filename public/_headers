@@ -1,5 +1,5 @@
 # Baseline security headers for every static asset (including prerendered HTML).
-# Worker-rendered responses get the same headers from next.config.ts.
+# Worker responses (worker.ts) set the same headers in src/worker/http.ts.
 /*
   X-Content-Type-Options: nosniff
   X-Frame-Options: DENY
@@ -7,8 +7,7 @@
   Permissions-Policy: camera=(), microphone=(), geolocation=()
   Strict-Transport-Security: max-age=31536000; includeSubDomains
 
-# Headers for files served by Workers Static Assets. These never reach the Worker,
-# so next.config.ts `headers()` does not apply to them.
+# Caching for files served by Workers Static Assets (the whole static export).
 
 /_next/static/*
   Cache-Control: public, max-age=31536000, immutable
@@ -28,3 +27,15 @@
 
 /store-icon.png
   Cache-Control: public, max-age=86400, stale-while-revalidate=604800
+
+# Static-export files without an extension, so their type is set here.
+/opengraph-image
+  Content-Type: image/png
+
+/twitter-image
+  Content-Type: image/png
+
+/api/v1/stars
+  Content-Type: application/json
+  Access-Control-Allow-Origin: *
+  Access-Control-Allow-Methods: GET, OPTIONS

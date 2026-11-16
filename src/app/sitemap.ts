@@ -3,6 +3,9 @@ import { allDocs } from '@/docs/registry';
 import { getCatalog } from '@/lib/extensions';
 import { siteUrl } from '@/lib/site';
 
+// Static export: generated once at build time.
+export const dynamic = 'force-static';
+
 // Prerendered at build time from the same catalog used by the extension detail
 // pages, so every URL listed here is served as a static asset after deploy.
 

@@ -1,8 +1,4 @@
-import { NextResponse } from 'next/server';
-import { getCatalogResult, loadFeatured, ExtensionItem } from '@/lib/extensions';
-import { siteUrl } from '@/lib/site';
-
-export type { ExtensionItem } from '@/lib/extensions';
+import type { ExtensionItem } from './extensions';
 
 export interface ExtensionsPageResponse {
   featured?: ExtensionItem[];
@@ -13,6 +9,13 @@ export interface ExtensionsPageResponse {
   totalCount: number;
 }
 
+export interface ExtensionsPageQuery {
+  q: string;
+  filter: string;
+  page: number;
+  limit: number;
+}
+
 /**
  * The site's own pages resolve `iconURL` against their origin, but this API is also
  * read by the macOS app, which has no origin to resolve against and needs a full URL.
@@ -21,22 +24,21 @@ function withAbsoluteIcon(item: ExtensionItem, base: string): ExtensionItem {
   return item.iconURL?.startsWith('/') ? { ...item, iconURL: `${base}${item.iconURL}` } : item;
 }
 
-export async function GET(request: Request) {
-  const { searchParams } = new URL(request.url);
-  const q = (searchParams.get('q') || '').toLowerCase().trim();
-  const filter = (searchParams.get('filter') || searchParams.get('sort') || '').toLowerCase().trim();
-  // Number() rejects malformed input ("2abc") and non-integers ("1.9") as NaN,
-  // so only well-formed integer values are normalized into the valid range.
-  const rawPage = Number(searchParams.get('page') ?? '1');
-  const rawLimit = Number(searchParams.get('limit') ?? '12');
-  const page = Number.isInteger(rawPage) ? Math.max(1, rawPage) : 1;
-  const limit = Number.isInteger(rawLimit) ? Math.min(500, Math.max(1, rawLimit)) : 12;
-
-  const { catalog, complete } = await getCatalogResult();
+/**
+ * One page of the extensions API. Pure, so the route (at request time) and
+ * `scripts/build-extensions-api.ts` (at build time) produce byte-identical JSON.
+ * Key order matters: `page`, `totalPages` and `totalCount` stay last (see
+ * OUT_OF_RANGE_PAGE_MARKER).
+ */
+export function buildExtensionsPage(
+  catalog: ExtensionItem[],
+  featuredIDs: string[],
+  { q, filter, page, limit }: ExtensionsPageQuery,
+  base: string
+): ExtensionsPageResponse {
   const byId = new Map(catalog.map((e) => [e.id.toLowerCase(), e]));
 
   // 1. Featured items driven by published/featured.json
-  const featuredIDs = await loadFeatured();
   const featured = featuredIDs.map((id) => byId.get(id.toLowerCase())).filter(
     (e): e is ExtensionItem => Boolean(e)
   );
@@ -82,25 +84,12 @@ export async function GET(request: Request) {
   const startIndex = (page - 1) * limit;
   const paginatedExtensions = filtered.slice(startIndex, startIndex + limit);
 
-  return NextResponse.json(
-    {
-      featured: featured.map((e) => withAbsoluteIcon(e, siteUrl)),
-      new: newShowcase.map((e) => withAbsoluteIcon(e, siteUrl)),
-      extensions: paginatedExtensions.map((e) => withAbsoluteIcon(e, siteUrl)),
-      page,
-      totalPages,
-      totalCount,
-    },
-    {
-      // A fallback (GitHub down, no earlier snapshot) must not be shared: no-store keeps
-      // it out of Workers Cache and the Worker's Cache API layer, so the next request
-      // retries GitHub.
-      headers: complete
-        ? {
-            'Cache-Control': 'public, max-age=60',
-            'CDN-Cache-Control': 'public, max-age=60, stale-while-revalidate=300',
-          }
-        : { 'Cache-Control': 'no-store', 'CDN-Cache-Control': 'no-store' },
-    }
-  );
+  return {
+    featured: featured.map((e) => withAbsoluteIcon(e, base)),
+    new: newShowcase.map((e) => withAbsoluteIcon(e, base)),
+    extensions: paginatedExtensions.map((e) => withAbsoluteIcon(e, base)),
+    page,
+    totalPages,
+    totalCount,
+  };
 }
