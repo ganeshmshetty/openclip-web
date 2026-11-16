@@ -78,9 +78,9 @@ export { CURATED_FEATURED_IDS } from './featured-extensions';
 
 const REPO = 'ganeshmshetty/openclip-extensions';
 const BRANCH = 'main';
-const CATALOG_URL = `https://raw.githubusercontent.com/${REPO}/${BRANCH}/published/catalog.json`;
-const STATS_URL = `https://raw.githubusercontent.com/${REPO}/${BRANCH}/published/extension-stats.json`;
-const FEATURED_URL = `https://raw.githubusercontent.com/${REPO}/${BRANCH}/published/featured.json`;
+export const CATALOG_URL = `https://raw.githubusercontent.com/${REPO}/${BRANCH}/published/catalog.json`;
+export const STATS_URL = `https://raw.githubusercontent.com/${REPO}/${BRANCH}/published/extension-stats.json`;
+export const FEATURED_URL = `https://raw.githubusercontent.com/${REPO}/${BRANCH}/published/featured.json`;
 
 // Featured IDs change rarely; cache a bit longer than the catalog.
 const FEATURED_TTL_MS = 5 * 60 * 1000;
@@ -102,12 +102,7 @@ export async function loadFeatured(): Promise<string[]> {
       console.warn('Featured fetch failed:', res.status);
       return cachedFeatured ?? CURATED_FEATURED_IDS;
     }
-    const data: unknown = await res.json();
-    const ids = Array.isArray(data)
-      ? data
-          .filter((id): id is string => typeof id === 'string' && id.trim() !== '')
-          .map((id) => id.trim())
-      : [];
+    const ids = parseFeaturedIds(await res.json());
     if (ids.length === 0) {
       return cachedFeatured ?? CURATED_FEATURED_IDS;
     }
@@ -120,12 +115,21 @@ export async function loadFeatured(): Promise<string[]> {
   }
 }
 
+/** Ids from published/featured.json; anything malformed is dropped. */
+export function parseFeaturedIds(data: unknown): string[] {
+  return Array.isArray(data)
+    ? data
+        .filter((id): id is string => typeof id === 'string' && id.trim() !== '')
+        .map((id) => id.trim())
+    : [];
+}
+
 // Optional GitHub token (set as GH_TOKEN or GITHUB_TOKEN in the Vercel
 // environment) to raise api.github.com rate limits if raw.githubusercontent
 // ever throttles us.
 const GITHUB_TOKEN = process.env.GITHUB_TOKEN || process.env.GH_TOKEN || '';
 
-function githubHeaders(): HeadersInit {
+export function githubHeaders(): HeadersInit {
   return GITHUB_TOKEN ? { Authorization: `Bearer ${GITHUB_TOKEN}` } : {};
 }
 
@@ -210,6 +214,42 @@ export interface CatalogResult {
   complete: boolean;
 }
 
+/**
+ * Merges GitHub Release download counts and the build-time synced README/manifest
+ * metadata into catalog.json entries. Pure, so the runtime catalog and
+ * scripts/build-extensions-api.ts share it. `stats === null` means counts are
+ * unavailable and fall back to the catalog's own (usually zero).
+ */
+export function mergeCatalog(
+  extensions: ExtensionItem[],
+  stats: Record<string, number> | null
+): ExtensionItem[] {
+  const syncedMap = (extensionsPayload?.extensions || {}) as unknown as Record<string, SyncedExtensionData>;
+  return extensions.map((item) => {
+    const lowerId = item.id.toLowerCase();
+    const statsCount =
+      stats?.[item.id] ??
+      stats?.[lowerId] ??
+      0;
+    const catalogCount = item.downloadCount ?? 0;
+    const synced = syncedMap[lowerId] || syncedMap[item.id] || {};
+    return {
+      ...item,
+      downloadCount: Math.max(statsCount, catalogCount),
+      actionType: synced.actionType || item.actionType,
+      minOpenClipVersion: synced.minOpenClipVersion || item.minOpenClipVersion,
+      sourceURL: synced.sourceURL || item.sourceURL,
+      hasAuthoredReadme: synced.hasAuthoredReadme,
+      readmeMarkdown: synced.readmeMarkdown || item.readmeMarkdown,
+      options: synced.options || item.options,
+      requirements: synced.requirements || item.requirements,
+      keywords: synced.keywords || item.keywords,
+      subActions: synced.subActions || item.subActions,
+      iconURL: localIconURL(item.id),
+    };
+  });
+}
+
 export async function getCatalog(): Promise<ExtensionItem[]> {
   return (await getCatalogResult()).catalog;
 }
@@ -239,30 +279,7 @@ export async function getCatalogResult(): Promise<CatalogResult> {
 
     // Merge GitHub Release download counts and synced README/manifest metadata.
     const stats = await loadStats();
-    const syncedMap = (extensionsPayload?.extensions || {}) as unknown as Record<string, SyncedExtensionData>;
-    const merged = (data.extensions ?? []).map((item) => {
-      const lowerId = item.id.toLowerCase();
-      const statsCount =
-        stats?.[item.id] ??
-        stats?.[lowerId] ??
-        0;
-      const catalogCount = item.downloadCount ?? 0;
-      const synced = syncedMap[lowerId] || syncedMap[item.id] || {};
-      return {
-        ...item,
-        downloadCount: Math.max(statsCount, catalogCount),
-        actionType: synced.actionType || item.actionType,
-        minOpenClipVersion: synced.minOpenClipVersion || item.minOpenClipVersion,
-        sourceURL: synced.sourceURL || item.sourceURL,
-        hasAuthoredReadme: synced.hasAuthoredReadme,
-        readmeMarkdown: synced.readmeMarkdown || item.readmeMarkdown,
-        options: synced.options || item.options,
-        requirements: synced.requirements || item.requirements,
-        keywords: synced.keywords || item.keywords,
-        subActions: synced.subActions || item.subActions,
-        iconURL: localIconURL(item.id),
-      };
-    });
+    const merged = mergeCatalog(data.extensions ?? [], stats);
 
     if (stats === null) {
       // Stats are unavailable. Prefer the last valid snapshot so counts don't blink
