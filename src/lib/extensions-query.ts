@@ -18,6 +18,9 @@ export const PREBUILT_LIMITS = [12, 50, 500] as const;
 /** Under `public/`, so it ships as a Static Asset. */
 export const PREBUILT_API_DIR = '/_api/extensions';
 
+/** `{ siteUrl, featuredIDs, catalog }`: the merged catalog, for search and the pages. */
+export const PREBUILT_CATALOG_PATH = `${PREBUILT_API_DIR}/catalog.json`;
+
 export function prebuiltPagePath(limit: number, page: number): string {
   return `${PREBUILT_API_DIR}/limit-${limit}/page-${page}.json`;
 }

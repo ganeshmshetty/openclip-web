@@ -8,37 +8,11 @@ const withBundleAnalyzer = bundleAnalyzer({
 });
 
 const nextConfig: NextConfig = {
-  poweredByHeader: false,
-  async headers() {
-    return [
-      {
-        // Worker-rendered responses. Static assets are covered by public/_headers.
-        source: "/:path*",
-        headers: [
-          { key: "X-Content-Type-Options", value: "nosniff" },
-          { key: "X-Frame-Options", value: "DENY" },
-          { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
-          { key: "Permissions-Policy", value: "camera=(), microphone=(), geolocation=()" },
-          { key: "Strict-Transport-Security", value: "max-age=31536000; includeSubDomains" },
-        ],
-      },
-      {
-        source: "/api/:path*",
-        headers: [
-          { key: "Access-Control-Allow-Origin", value: "*" },
-          { key: "Access-Control-Allow-Methods", value: "GET, OPTIONS" },
-        ],
-      },
-    ];
-  },
-  // Production serves these from public/_redirects (Static Assets, no Worker CPU).
-  // They are repeated here so `next dev` behaves the same.
-  async redirects() {
-    return [
-      { source: "/docs", destination: "/docs/getting-started", permanent: true },
-      { source: "/help", destination: "/docs/getting-started", permanent: true },
-    ];
-  },
+  // Static export to `out/`, served by Workers Static Assets (wrangler.jsonc). Pages,
+  // RSC payloads and metadata files never run code; the few dynamic routes live in
+  // worker.ts. Redirects and headers are in public/_redirects and public/_headers,
+  // because `redirects()`/`headers()` are not supported by a static export.
+  output: "export",
 };
 
 export default withBundleAnalyzer(nextConfig);

@@ -69,52 +69,16 @@ export interface ExtensionItem {
   subActions?: ExtensionSubAction[];
 }
 
+import { readFileSync } from 'node:fs';
+import { join } from 'node:path';
 import extensionsPayload from '@/docs/data/extensionsData.json';
 import iconHashes from './extension-icon-hashes.json';
-import { CURATED_FEATURED_IDS } from './featured-extensions';
-import { EDGE_CACHE_5_MIN } from './edge-cache';
+import { PREBUILT_CATALOG_PATH } from './extensions-query';
 
 export { CURATED_FEATURED_IDS } from './featured-extensions';
 
 const REPO = 'ganeshmshetty/openclip-extensions';
 const BRANCH = 'main';
-export const CATALOG_URL = `https://raw.githubusercontent.com/${REPO}/${BRANCH}/published/catalog.json`;
-export const STATS_URL = `https://raw.githubusercontent.com/${REPO}/${BRANCH}/published/extension-stats.json`;
-export const FEATURED_URL = `https://raw.githubusercontent.com/${REPO}/${BRANCH}/published/featured.json`;
-
-// Featured IDs change rarely; cache a bit longer than the catalog.
-const FEATURED_TTL_MS = 5 * 60 * 1000;
-let cachedFeatured: string[] | null = null;
-let cachedFeaturedAt = 0;
-
-export async function loadFeatured(): Promise<string[]> {
-  const now = Date.now();
-  if (cachedFeatured && now - cachedFeaturedAt < FEATURED_TTL_MS) {
-    return cachedFeatured;
-  }
-  try {
-    const res = await fetch(FEATURED_URL, {
-      ...EDGE_CACHE_5_MIN,
-      headers: githubHeaders(),
-      signal: AbortSignal.timeout(5000),
-    });
-    if (!res.ok) {
-      console.warn('Featured fetch failed:', res.status);
-      return cachedFeatured ?? CURATED_FEATURED_IDS;
-    }
-    const ids = parseFeaturedIds(await res.json());
-    if (ids.length === 0) {
-      return cachedFeatured ?? CURATED_FEATURED_IDS;
-    }
-    cachedFeatured = ids;
-    cachedFeaturedAt = Date.now();
-    return cachedFeatured;
-  } catch (err) {
-    console.error('Failed to load featured:', err);
-    return cachedFeatured ?? CURATED_FEATURED_IDS;
-  }
-}
-
 /** Ids from published/featured.json; anything malformed is dropped. */
 export function parseFeaturedIds(data: unknown): string[] {
   return Array.isArray(data)
@@ -124,46 +88,44 @@ export function parseFeaturedIds(data: unknown): string[] {
     : [];
 }
 
-// Optional GitHub token (set as GH_TOKEN or GITHUB_TOKEN in the Vercel
-// environment) to raise api.github.com rate limits if raw.githubusercontent
-// ever throttles us.
+// Optional GitHub token (GH_TOKEN or GITHUB_TOKEN in the build environment) to raise
+// GitHub rate limits for the build-time fetches.
 const GITHUB_TOKEN = process.env.GITHUB_TOKEN || process.env.GH_TOKEN || '';
 
-export function githubHeaders(): HeadersInit {
+function githubHeaders(): HeadersInit {
   return GITHUB_TOKEN ? { Authorization: `Bearer ${GITHUB_TOKEN}` } : {};
 }
 
-// Download counts are published nightly to published/extension-stats.json by the
-// update-stats.yml workflow (Obsidian model). Serve from a short cache to
-// avoid re-fetching on every request; stats only change once a day.
-const STATS_TTL_MS = 2 * 60 * 1000;
-let cachedStats: Record<string, number> | null = null;
-let cachedStatsAt = 0;
-// The catalog only changes when the extensions repo publishes, which also rebuilds
-// the site through the deploy hook, so a few minutes of staleness is fine.
-const CATALOG_TTL_MS = 5 * 60 * 1000;
-let cachedCatalog: ExtensionItem[] | null = null;
-let cachedCatalogAt = 0;
+/**
+ * The merged catalog and featured ids, written by scripts/build-extensions-api.ts
+ * before `next build` (which fails loudly if GitHub can't be reached). The site is a
+ * static export, so this is only ever read at build time, and every page and the
+ * prebuilt API share one snapshot.
+ */
+export interface BakedCatalog {
+  siteUrl: string;
+  featuredIDs: string[];
+  catalog: ExtensionItem[];
+}
 
-async function loadStats(): Promise<Record<string, number> | null> {
-  const now = Date.now();
-  if (cachedStats && now - cachedStatsAt < STATS_TTL_MS) {
-    return cachedStats;
+let baked: BakedCatalog | null = null;
+
+export function readBakedCatalog(): BakedCatalog {
+  if (!baked) {
+    const file = join(process.cwd(), 'public', PREBUILT_CATALOG_PATH);
+    try {
+      baked = JSON.parse(readFileSync(file, 'utf-8')) as BakedCatalog;
+    } catch (err) {
+      throw new Error(
+        `Baked extensions catalog missing at ${file}; run \`bun run build-extensions-api\` first (${(err as Error).message})`
+      );
+    }
   }
-  try {
-    const res = await fetch(STATS_URL, {
-      ...EDGE_CACHE_5_MIN,
-      headers: githubHeaders(),
-      signal: AbortSignal.timeout(5000),
-    });
-    if (!res.ok) return cachedStats;
-    const data = (await res.json()) as { downloads?: Record<string, number> };
-    cachedStats = data.downloads ?? {};
-    cachedStatsAt = Date.now();
-    return cachedStats;
-  } catch {
-    return cachedStats;
-  }
+  return baked;
+}
+
+export async function loadFeatured(): Promise<string[]> {
+  return readBakedCatalog().featuredIDs;
 }
 
 /**
@@ -204,21 +166,9 @@ export function toListingItem(item: ExtensionItem): ExtensionListItem {
 }
 
 /**
- * `complete` is false when GitHub failed and there was no earlier good snapshot to
- * fall back on, so `catalog` is empty or has zeroed download counts. Callers that
- * share responses (the extensions API, the Worker's Cache API layer) must not cache
- * those, or the fallback outlives GitHub's recovery.
- */
-export interface CatalogResult {
-  catalog: ExtensionItem[];
-  complete: boolean;
-}
-
-/**
  * Merges GitHub Release download counts and the build-time synced README/manifest
- * metadata into catalog.json entries. Pure, so the runtime catalog and
- * scripts/build-extensions-api.ts share it. `stats === null` means counts are
- * unavailable and fall back to the catalog's own (usually zero).
+ * metadata into catalog.json entries. Used by scripts/build-extensions-api.ts;
+ * `stats === null` means counts are unavailable and fall back to the catalog's own.
  */
 export function mergeCatalog(
   extensions: ExtensionItem[],
@@ -251,54 +201,7 @@ export function mergeCatalog(
 }
 
 export async function getCatalog(): Promise<ExtensionItem[]> {
-  return (await getCatalogResult()).catalog;
-}
-
-export async function getCatalogResult(): Promise<CatalogResult> {
-  const now = Date.now();
-  if (cachedCatalog && now - cachedCatalogAt < CATALOG_TTL_MS) {
-    return { catalog: cachedCatalog, complete: true };
-  }
-  const fallback = (): CatalogResult =>
-    cachedCatalog ? { catalog: cachedCatalog, complete: true } : { catalog: [], complete: false };
-
-  try {
-    const res = await fetch(CATALOG_URL, {
-      ...EDGE_CACHE_5_MIN,
-      headers: githubHeaders(),
-      signal: AbortSignal.timeout(5000),
-    });
-    if (!res.ok) {
-      console.warn('Catalog fetch failed:', res.status);
-      return fallback();
-    }
-
-    const data = (await res.json()) as {
-      extensions?: ExtensionItem[];
-    };
-
-    // Merge GitHub Release download counts and synced README/manifest metadata.
-    const stats = await loadStats();
-    const merged = mergeCatalog(data.extensions ?? [], stats);
-
-    if (stats === null) {
-      // Stats are unavailable. Prefer the last valid snapshot so counts don't blink
-      // to zero; if there is none, serve the fresh catalog zeroed so the store never
-      // renders empty. Either way, don't cache zeroed counts here — the next request
-      // retries stats.
-      console.warn('Stats unavailable; serving catalog without counts');
-      return cachedCatalog
-        ? { catalog: cachedCatalog, complete: true }
-        : { catalog: merged, complete: false };
-    }
-
-    cachedCatalog = merged;
-    cachedCatalogAt = Date.now();
-    return { catalog: merged, complete: true };
-  } catch (err) {
-    console.error('Failed to load catalog:', err);
-    return fallback();
-  }
+  return readBakedCatalog().catalog;
 }
 
 function resolveText(val: unknown): string {
