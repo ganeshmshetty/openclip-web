@@ -374,14 +374,16 @@ export function syncExtensions() {
     }
   }
 
+  const sortedResults = Object.fromEntries(
+    Object.entries(results).sort(([a], [b]) => (a < b ? -1 : a > b ? 1 : 0))
+  );
   const payload = {
-    generatedAt: new Date().toISOString(),
-    count: Object.keys(results).length,
+    count: Object.keys(sortedResults).length,
     // Icons actually copied into public/icons/extensions. The live catalog can be
     // newer than the local extensions clone, so this tells the store which icons it
     // can serve statically and which need the same-origin proxy.
     icons: listPublishedIcons(repoRoot),
-    extensions: results,
+    extensions: sortedResults,
   };
 
   writeFileSync(outputFile, JSON.stringify(payload, null, 2), 'utf-8');
@@ -409,7 +411,8 @@ function listPublishedIcons(repoRoot: string): string[] {
   if (!existsSync(source)) return [];
   return readdirSync(source)
     .filter((file) => file.endsWith('.svg'))
-    .map((file) => file.slice(0, -4).toLowerCase());
+    .map((file) => file.slice(0, -4).toLowerCase())
+    .sort();
 }
 
 function copyPublishedIcons(repoRoot: string, webRoot: string) {
