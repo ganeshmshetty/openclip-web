@@ -1,11 +1,10 @@
 /**
- * POST /api/revalidate, called by the openclip-extensions repo's `revalidate-site`
- * workflow after the published catalog changes. Requires
+ * POST /api/revalidate, manual deploy trigger. Requires
  * `Authorization: Bearer <REVALIDATE_SECRET>`.
  *
- * The site is a static export, so there is nothing to revalidate in place: a catalog
- * change rebuilds the site by hitting the Worker's Deploy Hook. Same contract and
- * responses as the old Next.js route.
+ * The site is a static export, so there is nothing to revalidate in place: a rebuild
+ * is the only way to refresh the baked pages. The route fires the Worker's Deploy
+ * Hook. Normal catalog publishes arrive as a commit from the sync workflow instead.
  */
 import { json, type Env } from './http';
 
