@@ -43,7 +43,7 @@ Config lives in `wrangler.jsonc`. Workers Builds runs **`bun run build`** and th
 | `NEXT_PUBLIC_SITE_URL` | build env | Canonical origin. Falls back to `https://www.getopenclip.app`. |
 | `NEXT_PUBLIC_CF_ANALYTICS_TOKEN` | build env | Cloudflare Web Analytics beacon. Omitted when unset. |
 | `GITHUB_TOKEN` | Worker secret + build env | Raises GitHub rate limits for `/download` and the build-time fetches. Must be valid if set. |
-| `REVALIDATE_SECRET` | Worker secret | Bearer token for `POST /api/revalidate`, called by the extensions repo. |
+| `REVALIDATE_SECRET` | Worker secret | Bearer token for manual `POST /api/revalidate`. |
 | `DEPLOY_HOOK_URL` | Worker secret | Workers Builds deploy hook that `/api/revalidate` triggers. |
 
 `NEXT_PUBLIC_*` values are inlined at build time; the rest are runtime secrets:
@@ -56,11 +56,14 @@ bunx wrangler secret put DEPLOY_HOOK_URL
 
 ### Publishing a catalog change
 
-There is no ISR to revalidate in place — pages are frozen at build time. The extensions repo
-already calls `POST /api/revalidate` with `Authorization: Bearer <REVALIDATE_SECRET>`; that route
-now fires the Workers Builds **deploy hook** (Workers → Settings → Build → Deploy hooks), so a
-catalog publish produces one rebuild instead of thousands of background revalidations. Without
-`DEPLOY_HOOK_URL` the route returns `501` and the site only refreshes on the next push.
+The extensions publish workflow dispatches the `sync-extensions` workflow in this repo. That
+workflow copies the latest catalog and icons into `public/icons/extensions`, regenerates
+`extension-icon-hashes.json` and `extensionsData.json`, and pushes to `main`. The push triggers the
+normal Cloudflare build.
+
+`POST /api/revalidate` remains available as a manual deploy trigger. It fires the Workers Builds
+**deploy hook** (Workers → Settings → Build → Deploy hooks), so it can rebuild the static site
+without a commit. Without `DEPLOY_HOOK_URL` the route returns `501`.
 
 ### First deploy / domain cutover
 
