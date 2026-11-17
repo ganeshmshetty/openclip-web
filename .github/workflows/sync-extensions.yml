@@ -1,0 +1,56 @@
+name: Sync extension catalog
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '17 */6 * * *'
+  repository_dispatch:
+    types: [extensions-published]
+
+permissions:
+  contents: write
+
+concurrency:
+  group: sync-extensions
+  cancel-in-progress: true
+
+jobs:
+  sync:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout website
+        uses: actions/checkout@v4
+        with:
+          path: web
+          fetch-depth: 0
+
+      - name: Checkout extension catalog
+        uses: actions/checkout@v4
+        with:
+          repository: ganeshmshetty/openclip-extensions
+          path: Extensions
+          fetch-depth: 1
+
+      - name: Set up Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Sync extensions
+        working-directory: web
+        run: bun run sync-extensions
+
+      - name: Commit and push changes
+        working-directory: web
+        run: |
+          set -euo pipefail
+          git add public/icons/extensions src/lib/extension-icon-hashes.json src/docs/data/extensionsData.json
+          if git diff --cached --quiet; then
+            echo "No extension changes to sync."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "chore(extensions): sync catalog and icons"
+          git push origin HEAD:main
