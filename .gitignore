@@ -12,7 +12,6 @@ next-env.d.ts
 *.log
 *.pem
 *.key
-.revalidate-secret
 
 # Cloudflare Workers
 .open-next/

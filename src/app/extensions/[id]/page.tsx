@@ -19,8 +19,8 @@ export async function generateStaticParams() {
 }
 
 // No on-demand HTML rendering: every published extension is baked at build time
-// and the revalidate deploy hook rebuilds after a catalog change. Unknown ids are
-// a static 404, so a scanner or a stale deep link can never trigger Worker SSR.
+// and the next sync deploy rebuilds after a catalog change. Unknown ids are a
+// static 404, so a scanner or a stale deep link can never trigger Worker SSR.
 export const dynamicParams = false;
 
 function getRelatedExtensions(current: ExtensionItem, all: ExtensionItem[]): ExtensionItem[] {

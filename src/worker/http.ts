@@ -12,8 +12,6 @@ export interface Env {
   ASSETS: Assets;
   /** `version_metadata` binding (wrangler.jsonc); absent outside workerd. */
   CF_VERSION_METADATA?: { id: string };
-  REVALIDATE_SECRET?: string;
-  DEPLOY_HOOK_URL?: string;
   GITHUB_TOKEN?: string;
   GH_TOKEN?: string;
 }

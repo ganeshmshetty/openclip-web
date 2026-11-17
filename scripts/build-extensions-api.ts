@@ -13,8 +13,8 @@
  *    same pure functions the Worker uses for search (mergeCatalog +
  *    buildExtensionsPage), so the bytes match.
  *
- * Freshness: every catalog or stats change already rebuilds the site (openclip-
- * extensions' revalidate-site.yml -> POST /api/revalidate -> deploy hook).
+ * Freshness: every catalog or stats change rebuilds the site through the
+ * openclip-extensions sync workflow and its commit to main.
  *
  * The catalog and stats never fall back: if either can't be fetched, the build
  * fails, so a deploy never bakes an empty store or zeroed counts. featured.json keeps
