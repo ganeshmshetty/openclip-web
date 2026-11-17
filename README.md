@@ -28,9 +28,9 @@ Config lives in `wrangler.jsonc`. Workers Builds runs **`bun run build`** and th
   fresh as the last deploy, and anything that needs a request at runtime fails the build.
 - **Only these routes run code** (`run_worker_first` in `wrangler.jsonc`, handlers in
   `src/worker/`): `GET /api/v1/extensions` (prebuilt JSON from `scripts/build-extensions-api.ts`,
-  or search over the baked catalog), `GET /api/v1/icon/:id`, `GET /download` (latest release, which
-  is published from another repo and can't be baked) and `POST /api/revalidate`. None of them load
-  Next.js. Unknown paths get `out/404.html` with a 404 from Static Assets.
+  or search over the baked catalog), `GET /api/v1/icon/:id`, and `GET /download` (latest release,
+  which is published from another repo and can't be baked). None of them load Next.js. Unknown
+  paths get `out/404.html` with a 404 from Static Assets.
 - **Headers and redirects** belong in `public/_headers` and `public/_redirects`; a static export
   does not support `headers()`/`redirects()` in `next.config.ts`.
 - **Builds fail if GitHub can't serve the extensions catalog or stats**, rather than shipping an
@@ -43,15 +43,11 @@ Config lives in `wrangler.jsonc`. Workers Builds runs **`bun run build`** and th
 | `NEXT_PUBLIC_SITE_URL` | build env | Canonical origin. Falls back to `https://www.getopenclip.app`. |
 | `NEXT_PUBLIC_CF_ANALYTICS_TOKEN` | build env | Cloudflare Web Analytics beacon. Omitted when unset. |
 | `GITHUB_TOKEN` | Worker secret + build env | Raises GitHub rate limits for `/download` and the build-time fetches. Must be valid if set. |
-| `REVALIDATE_SECRET` | Worker secret | Bearer token for manual `POST /api/revalidate`. |
-| `DEPLOY_HOOK_URL` | Worker secret | Workers Builds deploy hook that `/api/revalidate` triggers. |
 
-`NEXT_PUBLIC_*` values are inlined at build time; the rest are runtime secrets:
+`NEXT_PUBLIC_*` values are inlined at build time; `GITHUB_TOKEN` is a runtime secret:
 
 ```bash
 bunx wrangler secret put GITHUB_TOKEN
-bunx wrangler secret put REVALIDATE_SECRET
-bunx wrangler secret put DEPLOY_HOOK_URL
 ```
 
 ### Publishing a catalog change
@@ -59,11 +55,8 @@ bunx wrangler secret put DEPLOY_HOOK_URL
 The extensions publish workflow dispatches the `sync-extensions` workflow in this repo. That
 workflow copies the latest catalog and icons into `public/icons/extensions`, regenerates
 `extension-icon-hashes.json` and `extensionsData.json`, and pushes to `main`. The push triggers the
-normal Cloudflare build.
-
-`POST /api/revalidate` remains available as a manual deploy trigger. It fires the Workers Builds
-**deploy hook** (Workers → Settings → Build → Deploy hooks), so it can rebuild the static site
-without a commit. Without `DEPLOY_HOOK_URL` the route returns `501`.
+normal Cloudflare build. Use the Workers Builds deploy hook from the Cloudflare dashboard if you
+need a rebuild without a commit.
 
 ### First deploy / domain cutover
 
