@@ -3365,7 +3365,7 @@
       "name": "Google Translate",
       "description": "Translate the selected text with Google Translate in the language you choose.",
       "author": "OpenClip Team",
-      "version": "1.2.1",
+      "version": "1.2.2",
       "minOpenClipVersion": "1.1.0",
       "actionType": "JavaScript",
       "sourceURL": "https://github.com/ganeshmshetty/openclip-extensions/tree/main/raw/GoogleTranslate.openclipext",
