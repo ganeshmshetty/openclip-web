@@ -1,5 +1,5 @@
 {
-  "count": 148,
+  "count": 149,
   "icons": [
     "com.echohn.openclip.due",
     "com.echohn.openclip.omnifocus",
@@ -125,6 +125,7 @@
     "com.openclip.tasklines",
     "com.openclip.textedit",
     "com.openclip.things",
+    "com.openclip.ticktick",
     "com.openclip.timestamp",
     "com.openclip.timezone-converter",
     "com.openclip.titlecase",
@@ -3163,6 +3164,92 @@
         "リマインダー",
         "tâche",
         "rappels"
+      ],
+      "subActions": []
+    },
+    "com.openclip.ticktick": {
+      "id": "com.openclip.ticktick",
+      "pkgName": "TickTick.openclipext",
+      "name": "TickTick",
+      "description": "Add the selection to TickTick as a task.",
+      "author": "OpenClip Team",
+      "version": "1.0.0",
+      "minOpenClipVersion": "1.1.0",
+      "actionType": "JavaScript",
+      "sourceURL": "https://github.com/ganeshmshetty/openclip-extensions/tree/main/raw/TickTick.openclipext",
+      "hasAuthoredReadme": true,
+      "readmeMarkdown": "# TickTick\n\nCapture the text you are reading as a task in [TickTick](https://ticktick.com) without breaking focus. Select a phrase, sentence, or paragraph anywhere on your Mac and trigger **Add to TickTick**. The task is created through TickTick's native URL scheme, so there is nothing to sign in to or configure inside OpenClip.\n\n## Features\n\n- **One-click capture**: Turn the selected text into a TickTick task from Mail, Slack, Safari, or any other app.\n- **List, tags, and priority**: File the task in the right list and attach tags and a priority automatically.\n- **All-day date**: Optionally schedule the task for today or tomorrow.\n- **Title and notes**: Keep the whole selection as the title, or use the first line as the title and put the rest in the task's notes.\n\n## Usage\n\nSelect text and run **Add to TickTick**. TickTick opens with the task already added.\n\nTickTick accepts relative dates in task titles. Selecting `Call mom tomorrow 3pm` creates a timed task for tomorrow at 3pm, even when the Date option is set to None.\n\n## Configuration\n\nConfigure the extension under *OpenClip Settings → Actions → TickTick*:\n\n| Option | Default | Description |\n| :--- | :--- | :--- |\n| **List** | *(empty)* | Exact name of an existing TickTick list, for example `Work`. Leave empty to file the task in the Inbox. |\n| **Tags** | *(empty)* | Comma-separated tags, for example `follow-up, waiting`. |\n| **Priority** | `none` | `none`, `low`, `medium`, or `high`. |\n| **Date** | `none` | `none`, `today`, or `tomorrow`. Adds an all-day date to the task. |\n| **First line as title** | Off | When on, the first non-empty line becomes the task title and the remaining lines become the task notes. |\n\n## Examples\n\n- Highlight **\"Review Q3 marketing budget\"** in an email and add it to the `Work` list with high priority and the `finance` tag.\n- Select a meeting note paragraph, turn on *First line as title*, and keep the details in the task notes.\n- Select **\"Draft launch email\"** and schedule it for tomorrow with the Date option.\n\n## How It Works\n\nThe extension uses TickTick's `ticktick://x-callback-url/v1/add_task` URL scheme. Everything happens between OpenClip and the local TickTick app; no account credentials, API tokens, or network requests are involved. Your selection is never sent anywhere except to TickTick itself.\n\n## Requirements\n\n- macOS with [TickTick for Mac](https://ticktick.com/download) installed and signed in. The web app alone does not register the `ticktick://` URL scheme.\n- OpenClip 1.1.0 or later.\n\n## Troubleshooting\n\n- **Nothing happens on click**: Make sure the TickTick desktop app is installed. If macOS asks whether to allow OpenClip to open TickTick, choose **Allow**.\n- **The task lands in the Inbox**: Check that the List option matches the exact name of a list in TickTick.\n- **The date is off by a day**: TickTick renders dates in your TickTick account's time zone. Set the account time zone to match your Mac if they differ.\n\n## Credits\n\nIcon from [Simple Icons](https://simpleicons.org/) (`simple-icons:ticktick`), recoloured to `currentColor` for OpenClip themes. TickTick is a trademark of its respective owner.",
+      "options": [
+        {
+          "identifier": "list",
+          "label": "List (optional)",
+          "type": "string",
+          "default": "",
+          "description": ""
+        },
+        {
+          "identifier": "tags",
+          "label": "Tags (comma-separated)",
+          "type": "string",
+          "default": "",
+          "description": ""
+        },
+        {
+          "identifier": "priority",
+          "label": "Priority",
+          "type": "multiple",
+          "default": "none",
+          "values": [
+            "none",
+            "low",
+            "medium",
+            "high"
+          ],
+          "description": ""
+        },
+        {
+          "identifier": "when",
+          "label": "Date (all-day)",
+          "type": "multiple",
+          "default": "none",
+          "values": [
+            "none",
+            "today",
+            "tomorrow"
+          ],
+          "description": ""
+        },
+        {
+          "identifier": "splitNotes",
+          "label": "First line as title (rest as notes)",
+          "type": "boolean",
+          "default": "false",
+          "description": ""
+        }
+      ],
+      "keywords": [
+        "ticktick",
+        "tick tick",
+        "todo",
+        "to-do",
+        "task",
+        "task manager",
+        "inbox",
+        "checklist",
+        "滴答清单",
+        "滴答",
+        "待办",
+        "待办事项",
+        "任务",
+        "清单",
+        "待辦",
+        "任務",
+        "清單",
+        "tâche",
+        "liste",
+        "タスク",
+        "リスト",
+        "リマインダー"
       ],
       "subActions": []
     },
