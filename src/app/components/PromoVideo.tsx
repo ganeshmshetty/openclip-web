@@ -2,20 +2,20 @@
 
 import { useEffect, useRef, useState, type PointerEvent } from 'react';
 import { motion, useMotionValue, useSpring } from 'motion/react';
-import { Pause, Play, Volume2 } from 'lucide-react';
+import { Play } from 'lucide-react';
 import styles from './PromoVideo.module.css';
 import VideoGlassLens from './VideoGlassLens';
 import VideoControls from './VideoControls';
 import { mediaURL } from '@/lib/media';
 
 const FOLLOW_RANGE = 70;
+const FOLLOW_RANGE_Y = 24;
 // Full promo on R2. The old OpenClip-promo-compressed.mp4 no longer exists (404).
 const PROMO_VIDEO_URL = mediaURL('openclip-promo.mp4');
 
 export default function PromoVideo() {
   const videoRef = useRef<HTMLVideoElement>(null);
   const playButtonRef = useRef<HTMLButtonElement>(null);
-  const toggleRef = useRef<HTMLButtonElement>(null);
   const still = useMotionValue(0);
   const pointerX = useMotionValue(0);
   const pointerY = useMotionValue(0);
@@ -28,7 +28,6 @@ export default function PromoVideo() {
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
   const [failed, setFailed] = useState(false);
-
 
   useEffect(() => {
     const video = videoRef.current;
@@ -56,9 +55,9 @@ export default function PromoVideo() {
       startedRef.current = true;
       video.src = PROMO_VIDEO_URL;
       video.loop = false;
-      video.muted = false;
+      video.muted = true;
       video.currentTime = 0;
-      setMuted(false);
+      setMuted(true);
       setCurrentTime(0);
       setDuration(0);
       setStarted(true);
@@ -70,21 +69,17 @@ export default function PromoVideo() {
   const togglePlayback = () => {
     const video = videoRef.current;
     if (!video) return;
-    if (video.paused) {
-      if (startedRef.current) play();
-      else {
-        if (!video.getAttribute('src')) video.src = '/promo-preview.mp4';
-        void video.play().catch(() => {});
-      }
-    } else video.pause();
+    if (video.paused) play();
+    else video.pause();
   };
 
   const followPointer = (event: PointerEvent<HTMLDivElement>) => {
     if (event.pointerType !== 'mouse' || startedRef.current || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     const rect = event.currentTarget.getBoundingClientRect();
-    const fraction = (event.clientX - rect.left) / rect.width;
-    pointerX.set(Math.max(0, Math.min(1, fraction)) * FOLLOW_RANGE);
-    pointerY.set(Math.max(0, Math.min(6, (event.clientY - rect.top) * 0.03)));
+    const dx = (event.clientX - (rect.left + rect.width / 2)) / (rect.width / 2);
+    const dy = (event.clientY - (rect.top + rect.height / 2)) / (rect.height / 2);
+    pointerX.set(Math.max(-1, Math.min(1, dx)) * FOLLOW_RANGE);
+    pointerY.set(Math.max(-1, Math.min(1, dy)) * FOLLOW_RANGE_Y);
   };
 
   const resetPointer = () => {
@@ -98,8 +93,6 @@ export default function PromoVideo() {
     if (video.volume === 0) video.volume = 1;
     video.muted = !video.muted;
   };
-
-  const iconClass = 'h-4 w-4 shrink-0';
 
   return (
     <section aria-label="See OpenClip in action" className="px-4 pb-12 sm:px-6 sm:pb-20">
@@ -135,17 +128,11 @@ export default function PromoVideo() {
             }}
           />
           {!started ? (
-            <>
-              <motion.button ref={playButtonRef} type="button" onClick={play} onFocus={resetPointer} style={{ x: followX, y: followY }} className={`glass-surface video-glass ${styles.playButton}`}>
-                <VideoGlassLens videoRef={videoRef} buttonRef={playButtonRef} x={followX} y={followY} rotate={still} />
-                <Volume2 className="h-[14px] w-[14px]" aria-hidden="true" />
-                <span>play with sound</span>
-              </motion.button>
-              <button ref={toggleRef} type="button" onClick={togglePlayback} className={`glass-surface video-glass ${styles.previewToggle} ${styles.iconButton}`} aria-label={playing ? 'Pause preview' : 'Resume preview'}>
-                <VideoGlassLens videoRef={videoRef} buttonRef={toggleRef} x={still} y={still} rotate={still} />
-                {playing ? <Pause className={iconClass} /> : <Play className={iconClass} />}
-              </button>
-            </>
+            <motion.button ref={playButtonRef} type="button" onClick={play} onFocus={resetPointer} style={{ x: followX, y: followY }} className={`glass-surface video-glass ${styles.playButton}`}>
+              <VideoGlassLens videoRef={videoRef} buttonRef={playButtonRef} x={followX} y={followY} rotate={still} />
+              <Play className="h-5 w-5 shrink-0" aria-hidden="true" />
+              <span>play</span>
+            </motion.button>
           ) : (
             <>
               <VideoControls

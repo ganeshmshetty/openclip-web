@@ -17,17 +17,14 @@
   box-shadow: var(--shadow-sm);
 }
 
-.card .previewToggle,
 .card .topControls {
   opacity: 0;
   pointer-events: none;
 }
 
 .card:hover .playButton,
-.card:hover .previewToggle,
 .card:hover .topControls,
 .card:focus-within .playButton,
-.card:focus-within .previewToggle,
 .card:focus-within .topControls {
   opacity: 1;
   pointer-events: auto;
@@ -35,15 +32,16 @@
 
 .card .playButton {
   position: absolute;
-  top: 14px;
-  left: 14px;
+  top: 50%;
+  left: 50%;
+  translate: -50% -50%;
   display: inline-flex;
   align-items: center;
-  gap: 7px;
-  padding: 7px 13px;
+  gap: 8px;
+  padding: 14px 26px;
   border-radius: 999px;
   color: var(--text-primary);
-  font-size: 12.5px;
+  font-size: 16px;
   font-weight: 500;
   white-space: nowrap;
   cursor: pointer;
@@ -59,17 +57,6 @@
 .slider:focus-visible {
   outline: 2px solid var(--accent);
   outline-offset: 3px;
-}
-
-.playButton:focus-visible {
-  transform: none !important;
-}
-
-.card .previewToggle {
-  position: absolute;
-  top: 12px;
-  right: 12px;
-  border-radius: 50%;
 }
 
 .topControls {
@@ -155,13 +142,12 @@
 
 @media (hover: none) {
   .card .playButton,
-  .card .previewToggle,
   .card .topControls,
   .timeline { opacity: 1; pointer-events: auto; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .card .playButton { transform: none !important; transition: none; }
+  .card .playButton { transition: none; }
   .timeline { transition: none; }
 }
 
@@ -175,13 +161,7 @@
   color: #fff;
 }
 
-.card .previewToggle {
-  overflow: hidden;
-  color: #fff;
-}
-
-.card .playButton[data-lens-ready="true"],
-.card .previewToggle[data-lens-ready="true"] {
+.card .playButton[data-lens-ready="true"] {
   background: transparent;
   backdrop-filter: none;
   -webkit-backdrop-filter: none;
@@ -197,12 +177,10 @@
   opacity: 0;
 }
 
-.playButton[data-lens-ready="true"] .lens,
-.previewToggle[data-lens-ready="true"] .lens { opacity: 1; }
+.playButton[data-lens-ready="true"] .lens { opacity: 1; }
 
 .playButton > svg,
-.playButton > span,
-.previewToggle > svg {
+.playButton > span {
   position: relative;
   z-index: 1;
 }
